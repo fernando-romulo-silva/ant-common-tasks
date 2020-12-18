@@ -17,6 +17,6 @@ This a useful collection of ant tasks, that executes advanced tools command line
 
 # Install
 
-First all, you need Java and Ant installed on your pc, whith ANT_HOME and JAVA_HOME.
+First of all, you need Java and Ant installed on your pc, with ANT_HOME and JAVA_HOME already configured.
 
 # How to Use
