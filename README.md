@@ -6,7 +6,7 @@
 
 # About
 
-This a useful collection of the tools commands lines wrapped in ant tasks.
+This a useful collection of ant tasks, that executes advanced tools command lines, like Maven, Gradle, etc. 
 
 # Technologies
 
