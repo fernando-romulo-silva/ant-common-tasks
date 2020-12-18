@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-scm-git-macrodef" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Scrip ANT com macrodefs de execucao do git
+    </description>
+
+	<import file="../../conf/maven-conf.xml" />
+	<import file="../scm/git-macrodef.xml" />
+	<import file="maven-build-macrodef.xml" />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### SCM DESCRIPTIONS #####################################################################|-->
+	<!--|###########################################################################################################################|-->
+	<property name="scm.release.description" value="scm-release : Release the new project's version.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant scm-release${line.separator}
+		- Batch Mode${line.separator}
+			ant scm-release -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword -Drelease-version=app-1.0.0 -Ddevelopment-version=app-1.0.1-SNAPSHOT" />
+
+	<property name="scm.rollback.description" value="scm-rollback : Cancel the project's release.${line.separator}
+		Examples :${line.separator}
+			ant scm-rollback${line.separator}" />
+
+	<property name="scm.install.description" value="scm-install : Create project's packages from some tag.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant scm-install${line.separator}
+		- Batch Mode${line.separator}
+			ant scm-install -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword -Dprofile=prod -Dversion=app-1.0.0" />
+
+	<property name="scm.deploy.description" value="scm-deploy : Copy the project's packages to remote repository.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant scm-deploy${line.separator}
+		- Batch Mode${line.separator}
+			ant scm-deploy -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword -Dversion=app-1.0.0" />
+
+	<!--|#########################################################################################################################|-->
+	<!--|############################################ SCM COMMANDS ###############################################################|-->
+	<!--|#########################################################################################################################|-->
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: scm-install-git                  								   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="scm-install-git">
+		<attribute name="version" description="The version of project." />
+		<attribute name="profile" description="The package's profile." />
+		<attribute name="login" description="The scm login." />
+		<attribute name="password" description="The scm password." />
+		<sequential>
+			<!-- Which branch am I using? -->
+			<git-get-branch result="branch" />
+
+			<!-- Initial Message -->
+			<echo message="Installing ${pom.project.artifactId}'s packages from @{version}." />
+
+			<!-- Get the host -->
+			<git-get-host result="project-host" />
+
+			<!-- Get all tags -->
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="fetch" />
+				<arg value="https://@{login}:@{password}@${project-host}" />
+				<arg value="--tags" />
+				<arg value="--prune" />
+			</exec>
+
+			<!-- Copy tag to new branch -->
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="checkout" />
+				<arg value="tags/${pom.project.artifactId}-@{version}" />
+				<arg value="-b" />
+				<arg value="${pom.project.artifactId}-@{version}-temp" />
+			</exec>
+
+			<!-- Create a new package from new branch -->
+			<build-install-simple profile="@{profile}" />
+
+			<!-- Go to last branch -->
+			<exec executable="${git.executable}">
+				<arg value="checkout" />
+				<arg value="${branch}" />
+			</exec>
+
+			<!-- Delete branch temp -->
+			<exec executable="${git.executable}">
+				<arg value="branch" />
+				<arg value="-D" />
+				<arg value="${pom.project.artifactId}-@{version}-temp" />
+			</exec>
+
+			<!-- Success -->
+			<echo message="The @{version} of ${pom.project.artifactId} was successfully installed." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: scm-release                  								       |-->
+	<!--|##############################################################################|-->
+	<macrodef name="scm-release">
+		<attribute name="profile" default="prod" description="The package's profile." />
+		<attribute name="release-version" description="The new release version." />
+		<attribute name="development-version" description="The new development version." />
+		<attribute name="login" description="The scm login." />
+		<attribute name="password" description="The scm password." />
+		<attribute name="branch" default="master" description="The branch source of tag." />
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating the @{release-version} version of ${pom.project.artifactId}." />
+
+			<!-- Current branch -->
+			<git-get-branch result="branch-old" />
+
+			<!-- The branch source -->
+			<git-change-branch branch="@{branch}" />
+
+			<!-- Get the remote changes  -->
+			<git-pull project="${pom.project.artifactId}" login="@{login}" password="@{password}" />
+
+			<!-- Execute -->
+			<exec executable="${exec.maven.home}/bin/${maven.executable}" failonerror="true">
+				<arg value="release:clean" />
+				<arg value="release:prepare" />
+
+				<arg value="-DreleaseVersion=@{release-version}" />
+				<arg value="-DdevelopmentVersion=@{development-version}" />
+
+				<arg value="-DpreparationGoals=clean install -DskipTests=true -P@{profile} -Dpmd.failOnViolation=false -Dcpd.failOnViolation=false -Dspotbugs.failOnError=false -Dcheckstyle.skip=true" />
+
+				<arg value="-Dusername=@{login}" />
+				<arg value="-Dpassword=@{password}" />
+			</exec>
+
+			<exec executable="${exec.maven.home}/bin/${maven.executable}" failonerror="true">
+				<arg value="release:perform" />
+				<arg value="-DdryRun=true" />
+			</exec>
+
+			<!-- go back to the old branch -->
+			<git-change-branch branch="${branch-old}" />
+
+			<!-- Success -->
+			<echo message="The release ${release-version} of ${pom.project.artifactId} was successfully created." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: scm-rollback                								       |-->
+	<!--|##############################################################################|-->
+	<macrodef name="scm-rollback">
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Canceling the ${pom.project.artifactId}'s release." />
+
+			<!-- Execute -->
+			<exec-maven-simple fail-on-error="false">
+				<arg-elements>
+					<arg line="release:rollback" />
+				</arg-elements>
+			</exec-maven-simple>
+
+			<exec-maven-simple fail-on-error="false">
+				<arg-elements>
+					<arg line="release:clean" />
+				</arg-elements>
+			</exec-maven-simple>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} release was successfully canceled." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: scm-deploy-git                 								       |-->
+	<!--|##############################################################################|-->
+	<macrodef name="scm-deploy-git">
+		<attribute name="login" description="The scm login." />
+		<attribute name="password" description="The scm password." />
+		<attribute name="version" description="The version of project." />
+		<sequential>
+			<!-- Which branch am I using? -->
+			<git-get-branch result="branch" />
+
+			<!-- Get the host -->
+			<git-get-host result="project-host" />
+
+			<!-- Get all tags -->
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="fetch" />
+				<arg value="https://@{login}:@{password}@${project-host}" />
+				<arg value="--tags" />
+				<arg value="--prune" />
+			</exec>
+
+			<!-- Initial Message -->
+			<echo message="Deploying ${pom.project.artifactId} packages on remote repository." />
+
+			<!-- Get the tag -->
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="checkout" />
+				<arg value="tags/${pom.project.artifactId}-@{version}" />
+			</exec>
+
+			<!-- Execute -->
+			<exec-maven>
+				<arg-elements>
+					<arg line="-Dmaven.source.skip=true" />
+					<arg line="-Dmaven.javadoc.skip=true" />
+					<arg line="-Dpmd.failOnViolation=false" />
+					<arg line="-Dcpd.failOnViolation=false" />
+					<arg line="-Dspotbugs.failOnError=false" />
+					<arg line="-Dcheckstyle.skip=true" />
+					<arg line="-DskipTests=true" />
+					<arg line="deploy" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Go back -->
+			<exec executable="${git.executable}">
+				<arg value="checkout" />
+				<arg value="${branch}" />
+			</exec>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} was successfully deployed." />
+		</sequential>
+	</macrodef>
+
+</project>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-conf" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Configs of Maven.
+    </description>
+
+	<import file="initial-conf.xml" />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### MAVEN PROPERTIES #####################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<!-- maven run on windows or SO Unix like? -->
+	<condition property="maven.extension" value=".bat" else="">
+		<os family="windows" />
+	</condition>
+	<property name="maven.executable" value="mvn${maven.extension}" />
+
+	<!-- read Pom file -->
+	<xmlproperty file="pom.xml" prefix="pom" />
+
+	<!-- Xmx : Specifies the maximum memory allocation pool for a JVM -->
+	<!-- Xms : Specifies the initial memory allocation pool for a JVM -->
+
+	<!-- XX:PermSize : The initial and minimum size of the permanent generation space *Deprecated in Java 8 -->
+	<!-- XX:MaxPermSize : The maximum size of the permanent generation space *Deprecated in Java 8 -->
+
+	<!-- -Dorg.slf4j.simpleLogger.defaultLogLevel=info : Maven log level  -->
+	<!-- -XX:+TieredCompilation & -XX:TieredStopAtLevel=1 : Fast compilation, but worse bytecode optimization -->
+
+	<!--|###########################################################################################################################|-->
+	<!--|####################################### PROPERTIES ########################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<!-- maven.opts -->
+	<property name="maven.default.opts.old" value="-Xms512m -Xmx1g -XX:PermSize=128m -XX:MaxPermSize=256m" />
+	<property name="maven.default.opts.new" value="-Xms512m -Xmx1g" />
+
+	<condition property="maven.default.opts" value="${maven.default.opts.old}" else="${maven.default.opts.new}">
+		<or>
+			<equals arg1="${ant.java.version}" arg2="1.5" />
+			<equals arg1="${ant.java.version}" arg2="1.6" />
+			<equals arg1="${ant.java.version}" arg2="1.7" />
+		</or>
+	</condition>
+
+	<!-- maven.home-->
+	<condition property="exec.maven.home" value="${maven.home}" else="${env.M2_HOME}">
+		<isset property="maven.home" />
+	</condition>
+
+	<!-- maven.opts -->
+	<condition property="exec.maven.opts" value="${maven.opts}" else="${maven.default.opts}">
+		<isset property="maven.opts" />
+	</condition>
+
+	<!-- maven.threads -->
+	<condition property="exec.maven.threads" value="${maven.threads}" else="${machine.cores.count}">
+		<isset property="maven.threads" />
+	</condition>
+
+	<!-- maven.modules -->
+	<condition property="exec.maven.modules" value="${pom.project.modules.module}" else="">
+		<isset property="pom.project.modules.module" />
+	</condition>
+
+	<!--|###########################################################################################################################|-->
+	<!--|################################# PROPERTIES FILE #########################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<propertyfile file="build.properties">
+		<!-- java -->
+		<entry key="java.home" default="${exec.java.home}" />
+		<!-- maven -->
+		<entry key="maven.home" default="${exec.maven.home}" />
+		<entry key="maven.opts" default="${exec.maven.opts}" />
+		<entry key="maven.threads" default="${exec.maven.threads}" />
+	</propertyfile>
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### START MESSAGE ########################################################################|-->
+	<!--|###########################################################################################################################|-->
+	<echo>
+|###################################################################################################################################|		
+|##################### INFO MAVEN ##################################################################################################|		
+|###################################################################################################################################|
+|Maven HOME    : ${exec.maven.home}
+|Maven OPTs    : ${exec.maven.opts}
+|Maven Threads : ${exec.maven.threads}		
+|Application   : ${pom.project.artifactId}
+|Modules       : ${exec.maven.modules}
+|###################################################################################################################################|	
+    </echo>
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### DESCRIPTIONS #########################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<property name="opts.description" value="Maven options" />
+	<property name="threads.description" value="Execute maven command with the determined quantity of threads. Ex: 4 = 4 Will use 4 threads. Will use 1 thread per available CPU core. Ex: 4C = 4 Threads per core, if the machine has 4 cores, the maven's command will execute with 16 threads." />
+	<property name="profile.description" value="Determine the execution's profile." />
+	<property name="modules.specified.description" value="Execute command on specified module instead of all modules. Put the module's names separated by commas without spaces." />
+	<property name="modules.dependencies.description" value="If true, execute maven command on '@{modules-specified}' modules and all modules that '@{modules-specified}' depends on." />
+	<property name="modules.dependents.description" value="If true, execute maven command on '@{modules-specified}' modules and all modules depend on '@{modules-specified}' selected." />
+	<property name="fail.on.error.description" value="If true, stop the maven execution if there are any problems." />
+	<property name="offline.description" value="If true, execute maven commands without connection access." />
+	<property name="java.description" value="The Java that will be execute." />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### MACRO EXEC MAVEN #####################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<macrodef name="exec-maven">
+		<attribute name="opts" default="${exec.maven.opts}" description="${opts.description}" />
+		<attribute name="threads" default="${exec.maven.threads}" description="${threads.description}" />
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="" description="${modules.dependents.description}" />
+		<attribute name="fail-on-error" default="true" description="${fail.on.error.description}" />
+		<attribute name="offline" default="true" description="${offline.description}" />
+
+		<element name="arg-elements" />
+
+		<sequential>
+			<!--  Debug
+			<echo>
+##########################################################################
+#   MACRO EXEC MAVEN DEBUG                                                                 				
+##########################################################################
+modules-dependents   : @{modules-dependents}
+modules-dependencies : @{modules-dependencies} 
+modules-specified    : @{modules-specified} 
+profile              : @{profile} 
+threads              : @{threads}
+opts                 : @{opts} 
+modules-specified    : @{modules-specified}
+modules-dependencies : @{modules-dependencies}
+modules-dependents   : @{modules-dependents}				
+##########################################################################			
+			</echo>
+			-->
+
+			<!-- exec maven -->
+			<exec executable="${exec.maven.home}/bin/${maven.executable}" failonerror="@{fail-on-error}">
+				<!-- Execute maven with determined Java -->
+				<env key="JAVA_HOME" value="${exec.java.home}" />
+				<!-- define maven opts -->
+				<env key="MAVEN_OPTS" value="@{opts}" unless:blank="@{opts}" />
+				<!-- threads' quantity -->
+				<arg value="-T" unless:blank="@{threads}" />
+				<arg value="@{threads}" unless:blank="@{threads}" />
+
+				<!-- the command -->
+				<arg-elements />
+
+				<!-- execution's profile -->
+				<arg value="-P@{profile}" unless:blank="@{profile}" />
+				<!-- off line or not -->
+				<arg value="--offline" if:true="@{offline}" />
+				<!-- Modules -->
+				<arg value="--projects" unless:blank="@{modules-specified}" />
+				<arg value="@{modules-specified}" unless:blank="@{modules-specified}" />
+				<arg value="--also-make" unless:blank="@{modules-specified}" if:true="@{modules-dependencies}" />
+				<arg value="--also-make-dependents" unless:blank="@{modules-specified}" if:true="@{modules-dependents}" />
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### MACRO EXEC MAVEN SIMPLE ##############################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<macrodef name="exec-maven-simple">
+		<attribute name="fail-on-error" default="true" description="${fail.on.error.description}" />
+		<element name="arg-elements" />
+		<sequential>
+			<exec executable="${exec.maven.home}/bin/${maven.executable}" failonerror="@{fail-on-error}">
+				<!-- Execute maven with determined Java -->
+				<env key="JAVA_HOME" value="${exec.java.home}" />
+
+				<!-- the command -->
+				<arg-elements />
+
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: remove 'SNAPSHOT' of version                                       |-->
+	<!--|##############################################################################|-->
+
+	<macrodef name="project-version">
+		<attribute name="input" />
+		<attribute name="result" />
+		<sequential>
+			<property name="version-temp" value="@{input}" />
+
+			<script language="javascript">
+			    var before = project.getProperty("version-temp");
+			    project.setProperty("version-temp", before.replaceAll("-SNAPSHOT", ""));
+			</script>
+
+			<property name="@{result}" value="${version-temp}" />
+		</sequential>
+	</macrodef>
+
+</project>

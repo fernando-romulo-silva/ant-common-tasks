@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gradle-conf" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Configs of Gradle.
+    </description>
+
+	<import file="initial-conf.xml" />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### GRADLE PROPERTIES ####################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<!-- gradle run on windows or SO Unix like? -->
+	<condition property="gradle.extension" value=".bat" else="">
+		<os family="windows" />
+	</condition>
+	<property name="gradle.executable" value="gradle${gradle.extension}" />
+
+	<!-- read Pom file -->
+	<xmlproperty file="build.gradle" prefix="gradle" />
+
+	<!-- Xmx : Specifies the maximum memory allocation pool for a JVM -->
+	<!-- Xms : Specifies the initial memory allocation pool for a JVM -->
+
+	<!-- XX:PermSize : The initial and minimum size of the permanent generation space *Deprecated in Java 8 -->
+	<!-- XX:MaxPermSize : The maximum size of the permanent generation space *Deprecated in Java 8 -->
+
+	<!-- -Dorg.slf4j.simpleLogger.defaultLogLevel=info : gradle log level  -->
+	<!-- -XX:+TieredCompilation & -XX:TieredStopAtLevel=1 : Fast compilation, but worse bytecode optimization -->
+
+	<!--|###########################################################################################################################|-->
+	<!--|####################################### PROPERTIES ########################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<!-- gradle.opts -->
+	<property name="gradle.default.opts.old" value="-Xms512m -Xmx1g -XX:PermSize=128m -XX:MaxPermSize=256m" />
+	<property name="gradle.default.opts.new" value="-Xms512m -Xmx1g" />
+
+	<condition property="gradle.default.opts" value="${gradle.default.opts.old}" else="${gradle.default.opts.new}">
+		<or>
+			<equals arg1="${ant.java.version}" arg2="1.5" />
+			<equals arg1="${ant.java.version}" arg2="1.6" />
+			<equals arg1="${ant.java.version}" arg2="1.7" />
+		</or>
+	</condition>
+
+	<!-- gradle.home-->
+	<condition property="exec.gradle.home" value="${gradle.home}" else="${env.GRADLE_HOME}">
+		<isset property="gradle.home" />
+	</condition>
+
+	<!-- gradle.opts -->
+	<condition property="exec.gradle.opts" value="${gradle.opts}" else="${gradle.default.opts}">
+		<isset property="gradle.opts" />
+	</condition>
+
+	<!-- gradle.threads -->
+	<condition property="exec.gradle.threads" value="${gradle.threads}" else="${machine.cores.count}">
+		<isset property="gradle.threads" />
+	</condition>
+
+	<!-- gradle.modules -->
+	<condition property="exec.gradle.modules" value="${pom.project.modules.module}" else="">
+		<isset property="pom.project.modules.module" />
+	</condition>
+
+	<!--|###########################################################################################################################|-->
+	<!--|################################# PROPERTIES FILE #########################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<propertyfile file="build.properties">
+		<!-- java -->
+		<entry key="java.home" default="${exec.java.home}" />
+		<!-- gradle -->
+		<entry key="gradle.home" default="${exec.gradle.home}" />
+		<entry key="gradle.opts" default="${exec.gradle.opts}" />
+		<entry key="gradle.threads" default="${exec.gradle.threads}" />
+	</propertyfile>
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### START MESSAGE ########################################################################|-->
+	<!--|###########################################################################################################################|-->
+	<echo>
+|###################################################################################################################################|		
+|##################### INFO GRADLE #################################################################################################|		
+|###################################################################################################################################|
+|Gradle HOME    : ${exec.gradle.home}
+|Gradle OPTs    : ${exec.gradle.opts}
+|Gradle Threads : ${exec.gradle.threads}		
+|Application    : ${pom.project.artifactId}
+|Modules        : ${exec.gradle.modules}
+|###################################################################################################################################|	
+    </echo>
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### DESCRIPTIONS #########################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<property name="opts.description" value="Gradle options" />
+	<property name="threads.description" value="Execute gradle command with the determined quantity of threads. Ex: 4 = 4 Will use 4 threads. Will use 1 thread per available CPU core. Ex: 4C = 4 Threads per core, if the machine has 4 cores, the gradle's command will execute with 16 threads." />
+	<property name="profile.description" value="Determine the execution's profile." />
+	<property name="modules.specified.description" value="Execute command on specified module instead of all modules. Put the module's names separated by commas without spaces." />
+	<property name="modules.dependencies.description" value="If true, execute gradle command on '@{modules-specified}' modules and all modules that '@{modules-specified}' depends on." />
+	<property name="modules.dependents.description" value="If true, execute gradle command on '@{modules-specified}' modules and all modules depend on '@{modules-specified}' selected." />
+	<property name="fail.on.error.description" value="If true, stop the gradle execution if there are any problems." />
+	<property name="offline.description" value="If true, execute gradle commands without connection access." />
+	<property name="java.description" value="The Java that will be execute." />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### MACRO EXEC GRADLE ####################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<macrodef name="exec-gradle">
+		<attribute name="opts" default="${exec.gradle.opts}" description="${opts.description}" />
+		<attribute name="threads" default="${exec.gradle.threads}" description="${threads.description}" />
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="" description="${modules.dependents.description}" />
+		<attribute name="fail-on-error" default="true" description="${fail.on.error.description}" />
+		<attribute name="offline" default="true" description="${offline.description}" />
+
+		<element name="arg-elements" />
+
+		<sequential>
+			<!--  Debug 
+			<echo>
+##########################################################################
+#   MACRO EXEC GRADLE DEBUG                                                                 				
+##########################################################################
+modules-dependents   : @{modules-dependents}
+modules-dependencies : @{modules-dependencies} 
+modules-specified    : @{modules-specified} 
+profile              : @{profile} 
+threads              : @{threads}
+opts                 : @{opts} 
+modules-specified    : @{modules-specified}
+modules-dependencies : @{modules-dependencies}
+modules-dependents   : @{modules-dependents}				
+##########################################################################			
+			</echo>
+            -->
+			<!-- exec gradle -->
+			<exec executable="${exec.gradle.home}/bin/${gradle.executable}" failonerror="@{fail-on-error}">
+				<!-- Execute gradle with determined Java -->
+				<env key="JAVA_HOME" value="${exec.java.home}" />
+				<!-- define gradle opts -->
+				<env key="gradle_OPTS" value="@{opts}" unless:blank="@{opts}" />
+				<!-- threads' quantity -->
+				<arg value="-T" unless:blank="@{threads}" />
+				<arg value="@{threads}" unless:blank="@{threads}" />
+
+				<!-- the command -->
+				<arg-elements />
+
+				<!-- execution's profile -->
+				<arg value="-P@{profile}" unless:blank="@{profile}" />
+				<!-- off line or not -->
+				<arg value="--offline" if:true="@{offline}" />
+				<!-- Modules -->
+				<arg value="--projects" unless:blank="@{modules-specified}" />
+				<arg value="@{modules-specified}" unless:blank="@{modules-specified}" />
+				<arg value="--also-make" unless:blank="@{modules-specified}" if:true="@{modules-dependencies}" />
+				<arg value="--also-make-dependents" unless:blank="@{modules-specified}" if:true="@{modules-dependents}" />
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### MACRO EXEC GRADLE SIMPLE #############################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<macrodef name="exec-gradle-simple">
+		<attribute name="fail-on-error" default="true" description="${fail.on.error.description}" />
+		<element name="arg-elements" />
+		<sequential>
+			<exec executable="${exec.gradle.home}/bin/${gradle.executable}" failonerror="@{fail-on-error}">
+				<!-- Execute gradle with determined Java -->
+				<env key="JAVA_HOME" value="${exec.java.home}" />
+
+				<!-- the command -->
+				<arg-elements />
+
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: remove 'SNAPSHOT' of version                                       |-->
+	<!--|##############################################################################|-->
+	<macrodef name="project-version">
+		<attribute name="input" />
+		<attribute name="result" />
+		<sequential>
+			<property name="version-temp" value="@{input}" />
+
+			<script language="javascript">
+			    var before = project.getProperty("version-temp");
+			    project.setProperty("version-temp", before.replaceAll("-SNAPSHOT", ""));
+			</script>
+
+			<property name="@{result}" value="${version-temp}" />
+		</sequential>
+	</macrodef>
+
+</project>

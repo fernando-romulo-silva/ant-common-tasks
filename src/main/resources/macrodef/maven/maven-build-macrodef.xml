@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-build-macrodef" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+		Macrodefs for maven builds commands.
+    </description>
+
+	<import file="../../conf/maven-conf.xml" />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### BUILD DESCRIPTIONS ###################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<property name="build.update.lib.description" value="build-update-libs - Delete the project's target folder.${line.separator}
+	Examples :${line.separator}
+	- Manual Input${line.separator}
+		ant build-update-lib${line.separator}
+	- Batch Mode${line.separator}
+		ant build-update-lib -Dbatch=true" />
+
+	<property name="build.update.plugin.description" value="build-update-plugins - Get all project's plugins.${line.separator}
+	Examples :${line.separator}
+	- Manual Input${line.separator}
+		ant build-update-plugin${line.separator}
+	- Batch Mode${line.separator}
+		ant build-update-plugin -Dbatch=true" />
+
+	<property name="build.update.source.description" value="build-update-source - Get all libs source.${line.separator}
+	Examples :${line.separator}
+	- Manual Input${line.separator}
+		ant build-update-source${line.separator}
+	- Batch Mode${line.separator}
+		ant build-update-source -Dbatch=true" />
+
+	<property name="build.clean.description" value="build-clean - Clean the project's artifacts.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant build-clean${line.separator}
+		- Batch Mode${line.separator}
+			ant build-clean -Dbatch=true${line.separator}
+			ant build-clean -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant build-clean -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="build.compile.description" value="build-compile - Compile the project's classes.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant build-compile${line.separator}
+		- Batch Mode${line.separator}
+			ant build-compile -Dbatch=true${line.separator}
+			ant build-compile -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant build-compile -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="build.package.description" value="build-package - Create packages (JAR, WAR, EAR, APK, etc) of project WITH tests, check code, and documentation.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant build-package${line.separator}
+		- Batch Mode${line.separator}
+			ant build-package -Dbatch=true${line.separator}
+			ant build-package -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant build-package -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="build.package.simple.description" value="build-package-simple - Create packages of project WITHOUT tests, check code, and documentation.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant build-package-simple${line.separator}
+		- Batch Mode${line.separator}
+			ant build-package-simple -Dbatch=true${line.separator}
+			ant build-package-simple -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant build-package-simple -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="build.install.description" value="build-install - Create packages and put it in the local repository WITH tests, check code, and documentation.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant build-install${line.separator}
+		- Batch Mode${line.separator}
+			ant build-install -Dbatch=true${line.separator}
+			ant build-install -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant build-install -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="build.install.simple.description" value="build-install-simple - Create package and put project in the local repository WITHOUT tests, check code, and documentation.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant build-install-simple${line.separator}
+		- Batch Mode${line.separator}
+			ant build-install-simple -Dbatch=true${line.separator}
+			ant build-install-simple -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant build-install-simple -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### BUILD DEFAUL #########################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: build-update                   									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="build-update">
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<attribute name="libs" default="true" description="Busca as libs do Project" />
+		<attribute name="plugins" default="false" description="Busca plugins do Project." />
+		<attribute name="sources" default="false" description="Busca codigos das libs do Project." />
+		<attribute name="javadoc" default="false" description="Busca javadocs das libs do Project." />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Getting the all ${pom.project.artifactId}'s libs, plugins, sources, and javadoc." />
+
+			<!-- Execute -->
+			<exec-maven offline="false" modules-specified="@{modules-specified}" modules-dependents="@{modules-dependents}" modules-dependencies="@{modules-dependencies}">
+				<arg-elements>
+					<arg line="dependency:resolve" if:true="@{libs}" />
+					<arg line="dependency:resolve-plugins" if:true="@{plugins}" />
+					<arg line="dependency:sources" if:true="@{sources}" />
+					<arg line="dependency:resolve -Dclassifier=javadoc" if:true="@{javadoc}" />
+					<arg line="--update-snapshots" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} artifacts was successfully downloaded." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: build-clean                   									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="build-clean" description="${build.clean.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Cleaning the ${pom.project.artifactId}'s artifacts." />
+
+			<!-- Execute -->
+			<exec-maven modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="clean" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} was successfully cleaned." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: build-compile          									           |-->
+	<!--|##############################################################################|-->
+	<macrodef name="build-compile" description="${build.compile.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Compiling the ${pom.project.artifactId}'s classes." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="compile" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} was successfully compiled." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: build-package                  									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="build-package" description="${build.package.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Packing ${pom.project.artifactId} WITH tests, check code, and documentation." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="package" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} was successfully packaged." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: build-package-simple           									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="build-package-simple" description="${build.package.simple.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Packing ${pom.project.artifactId} project WITHOUT tests, check code, and documentation." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="-Dmaven.source.skip=true" />
+					<arg line="-Dmaven.javadoc.skip=true" />
+					<arg line="-Dpmd.failOnViolation=false" />
+					<arg line="-Dcpd.failOnViolation=false" />
+					<arg line="-Dspotbugs.failOnError=false" />
+					<arg line="-Dcheckstyle.skip=true" />
+					<arg line="-DskipTests=true" />
+					<arg line="package" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} was successfully packaged." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: build-install                 									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="build-install" description="${build.install.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Installing ${pom.project.artifactId} project in the local repository WITH tests, check code, and documentation." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="install" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} was successfully installed." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: build-install-simple           									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="build-install-simple" description="${build.install.simple.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Installing ${pom.project.artifactId} in the local repository WITHOUT tests, check code, and documentation." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="-Dmaven.source.skip=true" />
+					<arg line="-Dmaven.javadoc.skip=true" />
+					<arg line="-Dpmd.failOnViolation=false" />
+					<arg line="-Dcpd.failOnViolation=false" />
+					<arg line="-Dspotbugs.failOnError=false" />
+					<arg line="-Dcheckstyle.skip=true" />
+					<arg line="-DskipTests=true" />
+					<arg line="install" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} was successfully installed." />
+		</sequential>
+	</macrodef>
+
+</project>

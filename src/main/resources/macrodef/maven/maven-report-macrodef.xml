@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-report-macrodef" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Scrip ANT com configuracoes MAVEN.
+    </description>
+
+
+	<import file="../../conf/initial-conf.xml" />
+	<import file="../../conf/maven-conf.xml" />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### REPORTS DESCRIPTIONS #################################################################|-->
+	<!--|###########################################################################################################################|-->
+	<property name="report.surifire.description" value="report-surifire : Create a report with test's results.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant report-surifire${line.separator}
+		- Batch Mode${line.separator}
+			ant report-surifire -Dbatch=true${line.separator}
+			ant report-surifire -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant report-surifire -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="report.all.description" value="report-all : Create PMD, CPD, Spotbugs, Checkstyle, and Cobertura reports of project.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant report-all${line.separator}
+		- Batch Mode${line.separator}
+			ant report-all -Dbatch=true${line.separator}
+			ant report-all -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant report-all -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="report.cobertura.description" value="report-cobertura : Create Cobertura reports of project.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant report-cobertura${line.separator}
+		- Batch Mode${line.separator}
+			ant report-cobertura -Dbatch=true${line.separator}
+			ant report-cobertura -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant report-cobertura -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="report.spotbugs.description" value="report-spotbugs : Create Spotbugs reports of project.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant report-spotbugs${line.separator}
+		- Batch Mode${line.separator}
+			ant report-spotbugs -Dbatch=true${line.separator}
+			ant report-spotbugs -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant report-spotbugs -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="report.pmd.description" value="report-pmd : Create PMD reports of project.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant report-pmd${line.separator}
+		- Batch Mode${line.separator}
+			ant report-pmd -Dbatch=true${line.separator}
+			ant report-pmd -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant report-pmd -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="report.cpd.description" value="report-cpd : Create CPD reports of project.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant report-cpd${line.separator}
+		- Batch Mode${line.separator}
+			ant report-cpd -Dbatch=true${line.separator}
+			ant report-cpd -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant report-cpd -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="report.checkstyle.description" value="report-checkstyle : Create Checkstyle reports of project.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant report-checkstyle${line.separator}
+		- Batch Mode${line.separator}
+			ant report-checkstyle -Dbatch=true${line.separator}
+			ant report-checkstyle -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant report-checkstyle -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<!--|###########################################################################################################################| -->
+	<!--|################################# REPORTS #################################################################################| -->
+	<!--|###########################################################################################################################| -->
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: report-surifire     					   				      	   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="report-surifire" description="${report.surifire.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s Surefire reports." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="jxr:jxr" />
+					<arg line="surefire-report:report-only" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s Surefire reports successfully created." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: report-cobertura     					   				      		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="report-cobertura" description="${report.cobertura.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s Cobertura reports." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="cobertura:cobertura" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s Surefire reports successfully created." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: report-pmd         					   				      		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="report-pmd" description="${report.pmd.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s PMD reports." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="jxr:jxr" />
+					<arg line="pmd:pmd" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s PMD reports successfully created." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: report-cpd      					   				      		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="report-cpd" description="${report.cpd.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s CPD reports." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="jxr:jxr" />
+					<arg line="pmd:cpd" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s CPD reports successfully created." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: report-spotbugs      					   				      		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="report-spotbugs" description="${report.spotbugs.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s Spotbugs reports." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="jxr:jxr" />
+					<arg line="spotbugs:spotbugs" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s Spotbugs reports successfully created." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: report-checkstyle    					   			      		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="report-checkstyle" description="${report.checkstyle.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s Checkstyle reports." />
+
+			<!-- Gerando relatorio do Checkstyle -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="jxr:jxr" />
+					<arg line="checkstyle:checkstyle" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s Spotbugs reports successfully created." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: report-all          					   				    	   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="report-all" description="${report.all.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s tools reports." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="jxr:jxr" />
+					<arg line="cobertura:cobertura" />
+					<arg line="pmd:pmd" />
+					<arg line="pmd:cpd" />
+					<arg line="spotbugs:spotbugs" />
+					<arg line="checkstyle:checkstyle" />
+					<arg line="surefire-report:report-only" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s tools reports successfully created." />
+		</sequential>
+	</macrodef>
+
+</project>

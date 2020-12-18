@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-test-macrodef" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Scrips ANT for tests.
+    </description>
+
+
+	<import file="../../conf/initial-conf.xml" />
+	<import file="../../conf/maven-conf.xml" />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### DESCRIPTIONS #########################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<property name="test.groups.description" value="Groups tests like unit, integration, functional, acceptance, and perform." />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### TESTS DESCRIPTIONS ###################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<property name="test.all.description" value="test-all : Execute ALL tests.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant test-all${line.separator}
+		- Batch Mode${line.separator}
+			ant test-all -Dbatch=true${line.separator}
+			ant test-all -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant test-all -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="test.unit.description" value="test-unit : Execute project's UNITs tests.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant test-unit${line.separator}
+		- Batch Mode${line.separator}
+			ant test-unit -Dbatch=true${line.separator}
+			ant test-unit -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant test-unit -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="test.integration.description" value="test-integration : Execute project's INTEGRATIONs tests.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant test-integration${line.separator}
+		- Batch Mode${line.separator}
+			ant test-integration -Dbatch=true${line.separator}
+			ant test-integration -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant test-integration -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="test.functional.description" value="test-functional : Execute project's FUNCTIONALs tests.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant test-functional${line.separator}
+		- Batch Mode${line.separator}
+			ant test-functional -Dbatch=true${line.separator}
+			ant test-functional -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant test-functional -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+	
+	<property name="test.acceptance.description" value="test-acceptance : Execute project's ACCEPTANCEs tests.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant test-acceptance${line.separator}
+		- Batch Mode${line.separator}
+			ant test-acceptance -Dbatch=true${line.separator}
+			ant test-acceptance -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant test-acceptance -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
+
+	<property name="test.perform.description" value="test-perform : Execute project's PERFORMs tests.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant test-perform${line.separator}
+		- Batch Mode${line.separator}
+			ant test-perform -Dbatch=true${line.separator}
+			ant test-perform -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant test-perform -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />		
+	
+	<!--|###########################################################################################################################| -->
+	<!--|############################################ TESTS ########################################################################| -->
+	<!--|###########################################################################################################################| -->
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: test-groups            					   				      	   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="test-groups" description="${test.groups.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="groups" default="" description="${test.groups.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Starting ${pom.project.artifactId} the @{groups} test" />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="-Dgroups=@{groups}" unless:blank="@{groups}" />
+					<arg line="test" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The @{groups} tests of ${pom.project.artifactId} was successfully done." />
+		</sequential>
+	</macrodef>
+
+</project>

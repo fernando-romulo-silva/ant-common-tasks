@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="input-macrodef" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+		Macrodefs for input data. 
+    </description>
+
+	<import file="../../conf/initial-conf.xml" />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### MACRO FOR INPUTS #####################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: imput-scm                    									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="imput-scm">
+		<attribute name="login" />
+		<attribute name="password" />
+		<sequential>
+			<input message="SCM user login: " addproperty="@{login}" description="SCM user login" unless:true="${batch}" if:blank="${exec.scm.login}" />
+			<input message="SCM user password: " addproperty="@{password}" description="SCM user password" unless:true="${batch}" if:blank="${exec.scm.password}">
+				<handler type="secure" />
+			</input>
+
+			<property name="@{login}" value="${exec.scm.login}" unless:blank="${exec.scm.login}" />
+			<property name="@{password}" value="${exec.scm.password}" unless:blank="${exec.scm.password}" />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: input-modules                									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="input-modules">
+		<attribute name="modules" />
+		<attribute name="dependents" />
+		<attribute name="dependencies" />
+		<sequential>
+
+			<input message="You are in [${pom.project.artifactId}]. Enter the module's names separated by commas without spaces. (for all modules, leave empty): " addproperty="input.modules" defaultvalue="" description="Modules which the command will run." />
+			<condition property="@{modules}" value="" else="${input.modules}">
+				<or>
+					<equals arg1="${input.modules}" arg2="${pom.project.artifactId}" trim="true" casesensitive="true" />
+					<equals arg1="${input.modules}" arg2="" trim="true" casesensitive="true" />
+				</or>
+			</condition>
+
+			<input message="Select module mode : " addproperty="input.mode" defaultvalue="all" validargs="dependencies,dependents,all,nothing" description="Module execution mode" unless:blank="${input.modules}" />
+			<condition property="@{dependents}" value="true" else="false">
+				<or>
+					<equals arg1="${input.mode}" arg2="dependents" trim="true" casesensitive="true" />
+					<equals arg1="${input.mode}" arg2="all" trim="true" casesensitive="true" />
+				</or>
+			</condition>
+			<condition property="@{dependencies}" value="true" else="false">
+				<or>
+					<equals arg1="${input.mode}" arg2="dependencies" trim="true" casesensitive="true" />
+					<equals arg1="${input.mode}" arg2="all" trim="true" casesensitive="true" />
+				</or>
+			</condition>
+
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: input-abort-operation          									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="input-abort-operation">
+		<attribute name="message" />
+		<sequential>
+			<input message="@{message}" addproperty="do-action" validargs="y,n" defaultvalue="n" />
+			<condition property="do.abort">
+				<equals arg1="n" arg2="${do-action}" />
+			</condition>
+			<fail if="do.abort">Cancelled Operation.</fail>
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: input-profile                                                      |-->
+	<!--|##############################################################################|-->
+	<macrodef name="input-profile">
+		<attribute name="result" />
+		<sequential>
+			<input message="Select a profile: " addproperty="@{result}" validargs="prod,homo,dev,test" defaultvalue="dev" unless:true="${batch}" />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: input-test-group                                                   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="input-test-group">
+		<attribute name="result" />
+		<sequential>
+			<input message="Select a test's type: " addproperty="@{result}" validargs="unit,integration,functional,acceptance,perform" defaultvalue="" unless:true="${batch}" />
+		</sequential>
+	</macrodef>
+
+</project>

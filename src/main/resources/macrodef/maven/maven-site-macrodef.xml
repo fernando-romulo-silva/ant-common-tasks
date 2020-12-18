@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-site-macrodef" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Scrip ANT com configuracoes MAVEN.
+    </description>
+
+	<import file="../../conf/initial-conf.xml" />
+	<import file="../../conf/maven-conf.xml" />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### SITE DESCRIPTIONS ####################################################################|-->
+	<!--|###########################################################################################################################|-->
+	<property name="site.all.description" value="site-all : Create a site with all tools with informations like tests, bugs, errors, etc.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant site-all${line.separator}
+		- Batch Mode${line.separator}
+			ant site-all -Dbatch=true${line.separator}
+			ant site-all -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant site-all -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="site.cobertura.description" value="site-cobertura : Create a site of project with Cobertura reports.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant site-cobertura${line.separator}
+		- Batch Mode${line.separator}
+			ant site-cobertura -Dbatch=true${line.separator}
+			ant site-cobertura -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant site-cobertura -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="site.checkstyle.description" value="site-checkstyle : Create a site of project with Checkstyle reports.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant site-checkstyle${line.separator}
+		- Batch Mode${line.separator}
+			ant site-checkstyle -Dbatch=true${line.separator}
+			ant site-checkstyle -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant site-checkstyle -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="site.spotbugs.description" value="site-spotbugs : Create a site of project with Spotbugs reports.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant site-spotbugs${line.separator}
+		- Batch Mode${line.separator}
+			ant site-spotbugs -Dbatch=true${line.separator}
+			ant site-spotbugs -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant site-spotbugs -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="site.pmd.description" value="site-pmd : Create a site of project with PMD reports.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant site-pmd${line.separator}
+		- Batch Mode${line.separator}
+			ant site-pmd -Dbatch=true${line.separator}
+			ant site-pmd -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant site-pmd -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="site.cpd.description" value="site-cpd : Create a site of project with report CPD tool.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant site-cpd${line.separator}
+		- Batch Mode${line.separator}
+			ant site-cpd -Dbatch=true${line.separator}
+			ant site-cpd -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant site-cpd -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<!--|###########################################################################################################################| -->
+	<!--|################################# SITE ####################################################################################| -->
+	<!--|###########################################################################################################################| -->
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: site-all             					   				   		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="site-all" description="${site.all.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s site." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="site" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s site successfully created." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: site-cobertura      					   				   		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="site-cobertura" description="${site.cobertura.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s Cobertura site." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="-Dcheckstyle.skip=true" />
+					<arg line="-Dpmd.skip=true" />
+					<arg line="-Dcpd.skip=true" />
+					<arg line="-Dspotbugs.skip=true" />
+					<arg line="-Dmaven.javadoc.skip=true" />
+					<arg line="-Djdepend.skip=true" />
+					<arg line="-Dtaglist.skip=true" />
+					<arg line="-Dmpir.skip=true" />
+					<arg line="cobertura:clean" />
+					<arg line="site" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s Cobertura site successfully created." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: site-checkstyle      					   				   		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="site-checkstyle" description="${site.checkstyle.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s Checkstyle site." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="-DskipSurefireReport=true" />
+					<arg line="-Dmaven.test.skip=true" />
+					<arg line="-DskipTests=true" />
+					<arg line="-Dpmd.skip=true" />
+					<arg line="-Dcpd.skip=true" />
+					<arg line="-Dspotbugs.skip=true" />
+					<arg line="-Dmaven.javadoc.skip=true" />
+					<arg line="-Djdepend.skip=true" />
+					<arg line="-Dtaglist.skip=true" />
+					<arg line="-Dmpir.skip=true" />
+					<arg line="site" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s Checkstyle site successfully created." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: site-spotbugs       					   				   		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="site-spotbugs" description="${site.spotbugs.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s Spotbugs site." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="-DskipSurefireReport=true" />
+					<arg line="-Dmaven.test.skip=true" />
+					<arg line="-DskipTests=true" />
+					<arg line="-Dpmd.skip=true" />
+					<arg line="-Dcpd.skip=true" />
+					<arg line="-Dcheckstyle.skip=true" />
+					<arg line="-Dmaven.javadoc.skip=true" />
+					<arg line="-Djdepend.skip=true" />
+					<arg line="-Dtaglist.skip=true" />
+					<arg line="-Dmpir.skip=true" />
+					<arg line="site" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s Spotbugs site successfully created." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: site-pmd             					   				   		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="site-pmd" description="${site.pmd.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s PMD site." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="-DskipSurefireReport=true" />
+					<arg line="-Dmaven.test.skip=true" />
+					<arg line="-Dspotbugs.skip=true" />
+					<arg line="-Dcheckstyle.skip=true" />
+					<arg line="-Dmaven.javadoc.skip=true" />
+					<arg line="-Djdepend.skip=true" />
+					<arg line="-Dtaglist.skip=true" />
+					<arg line="-Dmpir.skip=true" />
+					<arg line="-Dcpd.skip=true" />
+					<arg line="site" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s PMD site successfully created." />
+		</sequential>
+	</macrodef>
+
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: site-cpd            					   				   		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="site-cpd" description="${site.cpd.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s CPD site." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="-Dmaven.test.skip=true" />
+					<arg line="-DskipSurefireReport=true" />
+					<arg line="-DskipTests=true" />
+					<arg line="-Dspotbugs.skip=true" />
+					<arg line="-Dcheckstyle.skip=true" />
+					<arg line="-Dmaven.javadoc.skip=true" />
+					<arg line="-Djdepend.skip=true" />
+					<arg line="-Dtaglist.skip=true" />
+					<arg line="-Dmpir.skip=true" />
+					<arg line="-Dpmd.skip=true" />
+					<arg line="site" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s CPD site successfully created." />
+		</sequential>
+	</macrodef>
+
+</project>

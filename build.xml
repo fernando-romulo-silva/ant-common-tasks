@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="allset-config-ant">
+	<import file="src/main/resources/target/maven/maven-build.xml" />
+
+	<target name="deploy-ant-lib" depends="build-package-simple">
+		<description>
+deploy-ant-lib - Create a jar with targets and put it on ANT_HOME/lib				
+		</description>
+
+		<echo message="Creating a jar with targets." />
+
+		<project-version input="${pom.project.parent.version}" result="version-temp" />
+
+		<!-- Delete the older ANT_HOME/lib -->
+		<delete verbose="yes" failonerror="no">
+			<fileset dir="${ant.home}/lib">
+				<include name="allset-config-ant-${version-temp}.jar" />
+			</fileset>
+		</delete>
+
+		<!--Rename file -->
+		<move file="target/${pom.project.artifactId}-${pom.project.parent.version}.jar" tofile="target/${pom.project.artifactId}-${version-temp}.jar" />
+
+		<!-- Copy to ANT/lib folder -->
+		<copy todir="${ant.home}/lib" verbose="yes" flatten="yes" failonerror="no">
+			<fileset dir="target/">
+				<include name="${pom.project.artifactId}-${version-temp}.jar" />
+			</fileset>
+		</copy>
+
+		<echo message="The jar file was created." />
+	</target>
+
+</project>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="initial-conf" xmlns:if="ant:if" xmlns:unless="ant:unless" basedir=".">
+
+	<description>
+	     Configs of Machine.
+    </description>
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### PROPERTIES ###########################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<!-- SO variables -->
+	<property environment="env" />
+
+	<!-- Check if DEVELOPMENT_HOME environment variable is configured -->	
+	<fail unless="env.DEVELOPMENT_HOME" message="The environment variable 'DEVELOPMENT_HOME' isn't set. Please look at the allset-config-devhome project." />
+
+	<fail unless="env.JAVA_HOME" message="The environment variable 'JAVA_HOME' isn't set." />
+
+	<fail unless="env.ANT_HOME" message="The environment variable 'ANT_HOME' isn't set." />
+
+	<!-- specif project build properties -->
+	<property file="build.properties" />
+
+	<!-- generic build properties -->
+	<property file="${env.DEVELOPMENT_HOME}/build.properties" />
+
+	<!-- support for Windows -->
+	<condition property="machine.cores.count" value="${env.NUMBER_OF_PROCESSORS}">
+		<os family="windows" />
+	</condition>
+
+	<!-- support for Linux and Solaris (package SUNWgnu-coreutils is required) -->
+	<exec executable="nproc" outputproperty="machine.cores.count" os="Linux,SunOS,Solaris">
+		<arg value="--all" />
+	</exec>
+
+	<!-- support for Mac OS X -->
+	<exec executable="sysctl" outputproperty="machine.cores.count" os="Mac,Darwin">
+		<arg value="-n" />
+		<arg value="hw.ncpu" />
+	</exec>
+
+	<!-- time machine -->
+	<tstamp>
+		<format property="machine.time" pattern="dd-MM-yyyy HH:mm:ss" />
+	</tstamp>
+
+	<!-- batch mode property -->
+	<property name="batch" value="false" description="Batch mode. If true, it'll execute without interruption and manual inputs. Ex: ant {target} -Dbatch=true {others properties}" />
+
+	<!-- Java Home -->
+	<condition property="exec.java.home" value="${java.home}" else="${env.JAVA_HOME}">
+		<isset property="java.home" />
+	</condition>
+
+	<!-- Host name -->
+	<exec executable="hostname" outputproperty="myhostname" />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### START MESSAGE ########################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<echo>
+|###################################################################################################################################|		
+|##################### MACHINE INFO ################################################################################################|		
+|###################################################################################################################################|
+|Host Name : ${myhostname} 		
+|S.O.      : ${os.name}
+|Cores     : ${machine.cores.count}
+|Time      : ${machine.time}
+|User      : ${user.name}
+|Java Home : ${exec.java.home}		
+|Ant Home  : ${ant.home}
+|Dev Home  : ${env.DEVELOPMENT_HOME}
+|###################################################################################################################################|
+	</echo>
+
+</project>

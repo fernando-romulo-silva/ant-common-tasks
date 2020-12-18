@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-check-macrodef" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Scrip ANT com configuracoes MAVEN.
+    </description>
+
+	<import file="../../conf/initial-conf.xml" />
+	<import file="../../conf/maven-conf.xml" />
+
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### CHECK DESCRIPTIONS ###################################################################|-->
+	<!--|###########################################################################################################################|-->
+	<property name="check.spotbugs.description" value="check-spotbugs : Check the project's code with Spotbugs (detects possible bugs).${line.separator}
+	Examples :${line.separator}
+	- Manual Input${line.separator}
+		ant check-spotbugs${line.separator}
+	- Batch Mode${line.separator}
+		ant check-spotbugs -Dbatch=true${line.separator}
+		ant check-spotbugs -Dbatch=true -Dprofile=dev${line.separator}
+	- If there are modules:${line.separator}
+	    ant check-spotbugs -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="check.checkstyle.description" value="check-checkstyle : Check the project's code with Checkstyle (code formattings, code conventions).${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant check-checkstyle${line.separator}
+		- Batch Mode${line.separator}
+			ant check-checkstyle -Dbatch=true${line.separator}
+			ant check-checkstyle -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant check-checkstyle -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="check.pmd.description" value="check-pmd : Check the project's code with PMD (code flaws).${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant check-pmd${line.separator}
+		- Batch Mode${line.separator}
+			ant check-pmd -Dbatch=true${line.separator}
+			ant check-pmd -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant check-pmd -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="check.cpd.description" value="check-cpd : Check the project's code with CPD (duplicated code).${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant check-cpd${line.separator}
+		- Batch Mode${line.separator}
+			ant check-cpd -Dbatch=true${line.separator}
+			ant check-cpd -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant check-cpd -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="check.cobertura.description" value="check-cobertura : Check the project's code with Cobertura (calculates the percentage of code accessed by tests).${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant check-cobertura${line.separator}
+		- Batch Mode${line.separator}
+			ant check-cobertura -Dbatch=true${line.separator}
+			ant check-cobertura -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant check-cobertura -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="check.all.description" value="check-all : Check the project's code with all tools.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant check-all${line.separator}
+		- Batch Mode${line.separator}
+			ant check-all -Dbatch=true${line.separator}
+			ant check-all -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant check-all -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<!--|###########################################################################################################################|-->
+	<!--|################################ CHECK CODE ###############################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: check-spotbugs          					   					   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="check-spotbugs" description="${check.spotbugs.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Checking the ${pom.project.artifactId}'s code with Spotbugs (detects possible bugs)." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="spotbugs:check" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} was successfully checked with Spotbugs." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: check-checkstyle         					   				   	   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="check-checkstyle" description="${check.checkstyle.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Checking the ${pom.project.artifactId}'s code with Checkstyle (code formattings, code conventions)." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="checkstyle:check" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}] was successfully checked with Checkstyle." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: check-pmd              					   				   		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="check-pmd" description="${check.pmd.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Checking the ${pom.project.artifactId}'s code with PMD (code flaws)." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="pmd:check" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} was successfully checked with PMD." />
+		</sequential>
+	</macrodef>
+
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: check-cpd              					   				   		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="check-cpd" description="${check.cpd.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Checking the ${pom.project.artifactId}'s code with CPD (duplicated code)." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="pmd:cpd-check" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}] was successfully checked with CPD." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: check-cobertura        					   				   		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="check-cobertura" description="${check.cobertura.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Checking ${pom.project.artifactId}'s code with Cobertura (calculates the percentage of code accessed by tests)." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="cobertura:check" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} was successfully checked with Cobertura." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: check-all              					   				   		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="check-all" description="${check.all.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Checking the ${pom.project.artifactId}'s code with all tools." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="cobertura:check" />
+					<arg line="pmd:check" />
+					<arg line="pmd:cpd-check" />
+					<arg line="spotbugs:check" />
+					<arg line="checkstyle:check" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} was successfully checked." />
+		</sequential>
+	</macrodef>
+
+</project>

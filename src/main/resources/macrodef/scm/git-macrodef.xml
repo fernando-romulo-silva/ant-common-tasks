@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="git-macrodef" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Macrodefs for git commands.
+    </description>
+
+	<!-- For now, only https repositories -->
+	<!-- git@github.com:username/repo.git -->
+
+	<import file="../../conf/initial-conf.xml" />
+
+	<property name="git.executable" value="git" />
+
+	<exec executable="${git.executable}" outputproperty="git.version" failonerror="true">
+		<arg value="--version" />
+	</exec>
+
+	<exec executable="${git.executable}" outputproperty="git.path" failonerror="true">
+		<arg value="--exec-path" />
+	</exec>
+
+	<echo>
+|########################################################################################################################|		
+|##################### INFO GIT #########################################################################################|		
+|########################################################################################################################|
+|Git Version  : ${git.version}
+|Git Path     : ${git.path}		
+|########################################################################################################################|	
+    </echo>
+
+	<!-- https://help.github.com/articles/caching-your-github-password-in-git/ -->
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### SCM DESCRIPTIONS #####################################################################|-->
+	<!--|###########################################################################################################################|-->
+	<property name="git.get.host.description" value="git-get-host : Return the project's remote host." />
+	<property name="git.get.branch.description" value="get-branch : Return the project's current branch." />
+	<property name="git.get.remote.description" value="get-remote : Return the remote branch's name." />
+
+	<property name="git.project.attribute.description" value="The git project folder." />
+	<property name="git.login.attribute.description" value="The git user login." />
+	<property name="git.password.attribute.description" value="The git user password." />
+
+
+	<property name="git.diff.remote.description" value="scm-diff-remote : Show changes between the local and remote repositories.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant scm-diff-remote${line.separator}
+		- Batch Mode${line.separator}
+			ant scm-diff-remote -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword" />
+
+	<property name="git.diff.local.description" value="scm-diff-local : Show changes between the commited and non commited.${line.separator}
+		Examples :${line.separator}
+			ant scm-diff-local" />
+
+	<property name="git.revert.remote.description" value="scm-revert-remote : Discard all LOCAL commits and unstage files. Your project will be equal the remote HEAD repository.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant scm-revert-remote${line.separator}
+		- Batch Mode${line.separator}
+			ant scm-revert-remote -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword" />
+
+	<property name="git.revert.local.description" value="scm-revert-local : Discard all uncommited changes.${line.separator}
+		Examples :${line.separator}
+			ant scm-revert-local" />
+
+	<property name="git.commit.description" value="git-commit : Add all files on stage and commit.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant scm-commit${line.separator}
+		- Batch Mode${line.separator}
+			ant scm-commit -Dbatch=true -Dcomment=The new comments -Dproject=app" />
+
+	<property name="git.push.description" value="scm-push : Push commits made on your local branch to a remote repository.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant scm-push${line.separator}
+		- Batch Mode${line.separator}
+			ant scm-push -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword -Dproject=YourProject" />
+
+	<property name="git.commit.push.description" value="scm-commit-push : Commit and push.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant scm-commit-push${line.separator}
+		- Batch Mode${line.separator}
+			ant scm-commit-push -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword -Dproject=YourProject" />
+
+	<property name="git.pull.description" value="scm-pull : Will fetch and replay the changes from the remote branch since it diverged from the local branch.${line.separator}
+		Examples :${line.separator}
+			ant scm-pull${line.separator}
+		- Batch Mode${line.separator}
+			ant scm-pull -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword" />
+
+	<property name="git.delete.tag.local.description" value="scm-delete-tag-local : Delete selected tag only on local repository.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant scm-delete-tag-local${line.separator}
+		- Batch Mode${line.separator}
+			ant scm-delete-tag-local -Dbatch=true -Dtag=YourProject-1.0.0 -Dproject=YourProject" />
+
+	<property name="git.delete.all.tag.description" value="scm-delete-tag : Delete selected tag on local and remote repository.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant scm-delete-tag-all${line.separator}
+		- Batch Mode${line.separator}
+			ant scm-delete-tag-all -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword -Dtag=YourProject-1.0.0 -Dproject=YourProject" />
+	
+	<property name="git.show.log.description" value="git-show-log : Show commit's log.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator} 
+		    ant scm-git-show-log${line.separator}
+		- Batch Mode${line.separator}
+		    ant scm-git-show-log -Dbatch=true "/>
+
+	<property name="git.show.tag.remote.description" value="scm-show-tag-remote : Show all remote tags.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant scm-show-tag-remote${line.separator}
+		- Batch Mode${line.separator}
+			ant scm-show-tag-remote -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword" />
+
+	<property name="git.show.tag.local.description" value="scm-show-tag-local : Show all local tags.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant scm-show-tag-local${line.separator}
+		- Batch Mode${line.separator}
+			ant scm-show-tag-local -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword" />
+
+	<property name="git.change.branch.description" value="scm-change-branch : Change the branch." />
+	<property name="git.create.branch.description" value="scm-create-branch : Create a branch." />
+
+
+	<!--|############################################################################################################|-->
+	<!--|############################################ GIT COMMANDS ##################################################|-->
+	<!--|############################################################################################################|-->
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-get-host                  									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-get-host">
+		<attribute name="result" />
+		<sequential>
+
+			<!-- Get project's host-->
+			<exec executable="${git.executable}" outputproperty="project-host" failonerror="true">
+				<arg value="config" />
+				<arg value="--get" />
+				<arg value="remote.origin.url" />
+			</exec>
+
+			<!-- read information about host -->
+			<script language="javascript">
+			    var before = project.getProperty("project-host");
+			    project.setProperty("project-host", before.substring(before.indexOf("//") + 2));
+			</script>
+
+			<property name="@{result}" value="${project-host}" />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-get-branch                 									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-get-branch">
+		<attribute name="result" />
+		<sequential>
+			<!-- Which branch am I using? -->
+			<exec executable="${git.executable}" outputproperty="@{result}" failonerror="true">
+				<arg value="rev-parse" />
+				<arg value="--abbrev-ref" />
+				<arg value="HEAD" />
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-get-remote               									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-get-remote" description="${git.get.remote.description}">
+		<attribute name="result" />
+		<sequential>
+			<!-- What's remote name? (origin) -->
+			<exec executable="${git.executable}" outputproperty="@{result}" failonerror="true">
+				<arg value="remote" />
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-diff-remote                									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-diff-remote" description="${git.diff.remote.description}">
+		<attribute name="project" description="${git.project.attribute.description}" />
+		<attribute name="login" description="${git.login.attribute.description}" />
+		<attribute name="password" description="${git.password.attribute.description}" />
+		<sequential>
+			<!-- Which branch am I using? -->
+			<git-get-branch result="branch" />
+
+			<!-- Initial Message -->
+			<echo message="Showing the @{project}/${branch} differences between local and remote branch." />
+
+			<!-- Get project's host-->
+			<git-get-host result="project-host" />
+
+			<!-- What's remote name? (origin)  -->
+			<git-get-remote result="remote-name" />
+
+			<!-- Get all -->
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="fetch" />
+				<arg value="https://@{login}:@{password}@${project-host}" />
+			</exec>
+
+			<!-- Execute -->
+			<exec executable="${git.executable}" outputproperty="git-diff" failonerror="true">
+				<arg value="diff" />
+				<arg value="--name-only" />
+				<arg value="${branch}" />
+				<arg value="${remote-name}/${branch}" />
+			</exec>
+
+			<!-- Validade -->
+			<condition property="diff-result">
+				<not>
+					<equals arg1="${git-diff}" arg2="" />
+				</not>
+			</condition>
+
+			<!-- stop the task if changes found -->
+			<fail if="diff-result" message="There are differences between local and remote branch @{project}/${branch}. Update your local branch:${line.separator}${git-diff}" />
+
+			<!-- Success -->
+			<echo message="There aren't differences between local and remote branch on @{project}/${branch}." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-diff-local                 									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-diff-local" description="${git.diff.local.description}">
+		<attribute name="project" description="${git.project.attribute.description}" />
+		<sequential>
+			<!-- Which branch am I using? -->
+			<git-get-branch result="branch" />
+
+			<!-- Initial Message -->
+			<echo message="Showing the @{project}/${branch} differences between commited and uncommited." />
+
+			<!-- Execute -->
+			<exec executable="${git.executable}" outputproperty="git-diff" failonerror="true">
+				<arg value="diff" />
+				<arg value="--name-only" />
+			</exec>
+
+			<!-- Validation -->
+			<condition property="diff-result">
+				<not>
+					<equals arg1="${git-diff}" arg2="" />
+				</not>
+			</condition>
+
+			<!-- fail the task if there are differences -->
+			<fail if="diff-result" message="There are differences between commited and uncommited on @{project}/${branch}:${line.separator}${git-diff}" />
+
+			<!-- Success -->
+			<echo message="There aren't uncommited changes on @{project}/${branch}." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-revert-remote               								   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-revert-remote" description="${git.revert.remote.description}">
+		<attribute name="project" description="${git.project.attribute.description}" />
+		<attribute name="login" description="${git.login.attribute.description}" />
+		<attribute name="password" description="${git.password.attribute.description}" />
+		<sequential>
+			<!-- Which branch am I using? -->
+			<git-get-branch result="branch" />
+
+			<!-- Initial Message -->
+			<echo message="Reversing the @{project}/${branch} to remote branch." />
+
+			<!-- What's remote name? (origin) -->
+			<git-get-remote result="remote-name" />
+
+			<!-- Get project's host-->
+			<git-get-host result="project-host" />
+
+			<!-- Get all -->
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="fetch" />
+				<arg value="https://@{login}:@{password}@${project-host}" />
+			</exec>
+
+			<!-- Execute -->
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="reset" />
+				<arg value="--hard" />
+				<arg value="${remote-name}/${branch}" />
+			</exec>
+
+			<!-- Execute pull -->
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="pull" />
+				<arg value="https://@{login}:@{password}@${project-host}" />
+				<arg value="${branch}" />
+			</exec>
+
+			<!-- Success -->
+			<echo message="Remote revert executed with success on @{project}/${branch}." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-revert-local              									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-revert-local" description="${git.revert.local.description}">
+		<attribute name="project" description="${git.project.attribute.description}" />
+		<sequential>
+			<!-- Which branch am I using? -->
+			<git-get-branch result="branch" />
+
+			<!-- Initial Message -->
+			<echo message="Reversing the local branch on @{project}/${branch}." />
+
+			<!-- Execute -->
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="reset" />
+				<arg value="--hard" />
+				<arg value="HEAD" />
+			</exec>
+
+			<!-- Success -->
+			<echo message="Local revert executed with success on @{project}/${branch}." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-commit                     									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-commit" description="${git.commit.description}">
+		<attribute name="project" description="${git.project.attribute.description}" />
+		<attribute name="comment" description="Comment's commit." />
+		<sequential>
+			<!-- Which branch am I using? -->
+			<git-get-branch result="branch" />
+
+			<!-- Initial Message -->
+			<echo message="Committing all files on @{project}/${branch}." />
+
+			<!-- put all things on the stage -->
+			<exec executable="${git.executable}">
+				<arg value="add" />
+				<arg value="-A" />
+			</exec>
+
+			<!-- Execute Commit -->
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="commit" />
+				<arg value="-m" />
+				<arg value="@{comment}" />
+			</exec>
+
+			<!-- Success -->
+			<echo message="Committed with success on @{project}/${branch}." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-push                      									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-push" description="${git.push.description}">
+		<attribute name="project" description="${git.project.attribute.description}" />
+		<attribute name="login" description="${git.login.attribute.description}" />
+		<attribute name="password" description="${git.password.attribute.description}" />
+
+		<sequential>
+			<!-- Which branch am I using? -->
+			<git-get-branch result="branch" />
+
+			<!-- Initial Message -->
+			<echo message="Pushing local commits on @{project}/${branch}." />
+
+			<!-- Get project's host-->
+			<git-get-host result="project-host" />
+
+			<!-- Execute push -->
+			<exec executable="${git.executable}" outputproperty="git-push-out" failonerror="true">
+				<arg value="push" />
+				<arg value="https://@{login}:@{password}@${project-host}" />
+				<arg value="--all" />
+			</exec>
+
+			<!-- Success -->
+			<echo message="Push executed with success on @{project}/${branch}." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-commit-push                 								   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-commit-push" description="${git.commit.push.description}">
+		<attribute name="login" description="${git.login.attribute.description}" />
+		<attribute name="password" description="${git.password.attribute.description}" />
+		<attribute name="project" description="${git.project.attribute.description}" />
+		<attribute name="comment" description="The comment's commit." />
+
+		<sequential>
+			<!-- Which branch am I using? -->
+			<git-get-branch result="branch" />
+
+			<!-- Initial Message -->
+			<echo message="Committing and pushing on @{project}/${branch}." />
+
+			<!-- Put all things on the stage  -->
+			<exec executable="${git.executable}">
+				<arg value="add" />
+				<arg value="-A" />
+			</exec>
+
+			<!-- Execute Commit -->
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="commit" />
+				<arg value="-m" />
+				<arg value="@{comment}" />
+			</exec>
+
+			<!-- Get project's host-->
+			<git-get-host result="project-host" />
+
+			<!-- Execute push -->
+			<exec executable="${git.executable}" outputproperty="git-push-output" failonerror="true">
+				<arg value="push" />
+				<arg value="https://@{login}:@{password}@${project-host}" />
+				<arg value="--all" />
+			</exec>
+
+			<!-- remove password and user on output -->
+			<git-hide-url git-output="${git-push-output}" />
+
+			<!-- Success -->
+			<echo message="Commit and push executed with success on @{project}/${branch}." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-pull                      									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-pull" description="${git.pull.description}">
+		<attribute name="project" description="${git.project.attribute.description}" />
+		<attribute name="login" description="${git.login.attribute.description}" />
+		<attribute name="password" description="${git.password.attribute.description}" />
+		<sequential>
+			<!-- Which branch am I using? -->
+			<git-get-branch result="branch" />
+
+			<!-- Initial Message -->
+			<echo message="Pulling the @{project}/${branch}." />
+
+			<!-- Get project's host-->
+			<git-get-host result="project-host" />
+
+			<!-- Execute pull -->
+			<exec executable="${git.executable}" failonerror="true" outputproperty="git-pull-output">
+				<arg value="pull" />
+				<arg value="https://@{login}:@{password}@${project-host}" />
+				<arg value="${branch}" />
+			</exec>
+
+			<!-- remove password and user on output -->
+			<git-hide-url git-output="${git-pull-output}" />
+
+			<!-- Success -->
+			<echo message="Pull executed with success on @{project}/${branch}." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-show-tag-remote									               |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-show-tag-remote" description="${git.show.tag.remote.description}">
+		<attribute name="login" description="${git.login.attribute.description}" />
+		<attribute name="password" description="${git.password.attribute.description}" />
+		<sequential>
+			<!-- Get project's host-->
+			<git-get-host result="project-host" />
+
+			<!-- Get project's tags -->
+			<exec executable="${git.executable}" failonerror="true" outputproperty="git-ls-output">
+				<arg value="ls-remote" />
+				<arg value="--tags" />
+				<arg value="--refs" />
+				<arg value="https://@{login}:@{password}@${project-host}" />
+			</exec>
+
+			<!-- remove password and user on output -->
+			<git-hide-url git-output="${git-ls-output}" />
+
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-show-tag-local									               |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-show-tag-local" description="${git.show.tag.local.description}">
+		<sequential>
+			<!-- Get project's host-->
+			<git-get-host result="project-host" />
+
+			<!-- Get project's tags -->
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="tag" />
+				<arg value="-l" />
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-delete-tag-local          									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-delete-tag-local" description="${git.delete.tag.local.description}">
+		<attribute name="tag" description="The tag that will be deleted." />
+		<attribute name="project" description="${git.project.attribute.description}" />
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Deleting local tag @{project}/${tag}." />
+
+			<!-- Delete tag -->
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="tag" />
+				<arg value="-d" />
+				<arg value="@{tag}" />
+			</exec>
+
+			<!-- Success -->
+			<echo message="The @{project}/${tag} was deleted." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-delete-tag-all               								   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-delete-tag-all" description="${git.delete.tag.all.description}">
+		<attribute name="tag" description="The tag that will be deleted." />
+		<attribute name="project" description="${git.project.attribute.description}" />
+		<attribute name="login" description="${git.login.attribute.description}" />
+		<attribute name="password" description="${git.password.attribute.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Deleting the local and remote @{project}/${tag}." />
+
+			<!-- Get project's host-->
+			<git-get-host result="project-host" />
+
+			<!-- Get project's tags -->
+			<exec executable="${git.executable}" failonerror="true" outputproperty="git-fetch-output">
+				<arg value="fetch" />
+				<arg value="https://@{login}:@{password}@${project-host}" />
+				<arg value="--tags" />
+				<arg value="--prune" />
+			</exec>
+
+			<!-- remove password and user on output -->
+			<git-hide-url git-output="${git-fetch-output}" />
+
+			<!-- Delete tag -->
+			<exec executable="${git.executable}" failonerror="false">
+				<arg value="tag" />
+				<arg value="-d" />
+				<arg value="@{tag}" />
+			</exec>
+
+			<!-- Execute push -->
+			<exec executable="${git.executable}" failonerror="true" outputproperty="git-push-output">
+				<arg value="push" />
+				<arg value="https://@{login}:@{password}@${project-host}" />
+				<arg value=":refs/tags/@{tag}" />
+			</exec>
+
+			<!-- remove password and user on output -->
+			<git-hide-url git-output="${git-push-output}" />
+
+			<!-- Success -->
+			<echo message="Remote and local tag @{project}/${tag} deleted." />
+		</sequential>
+	</macrodef>
+	
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-show-log                									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-show-log" description="${git.show.log.description}">
+		<sequential>
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="log" />
+				<arg value="--pretty=medium" />
+				<arg value="-8" />
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-change-branch           									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-change-branch" description="${git.change.branch.description}">
+		<attribute name="branch" description="Destination branch" />
+		<sequential>
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="checkout" />
+				<arg value="@{branch}" />
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-create-branch           									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-create-branch" description="${git.create.branch.description}">
+		<attribute name="branch" description="The new branch's name" />
+		<sequential>
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="checkout" />
+				<arg value="-b" />
+				<arg value="@{branch}" />
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: git-hide-url                									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="git-hide-url" description="Hide user and login on url git.">
+		<attribute name="git-output" description="The git command output" />
+		<sequential>
+			<property name="output" value="@{git-output}" />
+
+			<script language="javascript">
+			    var before = new String(project.getProperty("output"));
+			    project.setProperty("output", before.replace(/\https.*.com/gi, '*******************************'));
+			</script>
+			<echo>
+${output}
+            </echo>
+		</sequential>
+	</macrodef>
+
+</project>
