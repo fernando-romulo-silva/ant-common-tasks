@@ -6,10 +6,10 @@
 
 	<!-- Create an ant's build.xml and put in src/main/resources. Create a jar file and put it in ant's lib folder. -->
 	<!-- For import tasks do it: -->
-	<!-- <import> <javaresource classpath="allset-config-ant.jar" name="module-build.xml" /> </import> -->
+	<!-- <import> <javaresource classpath="direct-ant.jar" name="module-build.xml" /> </import> -->
 	<properties>
-		<maven.compiler.source>14</maven.compiler.source>
-		<maven.compiler.target>14</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -26,17 +26,18 @@
 		</license>
 	</licenses>
 
-	<url>https://github.com/fernando-romulo-silva/allset-config</url>
+	<url>https://github.com/fernando-romulo-silva/direct-ant</url>
 
 	<scm>
-		<url>https://github.com/fernando-romulo-silva/allset-config</url>
-		<connection>scm:git:https://github.com/fernando-romulo-silva/allset-config.git</connection>
-		<developerConnection>scm:git:https://github.com/fernando-romulo-silva/allset-config.git</developerConnection>
+		<url>https://github.com/fernando-romulo-silva/direct-ant</url>
+		<connection>scm:git:https://github.com/fernando-romulo-silva/direct-ant.git</connection>
+		<developerConnection>scm:git:https://github.com/fernando-romulo-silva/direct-ant.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
 	<build>
 		<plugins>
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
@@ -47,20 +48,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven.compiler.plugin.version}</version>
-				<configuration>
-					<compilerArgs>
-						--enable-preview
-					</compilerArgs>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M4</version>
-				<configuration>
-					<argLine>--enable-preview</argLine>
-				</configuration>
 			</plugin>
 
 		</plugins>

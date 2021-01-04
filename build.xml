@@ -14,7 +14,7 @@ deploy-ant-lib - Create a jar with targets and put it on ANT_HOME/lib
 		<!-- Delete the older ANT_HOME/lib -->
 		<delete verbose="yes" failonerror="no">
 			<fileset dir="${ant.home}/lib">
-				<include name="allset-config-ant-${version-temp}.jar" />
+				<include name="direct-ant-${version-temp}.jar" />
 			</fileset>
 		</delete>
 
