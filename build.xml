@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="allset-config-ant">
+<project name="direct-ant">
 	<import file="src/main/resources/target/maven/maven-build.xml" />
 
 	<target name="deploy-ant-lib" depends="build-package-simple">

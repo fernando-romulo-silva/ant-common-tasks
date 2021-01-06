@@ -17,6 +17,29 @@ This a useful collection of ant tasks, that executes advanced tools command line
 
 # Install
 
-First of all, you need Java and Ant installed on your pc, with ANT_HOME and JAVA_HOME already configured.
+First of all, you need Java and Ant installed on your pc, with ANT_HOME and JAVA_HOME already configured. <br />
+
+Then execute:
+
+```bash
+# clone it
+git clone https://github.com/fernando-romulo-silva/direct-ant
+
+# access the project folder
+cd direct-ant
+
+# execute
+ant deploy-ant-lib
+```
 
 # How to Use
+
+create a build.xml on the project root's:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="your_project">
+	<import file="direct-ant/src/main/resources/target/maven/maven-build.xml" />
+	<import file="direct-ant/src/main/resources/target/maven/maven-scm-git.xml" />
+</project>
+```
