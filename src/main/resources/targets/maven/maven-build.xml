@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-build" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Scrip ANT for MAVEN BUILD.
+    </description>
+
+	<import file="../../macrodefs/maven/maven-build-macrodef.xml" />
+	<import file="../../macrodefs/util/input-macrodef.xml" />
+
+	<!-- ant build-update-libs -Dbatch=true -Dmodules-specified=allset-config-ant -Dmodules-dependents=true -Dmodules-dependencies=false -->
+
+	<!--|############################################################################################################################################|-->
+	<!--|#################################### BUILD DEFAUL ##########################################################################################|-->
+	<!--|############################################################################################################################################|-->
+
+	<!--|############################################################################################################################################|-->
+	<!--| target: build-update-lib               									                                                                 |-->
+	<!--|############################################################################################################################################|-->
+	<target name="build-update-lib">
+		<description>
+${build.update.lib.description}
+		</description>
+
+		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s libs?" unless:true="${batch}" />
+
+		<build-update />
+	</target>
+
+	<!--|############################################################################################################################################|-->
+	<!--| target: build-update-plugin             									                                                                 |-->
+	<!--|############################################################################################################################################|-->
+	<target name="build-update-plugin">
+		<description>
+${build.update.plugin.description}
+		</description>
+
+		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s plugins?" unless:true="${batch}" />
+
+		<build-update plugins="true" libs="false" />
+	</target>
+
+	<!--|############################################################################################################################################|-->
+	<!--| target: build-update-source            									                                                                 |-->
+	<!--|############################################################################################################################################|-->
+	<target name="build-update-source">
+		<description>
+${build.update.source.description}
+		</description>
+
+		<input-abort-operation message="Do you really download ALL ${pom.project.artifactId}'s source libs?" unless:true="${batch}" />
+
+		<build-update sources="true" libs="false" />
+	</target>
+
+	<!--|############################################################################################################################################|-->
+	<!--| target: build-clean                    									                                                                 |-->
+	<!--|############################################################################################################################################|-->
+	<target name="build-clean">
+		<description>
+${build.clean.description}
+		</description>
+
+		<input-abort-operation message="Do you really want to delete target folder of ${pom.project.artifactId}?" unless:true="${batch}" />
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<build-clean modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<build-clean if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|############################################################################################################################################|-->
+	<!--| target: build-compile            									                                                                         |-->
+	<!--|############################################################################################################################################|-->
+	<target name="build-compile">
+		<description>
+${build.compile.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|###########################################################################################################################################|-->
+	<!--| target: build-package                   									                                                                |-->
+	<!--|###########################################################################################################################################|-->
+	<target name="build-package">
+		<description>
+${build.package.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<build-package profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<build-package profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|##########################################################################################################################################|-->
+	<!--| target: build-package-simple             									                                                               |-->
+	<!--|##########################################################################################################################################|-->
+	<target name="build-package-simple">
+		<description>
+${build.package.simple.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<build-package-simple profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<build-package-simple profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|#########################################################################################################################################|-->
+	<!--| target: build-install                 									                                                              |-->
+	<!--|#########################################################################################################################################|-->
+	<target name="build-install">
+		<description>
+${build.install.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<build-install profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<build-install profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|#########################################################################################################################################|-->
+	<!--| target: build-install-simple             									                                                              |-->
+	<!--|#########################################################################################################################################|-->
+	<target name="build-install-simple">
+		<description>
+${build.install.simple.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<build-install-simple profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<build-install-simple profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+</project>

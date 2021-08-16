@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-build" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Scrip ANT for MAVEN TESTS.
+    </description>
+
+	<import file="../../macrodefs/maven/maven-test-macrodef.xml" />
+	<import file="../../macrodefs/util/input-macrodef.xml" />
+
+	<!--|#########################################################################################################################################| -->
+	<!--|############################################ TESTS ######################################################################################| -->
+	<!--|#########################################################################################################################################| -->
+
+	<!--|#########################################################################################################################################|-->
+	<!--| target: test-all             					   				      		                                                              |-->
+	<!--|#########################################################################################################################################|-->
+	<target name="test-all">
+		<description>
+${test.all.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<test-groups profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<test-groups profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|#########################################################################################################################################|-->
+	<!--| target: test-unit            					   				      		                                                              |-->
+	<!--|#########################################################################################################################################|-->
+	<target name="test-unit">
+		<description>
+${test.unit.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<test-groups groups="unit" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<test-groups groups="unit" profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|#########################################################################################################################################|-->
+	<!--| target: test-functional      					   				      		                                                              |-->
+	<!--|#########################################################################################################################################|-->
+	<target name="test-functional">
+		<description>
+${test.functional.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<test-groups groups="functional" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<test-groups groups="functional" profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|#########################################################################################################################################|-->
+	<!--| target: test-integration    					   				      		                                                              |-->
+	<!--|#########################################################################################################################################|-->
+	<target name="test-integration">
+		<description>
+${test.integration.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<test-groups groups="integration" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<test-groups groups="integration" profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|#########################################################################################################################################|-->
+	<!--| target: test-acceptance   					   				      		                                                              |-->
+	<!--|#########################################################################################################################################|-->
+	<target name="test-acceptance">
+		<description>
+${test.acceptance.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<test-groups groups="acceptance" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<test-groups groups="acceptance" profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|#########################################################################################################################################|-->
+	<!--| target: test-perform    			     		   				      		                                                              |-->
+	<!--|#########################################################################################################################################|-->
+	<target name="test-perform">
+		<description>
+${test.perform.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<test-groups groups="perform" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<test-groups groups="perform" profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+</project>

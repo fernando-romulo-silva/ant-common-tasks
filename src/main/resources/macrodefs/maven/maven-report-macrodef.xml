@@ -6,8 +6,8 @@
     </description>
 
 
-	<import file="../../conf/initial-conf.xml" />
-	<import file="../../conf/maven-conf.xml" />
+	<import file="../../confs/initial-conf.xml" />
+	<import file="../../confs/maven-conf.xml" />
 
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### REPORTS DESCRIPTIONS #################################################################|-->

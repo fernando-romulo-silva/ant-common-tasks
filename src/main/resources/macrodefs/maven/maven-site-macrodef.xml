@@ -5,8 +5,8 @@
 	     Scrip ANT com configuracoes MAVEN.
     </description>
 
-	<import file="../../conf/initial-conf.xml" />
-	<import file="../../conf/maven-conf.xml" />
+	<import file="../../confs/initial-conf.xml" />
+	<import file="../../confs/maven-conf.xml" />
 
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### SITE DESCRIPTIONS ####################################################################|-->

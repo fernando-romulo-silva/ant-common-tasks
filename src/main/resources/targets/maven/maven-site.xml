@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-build" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Scrip ANT for create project site.
+    </description>
+
+	<import file="../../macrodefs/maven/maven-site-macrodef.xml" />
+	<import file="../../macrodefs/util/input-macrodef.xml" />
+
+	<!-- ant build-update-libs -Dbatch=true -Dmodules-specified=allset-config-ant -Dmodules-dependents=true -Dmodules-dependencies=false -->
+
+	<!--|########################################################################################################################################| -->
+	<!--|################################# SITE #################################################################################################| -->
+	<!--|########################################################################################################################################| -->
+
+	<!--|########################################################################################################################################|-->
+	<!--| target: site-all           					   				      		                                                             |-->
+	<!--|########################################################################################################################################|-->
+	<target name="site-all">
+		<description>
+${test.all.description}		
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
+
+		<site-all profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<site-all profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|#######################################################################################################################################|-->
+	<!--| target: site-cobertura       					   				      		                                                            |-->
+	<!--|#######################################################################################################################################|-->
+	<target name="site-cobertura">
+		<description>
+${site.cobertura.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
+
+		<site-cobertura profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<site-cobertura profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|######################################################################################################################################|-->
+	<!--| target: site-checkstyle      					   				      		                                                           |-->
+	<!--|######################################################################################################################################|-->
+	<target name="site-checkstyle">
+		<description>
+${site.checkstyle.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
+
+		<site-checkstyle profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<site-checkstyle profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|######################################################################################################################################|-->
+	<!--| target: site-spotbugs     					   				      		                                                           |-->
+	<!--|######################################################################################################################################|-->
+	<target name="site-spotbugs">
+		<description>
+${site.spotbugs.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
+
+		<site-spotbugs profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<site-spotbugs profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|######################################################################################################################################|-->
+	<!--| target: site-pmd          					   				      		                                                           |-->
+	<!--|######################################################################################################################################|-->
+	<target name="site-pmd">
+		<description>
+${site.pmd.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
+
+		<site-pmd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<site-pmd profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|######################################################################################################################################|-->
+	<!--| target: site-cpd          					   				      		                                                           |-->
+	<!--|######################################################################################################################################|-->
+	<target name="site-cpd">
+		<description>
+${site.cpd.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
+
+		<site-cpd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<site-cpd profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+</project>

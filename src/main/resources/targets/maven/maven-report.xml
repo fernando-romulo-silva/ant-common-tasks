@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-build" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Scrip ANT for generate report's tools.
+    </description>
+
+	<import file="../../macrodefs/maven/maven-report-macrodef.xml" />
+	<import file="../../macrodefs/util/input-macrodef.xml" />
+
+	<!-- ant build-update-libs -Dbatch=true -Dmodules-specified=allset-config-ant -Dmodules-dependents=true -Dmodules-dependencies=false -->
+
+	<!--|####################################################################################################################################| -->
+	<!--|################################# REPORTS ##########################################################################################| -->
+	<!--|####################################################################################################################################| -->
+
+	<!--|###################################################################################################################################|-->
+	<!--| target: report-all        					   				      		                                                        |-->
+	<!--|###################################################################################################################################|-->
+	<target name="report-all">
+		<description>
+${report.all.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<report-all profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<report-all profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|####################################################################################################################################|-->
+	<!--| target: report-surifire     					   				      		                                                         |-->
+	<!--|####################################################################################################################################|-->
+	<target name="report-surifire">
+		<description>
+${report.surifire.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<report-surifire profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<report-surifire profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|####################################################################################################################################|-->
+	<!--| target: report-cobertura     					   				      		                                                         |-->
+	<!--|####################################################################################################################################|-->
+	<target name="report-cobertura">
+		<description>
+${report.cobertura.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<report-cobertura profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<report-cobertura profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|####################################################################################################################################|-->
+	<!--| target: report-pmd         					   				      		                                                         |-->
+	<!--|####################################################################################################################################|-->
+	<target name="report-pmd">
+		<description>
+${report.pmd.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<report-pmd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<report-pmd profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|####################################################################################################################################|-->
+	<!--| target: report-cpd         					   				      		                                                         |-->
+	<!--|####################################################################################################################################|-->
+	<target name="report-cpd">
+		<description>
+${report.cpd.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<report-cpd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<report-cpd profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|####################################################################################################################################|-->
+	<!--| target: report-spotbugs      					   				      		                                                         |-->
+	<!--|####################################################################################################################################|-->
+	<target name="report-spotbugs">
+		<description>
+${report.spotbugs.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<report-spotbugs profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<report-spotbugs profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|####################################################################################################################################|-->
+	<!--| target: report-checkstyle    					   				      		                                                         |-->
+	<!--|####################################################################################################################################|-->
+	<target name="report-checkstyle">
+		<description>
+${report.checkstyle.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<report-checkstyle profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<report-checkstyle profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+</project>

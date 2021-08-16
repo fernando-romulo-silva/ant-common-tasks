@@ -5,7 +5,7 @@
 	     Scrip ANT com macrodefs de execucao do git
     </description>
 
-	<import file="../../conf/maven-conf.xml" />
+	<import file="../../confs/maven-conf.xml" />
 	<import file="../scm/git-macrodef.xml" />
 	<import file="maven-build-macrodef.xml" />
 

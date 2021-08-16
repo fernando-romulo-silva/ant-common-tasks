@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="ant-commom-task">
-	<import file="src/main/resources/target/maven/maven-build.xml" />
+<project name="ant-common-tasks">
+	<import file="src/main/resources/atarget/maven/maven-build.xml" />
 
 	<target name="deploy-ant-lib" depends="build-package-simple">
 		<description>
@@ -8,10 +8,6 @@ deploy-ant-lib - Create a jar with targets and put it on ANT_HOME/lib
 		</description>
 
 		<echo message="Creating a jar with targets." />
-
-		<!--
-		<project-version input="${pom.project.parent.version}" result="version-temp" />
-		-->
 
 		<!-- Delete the older ANT_HOME/lib -->
 		<delete verbose="yes" failonerror="no">

@@ -8,7 +8,7 @@
 	<!-- For now, only https repositories -->
 	<!-- git@github.com:username/repo.git -->
 
-	<import file="../../conf/initial-conf.xml" />
+	<import file="../../confs/initial-conf.xml" />
 
 	<property name="git.executable" value="git" />
 

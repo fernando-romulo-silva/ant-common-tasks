@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-scm-git" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Targets ANT that execute GIT commands. Use this script ONLY ROOT'S PROJECTS.
+    </description>
+
+	<import file="../../macrodefs/maven/maven-scm-git-macrodef.xml" />
+	<import file="../../macrodefs/util/input-macrodef.xml" />
+	<import file="../../macrodefs/scm/git-macrodef.xml" />
+
+	<!--|############################################################################################################|-->
+	<!--|####################################### PROPERTIES #########################################################|-->
+	<!--|############################################################################################################|-->
+
+	<!-- SCM user -->
+	<condition property="exec.scm.login" value="${scm.login}" else="">
+		<isset property="scm.login" />
+	</condition>
+
+	<!-- SCM password -->
+	<condition property="exec.scm.password" value="${scm.password}" else="">
+		<isset property="scm.password" />
+	</condition>
+
+
+	<!--|############################################################################################################|-->
+	<!--|############################################ SCM COMMANDS ##################################################|-->
+	<!--|############################################################################################################|-->
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-diff-remote                									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-diff-remote">
+		<description>
+${git.diff.remote.description}
+		</description>
+
+		<!-- SCM's login and password -->
+		<imput-scm login="login" password="password" />
+
+		<git-diff-remote project="${pom.project.artifactId}" login="${login}" password="${password}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-diff-local                 									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-diff-local">
+		<description>
+${git.diff.local.description}			
+		</description>
+
+		<git-diff-local project="${pom.project.artifactId}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-revert-remote               									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-revert-remote">
+		<description>
+${git.revert.remote.description}
+		</description>
+
+		<!-- What's branch? -->
+		<git-get-branch result="branch-revert" />
+
+		<!-- are you sure? -->
+		<input-abort-operation message="Do you really want to revert the ${pom.project.artifactId} and ${branch-revert} REMOTE branch? " unless:true="${batch}" />
+
+		<!-- SCM's login and password -->
+		<imput-scm login="login" password="password" />
+
+		<!-- Execute -->
+		<git-revert-remote project="${pom.project.artifactId}" login="${login}" password="${password}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-revert-local              									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-revert-local">
+		<description>
+${git.revert.local.description}
+		</description>
+
+		<!-- What's branch? -->
+		<git-get-branch result="branch-revert" />
+
+		<!-- Confirmation -->
+		<input-abort-operation message="Do you really want to revert the ${pom.project.artifactId} and ${branch-revert} LOCAL branch? " unless:true="${batch}" />
+
+		<!-- Execute -->
+		<git-revert-local project="${pom.project.artifactId}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-commit                     									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-commit">
+		<description>
+${git.commit.description}
+		</description>
+
+		<!-- What's branch? -->
+		<git-get-branch result="branch-commit" />
+
+		<!-- Confirmation commit -->
+		<input-abort-operation message="Do you really want to commit changes of the ${pom.project.artifactId} and ${branch-commit} LOCAL branch? " unless:true="${batch}" />
+
+		<!-- Reading comments -->
+		<input message="Commit Message: " addproperty="commit-message" description="Commit Message" unless:true="${batch}" />
+
+		<!-- Executa o commit -->
+		<git-commit project="${pom.project.artifactId}" comment="${commit-message}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-push                      									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-push">
+		<description>
+${git.push.description}
+		</description>
+
+		<!-- What's branch? -->
+		<git-get-branch result="branch-push" />
+
+		<!-- Confirmation-->
+		<input-abort-operation message="Do you want to push all commits of the ${pom.project.artifactId}/${branch-push} remote branch?" unless:true="${batch}" />
+
+		<!-- get SCM's password -->
+		<imput-scm login="login" password="password" />
+
+		<!-- Execute -->
+		<git-push login="${login}" password="${password}" project="${pom.project.artifactId}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-commit-push                     								   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-commit-push">
+		<description>
+${git.commit.push.description}
+		</description>
+
+		<!-- What's branch? -->
+		<git-get-branch result="branch-commit-push" />
+
+		<!-- Confirmation do commit -->
+		<input-abort-operation message="Do you want to push all commits of the ${pom.project.artifactId}/${branch-commit-push} remote branch?" unless:true="${batch}" />
+
+		<!-- Lendo o comentario -->
+		<input message="Commit Message: " addproperty="comment" description="Commit Message" unless:true="${batch}" />
+
+		<!-- get SCM's password -->
+		<imput-scm login="login" password="password" />
+
+		<!-- Executa o commit -->
+		<git-commit-push project="${pom.project.artifactId}" comment="${comment}" login="${login}" password="${password}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-pull                      									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-pull">
+		<description>
+${git.pull.description}
+		</description>
+
+		<!-- What's branch? -->
+		<git-get-branch result="branch-pull" />
+
+		<!-- Confirmation -->
+		<input-abort-operation message="Do you want to pull all remote changes of the ${pom.project.artifactId} and ${branch-pull}?" unless:true="${batch}" />
+
+		<!-- get SCM's password -->
+		<imput-scm login="login" password="password" />
+
+		<!-- Execute -->
+		<git-pull project="${pom.project.artifactId}" login="${login}" password="${password}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-show-tag-remote             									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-show-tag-remote">
+		<description>
+${git.show.tag.remote.description}
+		</description>
+
+		<!-- get SCM's login and password -->
+		<imput-scm login="login" password="password" unless:true="${batch}" />
+
+		<!-- Execute -->
+		<git-show-tag-remote login="${login}" password="${password}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-show-tag-local             									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-show-tag-local">
+		<description>
+${git.show.tag.local.description}
+		</description>
+
+		<!-- Execute -->
+		<git-show-tag-local />
+	</target>
+
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-delete-tag-all            									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-delete-tag-all">
+		<description>
+${git.delete.tag.all.description}
+		</description>
+
+		<!-- Read the current version -->
+		<project-version result="version-temp" input="${pom.project.version}" />
+
+		<!-- get version -->
+		<input message="The version: " addproperty="version" defaultvalue="${version-temp}" unless:true="${batch}" />
+
+		<!-- tag -->
+		<property name="tag" value="${pom.project.artifactId}-${version}" />
+
+		<!-- Confirmation -->
+		<input-abort-operation message="Do you really want to delete the ${tag} version (local and remote) of the ${pom.project.artifactId}?" unless:true="${batch}" />
+
+		<!-- get SCM's password -->
+		<imput-scm login="login" password="password" />
+
+		<!-- Execute -->
+		<git-delete-tag-all tag="${tag}" project="${pom.project.artifactId}" login="${login}" password="${password}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-delete-tag-local            									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-delete-tag-local">
+		<!-- Description -->
+		<description>
+${git.delete.tag.local.description}
+		</description>
+
+		<!-- Read Version -->
+		<project-version result="version-temp" input="${pom.project.version}" />
+
+		<!-- get version -->
+		<input message="The version: " addproperty="version" defaultvalue="${version-temp}" unless:true="${batch}" />
+
+		<!-- tag -->
+		<property name="tag" value="${pom.project.artifactId}-${version}" />
+
+		<!-- Confirmation -->
+		<input-abort-operation message="Do you really want to delete the ${tag} tag (only local) of the ${pom.project.artifactId}?" unless:true="${batch}" />
+
+		<!-- Execute -->
+		<git-delete-tag-local tag="${pom.project.artifactId}-${version}" project="${pom.project.artifactId}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-install                   									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-install">
+		<description>
+${scm.install.description}
+		</description>
+
+		<!-- Read Version -->
+		<project-version result="version-temp" input="${pom.project.version}" />
+
+		<!-- get version -->
+		<input message="The version: " addproperty="version" defaultvalue="${version-temp}" unless:true="${batch}" />
+
+		<!-- Profile -->
+		<input-profile result="profile" />
+
+		<!-- get SCM's password -->
+		<imput-scm login="login" password="password" />
+
+		<!-- Execute -->
+		<scm-install-git profile="${profile}" version="${version}" login="${login}" password="${password}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-release                   									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-release">
+		<description>
+${scm.release.description}
+		</description>
+
+		<!-- read the current version -->
+		<project-version result="release-version-temp" input="${pom.project.version}" />
+
+		<!-- release version -->
+		<input message="Release Version: " addproperty="release-version" defaultvalue="${release-version-temp}" unless:true="${batch}" />
+
+		<!-- release version -->
+		<input message="Development Version: " addproperty="development-version" defaultvalue="${pom.project.version}" unless:true="${batch}" />
+
+		<!-- origin branch -->
+		<input message="Origin branch: " addproperty="branch" defaultvalue="master" unless:true="${batch}" />
+
+		<!-- get SCM's password -->
+		<imput-scm login="login" password="password" />
+
+		<!-- Confirmation -->
+		<input-abort-operation message="Do you really want create release version ${release-version} and development version ${development-version} of the ${pom.project.artifactId}?" unless:true="${batch}" />
+
+		<!-- Execute -->
+		<scm-release branch="${branch}" development-version="${development-version}" release-version="${release-version}" profile="prod" login="${login}" password="${password}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-rollback                   									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-rollback">
+		<description>
+${scm.rollback.description}
+		</description>
+
+		<scm-rollback />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-deploy                  									       |-->
+	<!--|##############################################################################|-->
+	<target name="scm-deploy">
+		<description>
+${scm.deploy.description}	
+		</description>
+
+		
+		<!-- Read Version -->
+		<project-version result="version-temp" input="${pom.project.version}" />
+
+		<!-- get version -->
+		<input message="The version: " addproperty="version" defaultvalue="${version-temp}" unless:true="${batch}" />
+
+		<!-- get SCM's password -->
+		<imput-scm login="login" password="password" />
+
+		<!-- Execute -->
+		<scm-deploy-git version="${version}" login="${login}" password="${password}" />
+	</target>
+
+</project>

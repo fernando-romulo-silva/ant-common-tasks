@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-build" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Scrip ANT for check quality's project code.
+    </description>
+
+	<import file="../../macrodefs/maven/maven-check-macrodef.xml" />
+	<import file="../../macrodefs/util/input-macrodef.xml" />
+
+	<!-- ant build-update-libs -Dbatch=true -Dmodules-specified=allset-config-ant -Dmodules-dependents=true -Dmodules-dependencies=false -->
+
+	<!--|###################################################################################################################################| -->
+	<!--|################################ CHECK CODE #######################################################################################| -->
+	<!--|###################################################################################################################################| -->
+
+	<!--|###################################################################################################################################|-->
+	<!--| target: check-spotbugs          					   				   	                                                            |-->
+	<!--|###################################################################################################################################|-->
+	<target name="check-spotbugs">
+		<description>
+${check.spotbugs.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<check-spotbugs profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<check-spotbugs profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|#################################################################################################################################|-->
+	<!--| target: check-checkstyle         					   				   		                                                      |-->
+	<!--|#################################################################################################################################|-->
+	<target name="check-checkstyle">
+		<description>
+${check.checkstyle.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<check-checkstyle profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<check-checkstyle profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|################################################################################################################################|-->
+	<!--| target: check-pmd              					   				   		                                                     |-->
+	<!--|################################################################################################################################|-->
+	<target name="check-pmd">
+		<description>
+${check.pmd.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<check-pmd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<check-pmd profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|###############################################################################################################################|-->
+	<!--| target: check-cpd              					   				   		                                                    |-->
+	<!--|###############################################################################################################################|-->
+	<target name="check-cpd">
+		<description>
+${check.cpd.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<check-cpd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<check-cpd profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|#############################################################################################################################|-->
+	<!--| target: check-cobertura        					   				   		                                                  |-->
+	<!--|#############################################################################################################################|-->
+	<target name="check-cobertura">
+		<description>
+${check.cobertura.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<check-cobertura profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<check-cobertura profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+	<!--|############################################################################################################################|-->
+	<!--| target: check-all              					   				   	                                                     |-->
+	<!--|############################################################################################################################|-->
+	<target name="check-all">
+		<description>
+${check.all.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" />
+
+		<check-all profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<check-all profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>
+
+</project>
