@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ant-common-tasks">
-	<import file="src/main/resources/atarget/maven/maven-build.xml" />
+	<import file="src/main/resources/targets/maven/maven-build.xml" />
 
 	<target name="deploy-ant-lib" depends="build-package-simple">
 		<description>
