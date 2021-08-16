@@ -23,10 +23,10 @@ Then execute:
 
 ```bash
 # clone it
-git clone https://github.com/fernando-romulo-silva/direct-ant
+git clone git@github.com:fernando-romulo-silva/ant-commom-task.git
 
 # access the project folder
-cd direct-ant
+cd ant-commons-task.git
 
 # execute
 ant deploy-ant-lib
@@ -39,8 +39,8 @@ create a build.xml on the project root's:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="your_project">
-	<import file="direct-ant/src/main/resources/target/maven/maven-build.xml" />
-	<import file="direct-ant/src/main/resources/target/maven/maven-scm-git.xml" />
+	<import file="ant-commom-task/src/main/resources/target/maven/maven-build.xml" />
+	<import file="ant-commom-task/src/main/resources/target/maven/maven-scm-git.xml" />
 </project>
 ```
 
