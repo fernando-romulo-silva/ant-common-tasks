@@ -1,4 +1,4 @@
-# direct-ant
+# ant-direct
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Project status](https://img.shields.io/badge/Project%20status-Maintenance-orange.svg)](https://img.shields.io/badge/Project%20status-Maintenance-orange.svg)
@@ -17,7 +17,7 @@ This a useful collection of ant tasks, that executes advanced tools command line
 
 # Install
 
-First of all, you need Java and Ant installed on your pc, with ANT_HOME and JAVA_HOME already configured. <br />
+First of all, you need Java, Maven, Graddle and Ant installed on your pc, with JAVA_HOME, M2_HOME, GRADLE_HOME and ANT_HOME already configured. <br />
 
 Then execute:
 
@@ -42,4 +42,10 @@ create a build.xml on the project root's:
 	<import file="direct-ant/src/main/resources/target/maven/maven-build.xml" />
 	<import file="direct-ant/src/main/resources/target/maven/maven-scm-git.xml" />
 </project>
+```
+
+Check the tasks
+
+```bash
+ant -p built.xml
 ```
