@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.direct.ant</groupId>
-	<version>1.0.1-SNAPSHOT</version>
-	<artifactId>direct-ant</artifactId>
+	<groupId>org.antcommontask</groupId>
+	<version>1.0.0-SNAPSHOT</version>
+	<artifactId>ant-commons-task</artifactId>
 
 	<!-- Create an ant's build.xml and put in src/main/resources. Create a jar file and put it in ant's lib folder. -->
 	<!-- For import tasks do it: -->
-	<!-- <import> <javaresource classpath="direct-ant.jar" name="module-build.xml" /> </import> -->
+	<!-- <import> <javaresource classpath="ant-commons-task.jar" name="module-build.xml" /> </import> -->
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>

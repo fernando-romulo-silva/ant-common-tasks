@@ -9,22 +9,24 @@ deploy-ant-lib - Create a jar with targets and put it on ANT_HOME/lib
 
 		<echo message="Creating a jar with targets." />
 
+		<!--
 		<project-version input="${pom.project.parent.version}" result="version-temp" />
+		-->
 
 		<!-- Delete the older ANT_HOME/lib -->
 		<delete verbose="yes" failonerror="no">
 			<fileset dir="${ant.home}/lib">
-				<include name="direct-ant-${version-temp}.jar" />
+				<include name="${pom.project.artifactId}" />
 			</fileset>
 		</delete>
 
 		<!--Rename file -->
-		<move file="target/${pom.project.artifactId}-${pom.project.parent.version}.jar" tofile="target/${pom.project.artifactId}-${version-temp}.jar" />
+		<move file="target/${pom.project.artifactId}-${pom.project.version}.jar" tofile="target/${pom.project.artifactId}.jar" />
 
 		<!-- Copy to ANT/lib folder -->
 		<copy todir="${ant.home}/lib" verbose="yes" flatten="yes" failonerror="no">
 			<fileset dir="target/">
-				<include name="${pom.project.artifactId}-${version-temp}.jar" />
+				<include name="${pom.project.artifactId}.jar" />
 			</fileset>
 		</copy>
 
