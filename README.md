@@ -46,8 +46,8 @@ create a build.xml on the project root's:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="your_project">
-	<import file="ant-common-tasks/src/main/resources/atarget/maven/maven-build.xml" />
-	<import file="ant-common-tasks/src/main/resources/atarget/maven/maven-scm-git.xml" />
+	<import file="ant-common-tasks/src/main/resources/targets/maven/maven-build.xml" />
+	<import file="ant-common-tasks/src/main/resources/targets/maven/maven-scm-git.xml" />
 </project>
 ```
 
