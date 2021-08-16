@@ -6,7 +6,14 @@
 
 # About
 
-This a useful collection of ant tasks, that executes advanced tools command lines, like Maven, Gradle, etc. 
+This a useful collection of ant tasks, that executes advanced tools command lines, like Maven, Gradle, etc.
+As the name suggests, common tasks are the activities that are common to Java developer with Maven e Graddle tools:
+
+- build
+- test
+- check (pmd, checkstyle, spotbugs)
+- site
+
 
 # Technologies
 
