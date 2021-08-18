@@ -103,6 +103,7 @@
 			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
+					<arg line="jxr:test-jxr" />
 					<arg line="surefire-report:report-only" />
 				</arg-elements>
 			</exec-maven>
@@ -154,6 +155,7 @@
 			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
+					<arg line="jxr:test-jxr" />
 					<arg line="pmd:pmd" />
 				</arg-elements>
 			</exec-maven>
@@ -180,6 +182,7 @@
 			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
+					<arg line="jxr:test-jxr" />
 					<arg line="pmd:cpd" />
 				</arg-elements>
 			</exec-maven>
@@ -206,6 +209,7 @@
 			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
+					<arg line="jxr:test-jxr" />
 					<arg line="spotbugs:spotbugs" />
 				</arg-elements>
 			</exec-maven>
@@ -232,6 +236,7 @@
 			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
+					<arg line="jxr:test-jxr" />
 					<arg line="checkstyle:checkstyle" />
 				</arg-elements>
 			</exec-maven>
@@ -258,6 +263,7 @@
 			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
+					<arg line="jxr:test-jxr" />
 					<arg line="cobertura:cobertura" />
 					<arg line="pmd:pmd" />
 					<arg line="pmd:cpd" />

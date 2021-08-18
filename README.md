@@ -59,5 +59,5 @@ Create a build.xml on the project root's:
 Check the tasks:
 
 ```bash
-ant -p built.xml
+ant -p -v build.xml
 ```

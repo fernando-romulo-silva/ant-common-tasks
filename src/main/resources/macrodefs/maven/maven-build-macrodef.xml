@@ -114,7 +114,7 @@
 			<echo message="Getting the all ${pom.project.artifactId}'s libs, plugins, sources, and javadoc." />
 
 			<!-- Execute -->
-			<exec-maven offline="false" modules-specified="@{modules-specified}" modules-dependents="@{modules-dependents}" modules-dependencies="@{modules-dependencies}">
+			<exec-maven offline="false" update-snapshots="true" modules-specified="@{modules-specified}" modules-dependents="@{modules-dependents}" modules-dependencies="@{modules-dependencies}">
 				<arg-elements>
 					<arg line="dependency:resolve" if:true="@{libs}" />
 					<arg line="dependency:resolve-plugins" if:true="@{plugins}" />

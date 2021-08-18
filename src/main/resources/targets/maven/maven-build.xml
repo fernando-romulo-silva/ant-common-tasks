@@ -24,7 +24,7 @@ ${build.update.lib.description}
 
 		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s libs?" unless:true="${batch}" />
 
-		<build-update />
+		<build-update  />
 	</target>
 
 	<!--|############################################################################################################################################|-->

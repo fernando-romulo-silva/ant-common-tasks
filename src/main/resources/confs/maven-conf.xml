@@ -105,6 +105,7 @@
 	<property name="modules.dependents.description" value="If true, execute maven command on '@{modules-specified}' modules and all modules depend on '@{modules-specified}' selected." />
 	<property name="fail.on.error.description" value="If true, stop the maven execution if there are any problems." />
 	<property name="offline.description" value="If true, execute maven commands without connection access." />
+	<property name="update.snapshots.description" value="If true, checks for 'updated' release versions if you specify a 'version range." />
 	<property name="java.description" value="The Java that will be execute." />
 
 	<!--|###########################################################################################################################|-->
@@ -120,11 +121,11 @@
 		<attribute name="modules-dependents" default="" description="${modules.dependents.description}" />
 		<attribute name="fail-on-error" default="true" description="${fail.on.error.description}" />
 		<attribute name="offline" default="true" description="${offline.description}" />
-
+		<attribute name="update-snapshots" default="false" description="${update.snapshots.description}"  />
 		<element name="arg-elements" />
 
 		<sequential>
-			<!--  Debug
+			<!--  Debug 
 			<echo>
 ##########################################################################
 #   MACRO EXEC MAVEN DEBUG                                                                 				
@@ -137,11 +138,12 @@ threads              : @{threads}
 opts                 : @{opts} 
 modules-specified    : @{modules-specified}
 modules-dependencies : @{modules-dependencies}
-modules-dependents   : @{modules-dependents}				
+modules-dependents   : @{modules-dependents}
+offline              : @{offline}
+update-snapshots     : @{update-snapshots}
 ##########################################################################			
 			</echo>
-			-->
-
+            -->
 			<!-- exec maven -->
 			<exec executable="${exec.maven.home}/bin/${maven.executable}" failonerror="@{fail-on-error}">
 				<!-- Execute maven with determined Java -->
@@ -158,7 +160,10 @@ modules-dependents   : @{modules-dependents}
 				<!-- execution's profile -->
 				<arg value="-P@{profile}" unless:blank="@{profile}" />
 				<!-- off line or not -->
-				<arg value="--offline" if:true="@{offline}" />
+				<arg value="--offline" if:true="@{offline}" />				
+				<!-- Force update -->
+				<arg value="--update-snapshots" if:true="@{update-snap}" />				
+				
 				<!-- Modules -->
 				<arg value="--projects" unless:blank="@{modules-specified}" />
 				<arg value="@{modules-specified}" unless:blank="@{modules-specified}" />
