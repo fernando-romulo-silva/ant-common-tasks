@@ -124,7 +124,7 @@
 	</macrodef>
 
 	<!--|##############################################################################|-->
-	<!--| macrodef: report-cobertura     					   				      		   |-->
+	<!--| macrodef: report-cobertura DEPRECATED			   				      		   |-->
 	<!--|##############################################################################|-->
 	<macrodef name="report-cobertura" description="${report.cobertura.description}">
 		<attribute name="profile" default="" description="${profile.description}" />
@@ -300,7 +300,6 @@
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
 					<arg line="jacoco:report" />
-					<arg line="cobertura:cobertura" />
 					<arg line="pmd:pmd" />
 					<arg line="pmd:cpd" />
 					<arg line="spotbugs:spotbugs" />

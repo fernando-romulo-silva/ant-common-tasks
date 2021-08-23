@@ -139,12 +139,12 @@
 			</exec-maven>
 
 			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s Cobertura site successfully created." />
+			<echo message="The ${pom.project.artifactId}'s Jacoco site successfully created." />
 		</sequential>
 	</macrodef>	
 
 	<!--|##############################################################################|-->
-	<!--| macrodef: site-cobertura      					   				   		   |-->
+	<!--| macrodef: site-cobertura DEPRECATED				   				   		   |-->
 	<!--|##############################################################################|-->
 	<macrodef name="site-cobertura" description="${site.cobertura.description}">
 		<attribute name="profile" default="" description="${profile.description}" />
