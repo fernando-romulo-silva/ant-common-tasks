@@ -22,7 +22,7 @@ ${test.all.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" />
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
 		<test-groups profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
 		<test-groups profile="${profile}" if:blank="${exec.maven.modules}" />
@@ -38,7 +38,7 @@ ${test.unit.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" />
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
 		<test-groups groups="unit" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
 		<test-groups groups="unit" profile="${profile}" if:blank="${exec.maven.modules}" />
@@ -54,7 +54,7 @@ ${test.functional.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" />
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
 		<test-groups groups="functional" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
 		<test-groups groups="functional" profile="${profile}" if:blank="${exec.maven.modules}" />
@@ -70,7 +70,7 @@ ${test.integration.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" />
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
 		<test-groups groups="integration" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
 		<test-groups groups="integration" profile="${profile}" if:blank="${exec.maven.modules}" />
@@ -86,7 +86,7 @@ ${test.acceptance.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" />
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
 		<test-groups groups="acceptance" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
 		<test-groups groups="acceptance" profile="${profile}" if:blank="${exec.maven.modules}" />
@@ -102,7 +102,7 @@ ${test.perform.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" />
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
 		<test-groups groups="perform" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
 		<test-groups groups="perform" profile="${profile}" if:blank="${exec.maven.modules}" />

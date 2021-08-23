@@ -24,7 +24,7 @@ ${report.all.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" />
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
 		<report-all profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
 		<report-all profile="${profile}" if:blank="${exec.maven.modules}" />
@@ -40,7 +40,7 @@ ${report.surifire.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" />
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
 		<report-surifire profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
 		<report-surifire profile="${profile}" if:blank="${exec.maven.modules}" />
@@ -56,11 +56,27 @@ ${report.cobertura.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" />
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
 		<report-cobertura profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
 		<report-cobertura profile="${profile}" if:blank="${exec.maven.modules}" />
 	</target>
+	
+	<!--|####################################################################################################################################|-->
+	<!--| target: report-jacoco     					   				      		                                                         |-->
+	<!--|####################################################################################################################################|-->
+	<target name="report-jacoco">
+		<description>
+${report.jacoco.description}
+		</description>
+
+		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
+
+		<report-jacoco profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
+		<report-jacoco profile="${profile}" if:blank="${exec.maven.modules}" />
+	</target>	
 
 	<!--|####################################################################################################################################|-->
 	<!--| target: report-pmd         					   				      		                                                         |-->
@@ -72,7 +88,7 @@ ${report.pmd.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" />
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
 		<report-pmd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
 		<report-pmd profile="${profile}" if:blank="${exec.maven.modules}" />
@@ -88,7 +104,7 @@ ${report.cpd.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" />
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
 		<report-cpd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
 		<report-cpd profile="${profile}" if:blank="${exec.maven.modules}" />
@@ -104,7 +120,7 @@ ${report.spotbugs.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" />
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
 		<report-spotbugs profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
 		<report-spotbugs profile="${profile}" if:blank="${exec.maven.modules}" />
@@ -120,7 +136,7 @@ ${report.checkstyle.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" />
+		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
 		<report-checkstyle profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
 		<report-checkstyle profile="${profile}" if:blank="${exec.maven.modules}" />

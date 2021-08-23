@@ -64,6 +64,11 @@
 	<condition property="exec.maven.modules" value="${pom.project.modules.module}" else="">
 		<isset property="pom.project.modules.module" />
 	</condition>
+	
+	<!-- maven.profiles -->
+	<condition property="exec.maven.profiles" value="${pom.project.profiles.profile.id}" else="">
+		<isset property="pom.project.profiles.profile.id" />
+	</condition>
 
 	<!--|###########################################################################################################################|-->
 	<!--|################################# PROPERTIES FILE #########################################################################|-->
@@ -90,6 +95,7 @@
 |Maven Threads : ${exec.maven.threads}		
 |Application   : ${pom.project.artifactId}
 |Modules       : ${exec.maven.modules}
+|Profiles      : ${exec.maven.profiles}		
 |###################################################################################################################################|	
     </echo>
 
@@ -187,7 +193,6 @@ update-snapshots     : @{update-snapshots}
 
 				<!-- the command -->
 				<arg-elements />
-
 			</exec>
 		</sequential>
 	</macrodef>

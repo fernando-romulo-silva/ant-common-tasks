@@ -61,6 +61,16 @@
 			ant check-cobertura -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
 		    ant check-cobertura -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+	
+	<property name="check.jacoco.description" value="check-jacoco : Check the project's code with Jacoco (calculates the percentage of code accessed by tests).${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant check-jacoco${line.separator}
+		- Batch Mode${line.separator}
+			ant check-jacoco -Dbatch=true${line.separator}
+			ant check-jacoco -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant check-jacoco -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
 
 	<property name="check.all.description" value="check-all : Check the project's code with all tools.${line.separator}
 		Examples :${line.separator}
@@ -201,6 +211,33 @@
 			<echo message="The ${pom.project.artifactId} was successfully checked with Cobertura." />
 		</sequential>
 	</macrodef>
+	
+	<!--|##############################################################################|-->
+	<!--| macrodef: check-JaCoco        					   				   		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="check-jacoco" description="${check.jacoco.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Checking ${pom.project.artifactId}'s code with JaCoco (calculates the percentage of code accessed by tests)." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="jacoco:check" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} was successfully checked with JaCoco" />
+		</sequential>
+	</macrodef>	
+	
+	
 
 	<!--|##############################################################################|-->
 	<!--| macrodef: check-all              					   				   		   |-->
@@ -219,6 +256,7 @@
 			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="cobertura:check" />
+					<arg line="jacoco:check" />
 					<arg line="pmd:check" />
 					<arg line="pmd:cpd-check" />
 					<arg line="spotbugs:check" />

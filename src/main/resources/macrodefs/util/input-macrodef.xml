@@ -82,7 +82,7 @@
 	<macrodef name="input-profile">
 		<attribute name="result" />
 		<sequential>
-			<input message="Select a profile: " addproperty="@{result}" validargs="prod,homo,dev,test" defaultvalue="dev" unless:true="${batch}" />
+			<input message="Select a profile : " addproperty="@{result}" validargs="${exec.maven.profiles}" defaultvalue="" unless:true="${batch}" />
 		</sequential>
 	</macrodef>
 

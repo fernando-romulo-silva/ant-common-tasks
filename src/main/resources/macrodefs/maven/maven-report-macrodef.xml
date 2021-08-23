@@ -41,6 +41,16 @@
 			ant report-cobertura -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
 		    ant report-cobertura -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+	
+	<property name="report.jacoco.description" value="report-jacoco : Create Jacoco reports of project.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant report-jacoco${line.separator}
+		- Batch Mode${line.separator}
+			ant report-jacoco -Dbatch=true${line.separator}
+			ant report-jacoco -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant report-jacoco -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
 
 	<property name="report.spotbugs.description" value="report-spotbugs : Create Spotbugs reports of project.${line.separator}
 		Examples :${line.separator}
@@ -104,7 +114,7 @@
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
-					<arg line="surefire-report:report-only" />
+					<arg line="surefire-report:report" />
 				</arg-elements>
 			</exec-maven>
 
@@ -137,6 +147,31 @@
 			<echo message="The ${pom.project.artifactId}'s Surefire reports successfully created." />
 		</sequential>
 	</macrodef>
+	
+	<!--|##############################################################################|-->
+	<!--| macrodef: report-jacoco     					   				      		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="report-jacoco" description="${report.jacoco.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="Creating ${pom.project.artifactId}'s JaCoco reports." />
+
+			<!-- Execute -->
+			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="jacoco:report" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId}'s Surefire reports successfully created." />
+		</sequential>
+	</macrodef>	
 
 	<!--|##############################################################################|-->
 	<!--| macrodef: report-pmd         					   				      		   |-->
@@ -264,6 +299,7 @@
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
+					<arg line="jacoco:report" />
 					<arg line="cobertura:cobertura" />
 					<arg line="pmd:pmd" />
 					<arg line="pmd:cpd" />

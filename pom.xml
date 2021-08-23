@@ -26,12 +26,12 @@
 		</license>
 	</licenses>
 
-	<url>https://github.com/fernando-romulo-silva/direct-ant</url>
+	<url>https://github.com/fernando-romulo-silva/ant-commons-tasks</url>
 
 	<scm>
-		<url>https://github.com/fernando-romulo-silva/direct-ant</url>
-		<connection>scm:git:https://github.com/fernando-romulo-silva/direct-ant.git</connection>
-		<developerConnection>scm:git:https://github.com/fernando-romulo-silva/direct-ant.git</developerConnection>
+		<url>https://github.com/fernando-romulo-silva/ant-commons-tasks</url>
+		<connection>scm:git:ssh://git@github.com/fernando-romulo-silva/ant-commons-tasks.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/fernando-romulo-silva/ant-commons-tasks.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
