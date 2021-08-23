@@ -34,25 +34,6 @@ ${test.all.description}
 	</target>
 
 	<!--|#######################################################################################################################################|-->
-	<!--| target: site-cobertura       					   				      		                                                            |-->
-	<!--|#######################################################################################################################################|-->
-	<target name="site-cobertura">
-		<description>
-${site.cobertura.description}
-		</description>
-
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
-
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
-
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
-
-		<site-cobertura profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<site-cobertura profile="${profile}" if:blank="${exec.maven.modules}" />
-	</target>
-	
-	<!--|#######################################################################################################################################|-->
 	<!--| target: site-jacoco       					   				      		                                                            |-->
 	<!--|#######################################################################################################################################|-->
 	<target name="site-jacoco">

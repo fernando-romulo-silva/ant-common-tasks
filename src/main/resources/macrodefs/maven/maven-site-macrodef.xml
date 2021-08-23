@@ -21,16 +21,6 @@
 		- If there are modules:${line.separator}
 		    ant site-all -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
-	<property name="site.cobertura.description" value="site-cobertura : Create a site of project with Cobertura reports.${line.separator}
-		Examples :${line.separator}
-		- Manual Input${line.separator}
-			ant site-cobertura${line.separator}
-		- Batch Mode${line.separator}
-			ant site-cobertura -Dbatch=true${line.separator}
-			ant site-cobertura -Dbatch=true -Dprofile=dev${line.separator}
-		- If there are modules:${line.separator}
-		    ant site-cobertura -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
-	
 	<property name="site.jacoco.description" value="site-jacoco : Create a site of project with JaCoco reports.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
@@ -142,40 +132,6 @@
 			<echo message="The ${pom.project.artifactId}'s Jacoco site successfully created." />
 		</sequential>
 	</macrodef>	
-
-	<!--|##############################################################################|-->
-	<!--| macrodef: site-cobertura DEPRECATED				   				   		   |-->
-	<!--|##############################################################################|-->
-	<macrodef name="site-cobertura" description="${site.cobertura.description}">
-		<attribute name="profile" default="" description="${profile.description}" />
-		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
-		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
-		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
-
-		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s Cobertura site." />
-
-			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
-				<arg-elements>
-					<arg line="-Dcheckstyle.skip=true" />
-					<arg line="-Dpmd.skip=true" />
-					<arg line="-Dcpd.skip=true" />
-					<arg line="-Dspotbugs.skip=true" />
-					<arg line="-Dmaven.javadoc.skip=true" />
-					<arg line="-Djdepend.skip=true" />
-					<arg line="-Dtaglist.skip=true" />
-					<arg line="-Dmpir.skip=true" />
-					<arg line="cobertura:clean" />
-					<arg line="site" />
-				</arg-elements>
-			</exec-maven>
-
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s Cobertura site successfully created." />
-		</sequential>
-	</macrodef>
 
 	<!--|##############################################################################|-->
 	<!--| macrodef: site-checkstyle      					   				   		   |-->
