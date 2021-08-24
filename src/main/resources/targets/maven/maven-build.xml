@@ -79,10 +79,22 @@ ${build.compile.description}
 
 		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
+		<input-profile result="@{profile}" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
+		<condition property="index" else="1">
+		    <and>
+		      <available file="${dir}/.git" type="dir" />
+		      <resourcecount when="gt" count="0">
+		        <fileset dir="${dir}/.git" />
+		      </resourcecount>
+		    </and>
+		</condition>		
+		
+		<!-- 1 -->
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules} and ${exec.maven.profiles}" />
+		
+		<!-- 2 -->
+		<build-compile profile="${profile}" if:blank="${exec.maven.modules} and ${exec.maven.profiles}" />
 	</target>
 
 	<!--|###########################################################################################################################################|-->

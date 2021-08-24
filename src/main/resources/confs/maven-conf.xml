@@ -20,12 +20,6 @@
 	<!-- read Pom file -->
 	<xmlproperty file="pom.xml" prefix="pom" />
 
-	<!-- Xmx : Specifies the maximum memory allocation pool for a JVM -->
-	<!-- Xms : Specifies the initial memory allocation pool for a JVM -->
-
-	<!-- XX:PermSize : The initial and minimum size of the permanent generation space *Deprecated in Java 8 -->
-	<!-- XX:MaxPermSize : The maximum size of the permanent generation space *Deprecated in Java 8 -->
-
 	<!-- -Dorg.slf4j.simpleLogger.defaultLogLevel=info : Maven log level  -->
 	<!-- -XX:+TieredCompilation & -XX:TieredStopAtLevel=1 : Fast compilation, but worse bytecode optimization -->
 
@@ -34,16 +28,7 @@
 	<!--|###########################################################################################################################|-->
 
 	<!-- maven.opts -->
-	<property name="maven.default.opts.old" value="-Xms512m -Xmx1g -XX:PermSize=128m -XX:MaxPermSize=256m" />
-	<property name="maven.default.opts.new" value="-Xms512m -Xmx1g" />
-
-	<condition property="maven.default.opts" value="${maven.default.opts.old}" else="${maven.default.opts.new}">
-		<or>
-			<equals arg1="${ant.java.version}" arg2="1.5" />
-			<equals arg1="${ant.java.version}" arg2="1.6" />
-			<equals arg1="${ant.java.version}" arg2="1.7" />
-		</or>
-	</condition>
+	<property name="maven.default.opts" value="-Xms1g -Xmx2g" />
 
 	<!-- maven.home-->
 	<condition property="exec.maven.home" value="${maven.home}" else="${env.M2_HOME}">
@@ -131,7 +116,7 @@
 		<element name="arg-elements" />
 
 		<sequential>
-			<!--  Debug 
+			<!--  Debug
 			<echo>
 ##########################################################################
 #   MACRO EXEC MAVEN DEBUG                                                                 				
@@ -149,7 +134,8 @@ offline              : @{offline}
 update-snapshots     : @{update-snapshots}
 ##########################################################################			
 			</echo>
-            -->
+			 -->
+			
 			<!-- exec maven -->
 			<exec executable="${exec.maven.home}/bin/${maven.executable}" failonerror="@{fail-on-error}">
 				<!-- Execute maven with determined Java -->
