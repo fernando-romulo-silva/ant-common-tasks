@@ -24,7 +24,7 @@ ${build.update.lib.description}
 
 		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s libs?" unless:true="${batch}" />
 
-		<build-update  />
+		<build-update />
 	</target>
 
 	<!--|############################################################################################################################################|-->
@@ -81,18 +81,23 @@ ${build.compile.description}
 
 		<input-profile result="@{profile}" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
 
-		<condition property="index" else="1">
-		    <and>
-		      <available file="${dir}/.git" type="dir" />
-		      <resourcecount when="gt" count="0">
-		        <fileset dir="${dir}/.git" />
-		      </resourcecount>
-		    </and>
-		</condition>		
-		
+		<condition property="index" value="1" else="0">
+			<and>
+				<length string="${exec.maven.modules}" trim="true" when="greater" length="0" />
+				<length string="${exec.maven.profiles}" trim="true" when="greater" length="0" />
+			</and>
+		</condition>
+
+		<condition property="index" value="2" else="0">
+			<and>
+				<length string="${exec.maven.modules}" trim="true" when="equal" length="0" />
+				<length string="${exec.maven.profiles}" trim="true" when="equal" length="0" />
+			</and>
+		</condition>
+
 		<!-- 1 -->
 		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules} and ${exec.maven.profiles}" />
-		
+
 		<!-- 2 -->
 		<build-compile profile="${profile}" if:blank="${exec.maven.modules} and ${exec.maven.profiles}" />
 	</target>
