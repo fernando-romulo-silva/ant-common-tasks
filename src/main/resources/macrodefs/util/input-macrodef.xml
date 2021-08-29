@@ -15,8 +15,8 @@
 	<!--| macrodef: imput-scm                    									   |-->
 	<!--|##############################################################################|-->
 	<macrodef name="imput-scm">
-		<attribute name="login" />
-		<attribute name="password" />
+		<attribute name="login" default="" />
+		<attribute name="password" default="" />
 		<sequential>
 			<input message="SCM user login: " addproperty="@{login}" description="SCM user login" unless:true="${batch}" if:blank="${exec.scm.login}" />
 			<input message="SCM user password: " addproperty="@{password}" description="SCM user password" unless:true="${batch}" if:blank="${exec.scm.password}">
@@ -32,9 +32,9 @@
 	<!--| macrodef: input-modules                									   |-->
 	<!--|##############################################################################|-->
 	<macrodef name="input-modules">
-		<attribute name="modules" />
-		<attribute name="dependents" />
-		<attribute name="dependencies" />
+		<attribute name="modules" default="" />
+		<attribute name="dependents" default="" />
+		<attribute name="dependencies" default="" />
 		<sequential>
 
 			<input message="You are in [${pom.project.artifactId}]. Enter the module's names separated by commas without spaces. (for all modules, leave empty): " addproperty="input.modules" defaultvalue="" description="Modules which the command will run." />
@@ -66,9 +66,9 @@
 	<!--| macrodef: input-abort-operation          									   |-->
 	<!--|##############################################################################|-->
 	<macrodef name="input-abort-operation">
-		<attribute name="message" />
+		<attribute name="message" default="" />
 		<sequential>
-			<input message="@{message}" addproperty="do-action" validargs="y,n" defaultvalue="n" />
+			<input message="@{message}" addproperty="do-action" validargs="y,n" defaultvalue="y" />
 			<condition property="do.abort">
 				<equals arg1="n" arg2="${do-action}" />
 			</condition>
@@ -80,9 +80,14 @@
 	<!--| macrodef: input-profile                                                      |-->
 	<!--|##############################################################################|-->
 	<macrodef name="input-profile">
-		<attribute name="result" />
+		<attribute name="result" default="" />
 		<sequential>
 			<input message="Select a profile: " addproperty="@{result}" validargs="${exec.maven.profiles}" defaultvalue="" unless:true="${batch}" />
+			<condition property="profile" value="">
+				<not>
+					<isset property="profile" />
+				</not>
+			</condition>
 		</sequential>
 	</macrodef>
 
@@ -90,9 +95,52 @@
 	<!--| macrodef: input-test-group                                                   |-->
 	<!--|##############################################################################|-->
 	<macrodef name="input-test-group">
-		<attribute name="result" />
+		<attribute name="result" default="" />
 		<sequential>
-			<input message="Select a test's type: " addproperty="@{result}" validargs="unit,integration,functional,acceptance,perform" defaultvalue="" unless:true="${batch}" />
+			<input message="Select a test's type: " addproperty="result" validargs="${exec.maven.test.groups}" defaultvalue="" unless:true="${batch}" />
+			<condition property="result" value="">
+				<not>
+					<isset property="result" />
+				</not>
+			</condition>
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: input-args                   									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="input-args">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+
+			<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+			<condition property="modules-specified" value="">
+				<not>
+					<isset property="modules-specified" />
+				</not>
+			</condition>
+			<condition property="modules-dependents" value="">
+				<not>
+					<isset property="modules-dependents" />
+				</not>
+			</condition>
+			<condition property="modules-dependencies" value="">
+				<not>
+					<isset property="modules-dependencies" />
+				</not>
+			</condition>
+
+			<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
+			<condition property="profile" value="">
+				<not>
+					<isset property="profile" />
+				</not>
+			</condition>
+
 		</sequential>
 	</macrodef>
 

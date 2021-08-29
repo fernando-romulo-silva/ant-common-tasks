@@ -22,12 +22,9 @@
 ${check.spotbugs.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
-
-		<check-spotbugs profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<check-spotbugs profile="${profile}" if:blank="${exec.maven.modules}" />
+		<check-spotbugs profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|#################################################################################################################################|-->
@@ -38,12 +35,9 @@ ${check.spotbugs.description}
 ${check.checkstyle.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}"  />
-
-		<check-checkstyle profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<check-checkstyle profile="${profile}" if:blank="${exec.maven.modules}" />
+		<check-checkstyle profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|################################################################################################################################|-->
@@ -54,12 +48,9 @@ ${check.checkstyle.description}
 ${check.pmd.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
-
-		<check-pmd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<check-pmd profile="${profile}" if:blank="${exec.maven.modules}" />
+		<check-pmd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|###############################################################################################################################|-->
@@ -70,12 +61,9 @@ ${check.pmd.description}
 ${check.cpd.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
-
-		<check-cpd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<check-cpd profile="${profile}" if:blank="${exec.maven.modules}" />
+		<check-cpd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|#############################################################################################################################|-->
@@ -86,13 +74,10 @@ ${check.cpd.description}
 ${check.jacoco.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
-
-		<check-jacoco profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<check-jacoco profile="${profile}" if:blank="${exec.maven.modules}" />
-	</target>	
+		<check-jacoco profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+	</target>
 
 	<!--|############################################################################################################################|-->
 	<!--| target: check-all              					   				   	                                                     |-->
@@ -102,12 +87,9 @@ ${check.jacoco.description}
 ${check.all.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
-
-		<check-all profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<check-all profile="${profile}" if:blank="${exec.maven.modules}" />
+		<check-all profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 </project>

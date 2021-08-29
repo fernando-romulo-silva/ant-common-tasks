@@ -18,12 +18,12 @@
 	<fail unless="env.JAVA_HOME" message="The environment variable 'JAVA_HOME' isn't set." />
 
 	<fail unless="env.ANT_HOME" message="The environment variable 'ANT_HOME' isn't set." />
-
+	
+	<!-- ANT_ARGS='-logger org.apache.tools.ant.listener.AnsiColorLogger' -->
+	<!-- ANT_OPTS="-Xms256M -Xmx512M" -->
+	
 	<!-- specif project build properties -->
 	<property file="build.properties" />
-
-	<!-- generic build properties -->
-	<property file="${env.DEVELOPMENT_HOME}/build.properties" />
 
 	<!-- support for Windows -->
 	<condition property="machine.cores.count" value="${env.NUMBER_OF_PROCESSORS}">
@@ -72,7 +72,9 @@
 |User      : ${user.name}
 |Java Home : ${exec.java.home}		
 |Ant Home  : ${ant.home}
-|Dev Home  : ${env.DEVELOPMENT_HOME}
+|Ant Opts  : ${env.ANT_OPTS}
+|Ant Args  : ${env.ANT_ARGS}
+|Dev Home  : ${env.DEVELOPMENT_HOME}	
 |###################################################################################################################################|
 	</echo>
 

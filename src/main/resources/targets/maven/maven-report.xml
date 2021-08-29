@@ -22,28 +22,22 @@
 ${report.all.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
-
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
-
-		<report-all profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<report-all profile="${profile}" if:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
+		
+		<report-all profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|####################################################################################################################################|-->
-	<!--| target: report-surifire     					   				      		                                                         |-->
+	<!--| target: report-surefire     					   				      		                                                         |-->
 	<!--|####################################################################################################################################|-->
 	<target name="report-surifire">
 		<description>
 ${report.surifire.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
-
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
-
-		<report-surifire profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<report-surifire profile="${profile}" if:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
+		
+		<report-surefire profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|####################################################################################################################################|-->

@@ -63,10 +63,9 @@ ${build.clean.description}
 
 		<input-abort-operation message="Do you really want to delete target folder of ${pom.project.artifactId}?" unless:true="${batch}" />
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<build-clean modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<build-clean if:blank="${exec.maven.modules}" />
+		<build-clean profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|############################################################################################################################################|-->
@@ -77,29 +76,10 @@ ${build.clean.description}
 ${build.compile.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="@{profile}" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 
-		<condition property="index" value="1" else="0">
-			<and>
-				<length string="${exec.maven.modules}" trim="true" when="greater" length="0" />
-				<length string="${exec.maven.profiles}" trim="true" when="greater" length="0" />
-			</and>
-		</condition>
-
-		<condition property="index" value="2" else="0">
-			<and>
-				<length string="${exec.maven.modules}" trim="true" when="equal" length="0" />
-				<length string="${exec.maven.profiles}" trim="true" when="equal" length="0" />
-			</and>
-		</condition>
-
-		<!-- 1 -->
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules} and ${exec.maven.profiles}" />
-
-		<!-- 2 -->
-		<build-compile profile="${profile}" if:blank="${exec.maven.modules} and ${exec.maven.profiles}" />
 	</target>
 
 	<!--|###########################################################################################################################################|-->
@@ -110,12 +90,10 @@ ${build.compile.description}
 ${build.package.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
+		<build-package profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 
-		<build-package profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<build-package profile="${profile}" if:blank="${exec.maven.modules}" />
 	</target>
 
 	<!--|##########################################################################################################################################|-->
@@ -126,12 +104,9 @@ ${build.package.description}
 ${build.package.simple.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
-
-		<build-package-simple profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<build-package-simple profile="${profile}" if:blank="${exec.maven.modules}" />
+		<build-package-simple profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|#########################################################################################################################################|-->
@@ -142,12 +117,9 @@ ${build.package.simple.description}
 ${build.install.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
-
-		<build-install profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<build-install profile="${profile}" if:blank="${exec.maven.modules}" />
+		<build-install profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|#########################################################################################################################################|-->
@@ -158,12 +130,9 @@ ${build.install.description}
 ${build.install.simple.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
-
-		<build-install-simple profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<build-install-simple profile="${profile}" if:blank="${exec.maven.modules}" />
+		<build-install-simple profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 </project>

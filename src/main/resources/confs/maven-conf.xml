@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="maven-conf" xmlns:if="ant:if" xmlns:unless="ant:unless">
+<project name="maven-conf" xmlns:if="ant:if" xmlns:unless="ant:unless" xmlns:artifact="urn:maven-artifact-ant">
 
 	<description>
 	     Configs of Maven.
@@ -22,6 +22,7 @@
 
 	<!-- -Dorg.slf4j.simpleLogger.defaultLogLevel=info : Maven log level  -->
 	<!-- -XX:+TieredCompilation & -XX:TieredStopAtLevel=1 : Fast compilation, but worse bytecode optimization -->
+	<!-- mvn dependency:purge-local-repository -->
 
 	<!--|###########################################################################################################################|-->
 	<!--|####################################### PROPERTIES ########################################################################|-->
@@ -49,12 +50,18 @@
 	<condition property="exec.maven.modules" value="${pom.project.modules.module}" else="">
 		<isset property="pom.project.modules.module" />
 	</condition>
-	
+
 	<!-- maven.profiles -->
 	<condition property="exec.maven.profiles" value="${pom.project.profiles.profile.id}" else="">
 		<isset property="pom.project.profiles.profile.id" />
 	</condition>
 
+	<!-- maven.tests -->
+	<condition property="exec.maven.test.groups" value="${pom.project.properties.surefire.groups}" else="">
+		<isset property="pom.project.properties.surefire.groups" />
+	</condition>
+	
+	
 	<!--|###########################################################################################################################|-->
 	<!--|################################# PROPERTIES FILE #########################################################################|-->
 	<!--|###########################################################################################################################|-->
@@ -81,6 +88,7 @@
 |Application   : ${pom.project.artifactId}
 |Modules       : ${exec.maven.modules}
 |Profiles      : ${exec.maven.profiles}		
+|Test Groups   : ${exec.maven.test.groups}
 |###################################################################################################################################|	
     </echo>
 
@@ -112,30 +120,25 @@
 		<attribute name="modules-dependents" default="" description="${modules.dependents.description}" />
 		<attribute name="fail-on-error" default="true" description="${fail.on.error.description}" />
 		<attribute name="offline" default="true" description="${offline.description}" />
-		<attribute name="update-snapshots" default="false" description="${update.snapshots.description}"  />
+		<attribute name="update-snapshots" default="false" description="${update.snapshots.description}" />
 		<element name="arg-elements" />
 
 		<sequential>
-			<!--  Debug
+			<!--  Debug -->
 			<echo>
-##########################################################################
-#   MACRO EXEC MAVEN DEBUG                                                                 				
-##########################################################################
-modules-dependents   : @{modules-dependents}
-modules-dependencies : @{modules-dependencies} 
-modules-specified    : @{modules-specified} 
-profile              : @{profile} 
-threads              : @{threads}
-opts                 : @{opts} 
-modules-specified    : @{modules-specified}
-modules-dependencies : @{modules-dependencies}
-modules-dependents   : @{modules-dependents}
-offline              : @{offline}
-update-snapshots     : @{update-snapshots}
-##########################################################################			
+|###################################################################################################################################|		
+|##################### INFO EXEC ###################################################################################################|		
+|###################################################################################################################################|
+|Value modules-dependents   : @{modules-dependents}
+|Value modules-dependencies : @{modules-dependencies} 
+|Value modules-specified    : @{modules-specified} 
+|Value profile              : @{profile} 
+|Value threads              : @{threads}
+|Value offline              : @{offline}
+|Value update-snapshots     : @{update-snapshots}
+|###################################################################################################################################|				
 			</echo>
-			 -->
-			
+
 			<!-- exec maven -->
 			<exec executable="${exec.maven.home}/bin/${maven.executable}" failonerror="@{fail-on-error}">
 				<!-- Execute maven with determined Java -->
@@ -152,10 +155,10 @@ update-snapshots     : @{update-snapshots}
 				<!-- execution's profile -->
 				<arg value="-P@{profile}" unless:blank="@{profile}" />
 				<!-- off line or not -->
-				<arg value="--offline" if:true="@{offline}" />				
+				<arg value="--offline" if:true="@{offline}" />
 				<!-- Force update -->
-				<arg value="--update-snapshots" if:true="@{update-snap}" />				
-				
+				<arg value="--update-snapshots" if:true="@{update-snap}" />
+
 				<!-- Modules -->
 				<arg value="--projects" unless:blank="@{modules-specified}" />
 				<arg value="@{modules-specified}" unless:blank="@{modules-specified}" />
@@ -180,25 +183,6 @@ update-snapshots     : @{update-snapshots}
 				<!-- the command -->
 				<arg-elements />
 			</exec>
-		</sequential>
-	</macrodef>
-
-	<!--|##############################################################################|-->
-	<!--| macrodef: remove 'SNAPSHOT' of version                                       |-->
-	<!--|##############################################################################|-->
-
-	<macrodef name="project-version">
-		<attribute name="input" />
-		<attribute name="result" />
-		<sequential>
-			<property name="version-temp" value="@{input}" />
-
-			<script language="javascript">
-			    var before = project.getProperty("version-temp");
-			    project.setProperty("version-temp", before.replaceAll("-SNAPSHOT", ""));
-			</script>
-
-			<property name="@{result}" value="${version-temp}" />
 		</sequential>
 	</macrodef>
 

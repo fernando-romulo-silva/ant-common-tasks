@@ -22,15 +22,11 @@
 ${test.all.description}		
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
-
-		<site-all profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<site-all profile="${profile}" if:blank="${exec.maven.modules}" />
+		<site-all profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|#######################################################################################################################################|-->
@@ -41,16 +37,12 @@ ${test.all.description}
 ${site.jacoco.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
-
-		<site-jacoco profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<site-jacoco profile="${profile}" if:blank="${exec.maven.modules}" />
-	</target>	
+		<site-jacoco profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+	</target>
 
 	<!--|######################################################################################################################################|-->
 	<!--| target: site-checkstyle      					   				      		                                                           |-->
@@ -60,15 +52,11 @@ ${site.jacoco.description}
 ${site.checkstyle.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
-
-		<site-checkstyle profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<site-checkstyle profile="${profile}" if:blank="${exec.maven.modules}" />
+		<site-checkstyle profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|######################################################################################################################################|-->
@@ -79,15 +67,11 @@ ${site.checkstyle.description}
 ${site.spotbugs.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
-
-		<site-spotbugs profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<site-spotbugs profile="${profile}" if:blank="${exec.maven.modules}" />
+		<site-spotbugs profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|######################################################################################################################################|-->
@@ -98,15 +82,11 @@ ${site.spotbugs.description}
 ${site.pmd.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
-
-		<site-pmd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<site-pmd profile="${profile}" if:blank="${exec.maven.modules}" />
+		<site-pmd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|######################################################################################################################################|-->
@@ -117,15 +97,11 @@ ${site.pmd.description}
 ${site.cpd.description}
 		</description>
 
-		<input-modules modules="modules-specified" dependents="modules-dependents" dependencies="modules-dependencies" unless:true="${batch}" unless:blank="${exec.maven.modules}" />
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<input-profile result="profile" unless:true="${batch}" unless:blank="${exec.maven.profiles}" />
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<build-compile profile="${profile}" if:blank="${exec.maven.modules}" />
-
-		<site-cpd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" unless:blank="${exec.maven.modules}" />
-		<site-cpd profile="${profile}" if:blank="${exec.maven.modules}" />
+		<site-cpd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 </project>

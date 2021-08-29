@@ -5,9 +5,6 @@
 	     Macrodefs for git commands.
     </description>
 
-	<!-- For now, only https repositories -->
-	<!-- git@github.com:username/repo.git -->
-
 	<import file="../../confs/initial-conf.xml" />
 
 	<property name="git.executable" value="git" />
@@ -29,8 +26,6 @@
 |########################################################################################################################|	
     </echo>
 
-	<!-- https://help.github.com/articles/caching-your-github-password-in-git/ -->
-
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### SCM DESCRIPTIONS #####################################################################|-->
 	<!--|###########################################################################################################################|-->
@@ -39,16 +34,13 @@
 	<property name="git.get.remote.description" value="get-remote : Return the remote branch's name." />
 
 	<property name="git.project.attribute.description" value="The git project folder." />
-	<property name="git.login.attribute.description" value="The git user login." />
-	<property name="git.password.attribute.description" value="The git user password." />
-
 
 	<property name="git.diff.remote.description" value="scm-diff-remote : Show changes between the local and remote repositories.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant scm-diff-remote${line.separator}
 		- Batch Mode${line.separator}
-			ant scm-diff-remote -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword" />
+			ant scm-diff-remote -Dbatch=true " />
 
 	<property name="git.diff.local.description" value="scm-diff-local : Show changes between the commited and non commited.${line.separator}
 		Examples :${line.separator}
@@ -59,7 +51,7 @@
 		- Manual Input${line.separator}
 			ant scm-revert-remote${line.separator}
 		- Batch Mode${line.separator}
-			ant scm-revert-remote -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword" />
+			ant scm-revert-remote -Dbatch=true " />
 
 	<property name="git.revert.local.description" value="scm-revert-local : Discard all uncommited changes.${line.separator}
 		Examples :${line.separator}
@@ -77,20 +69,20 @@
 		- Manual Input${line.separator}
 			ant scm-push${line.separator}
 		- Batch Mode${line.separator}
-			ant scm-push -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword -Dproject=YourProject" />
+			ant scm-push -Dbatch=true -Dproject=YourProject" />
 
 	<property name="git.commit.push.description" value="scm-commit-push : Commit and push.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant scm-commit-push${line.separator}
 		- Batch Mode${line.separator}
-			ant scm-commit-push -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword -Dproject=YourProject" />
+			ant scm-commit-push -Dbatch=true -Dproject=YourProject" />
 
 	<property name="git.pull.description" value="scm-pull : Will fetch and replay the changes from the remote branch since it diverged from the local branch.${line.separator}
 		Examples :${line.separator}
 			ant scm-pull${line.separator}
 		- Batch Mode${line.separator}
-			ant scm-pull -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword" />
+			ant scm-pull -Dbatch=true" />
 
 	<property name="git.delete.tag.local.description" value="scm-delete-tag-local : Delete selected tag only on local repository.${line.separator}
 		Examples :${line.separator}
@@ -104,7 +96,7 @@
 		- Manual Input${line.separator}
 			ant scm-delete-tag-all${line.separator}
 		- Batch Mode${line.separator}
-			ant scm-delete-tag-all -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword -Dtag=YourProject-1.0.0 -Dproject=YourProject" />
+			ant scm-delete-tag-all -Dbatch=true -Dtag=YourProject-1.0.0 -Dproject=YourProject" />
 	
 	<property name="git.show.log.description" value="git-show-log : Show commit's log.${line.separator}
 		Examples :${line.separator}
@@ -118,14 +110,14 @@
 		- Manual Input${line.separator}
 			ant scm-show-tag-remote${line.separator}
 		- Batch Mode${line.separator}
-			ant scm-show-tag-remote -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword" />
+			ant scm-show-tag-remote -Dbatch=true " />
 
 	<property name="git.show.tag.local.description" value="scm-show-tag-local : Show all local tags.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant scm-show-tag-local${line.separator}
 		- Batch Mode${line.separator}
-			ant scm-show-tag-local -Dbatch=true -Dlogin=YourUser -Dpassword=YourPassword" />
+			ant scm-show-tag-local -Dbatch=true " />
 
 	<property name="git.change.branch.description" value="scm-change-branch : Change the branch." />
 	<property name="git.create.branch.description" value="scm-create-branch : Create a branch." />
@@ -143,17 +135,13 @@
 		<sequential>
 
 			<!-- Get project's host-->
-			<exec executable="${git.executable}" outputproperty="project-host" failonerror="true">
+			<exec executable="${git.executable}" outputproperty="project-host" failonerror="true" >
 				<arg value="config" />
 				<arg value="--get" />
 				<arg value="remote.origin.url" />
 			</exec>
-
-			<!-- read information about host -->
-			<script language="javascript">
-			    var before = project.getProperty("project-host");
-			    project.setProperty("project-host", before.substring(before.indexOf("//") + 2));
-			</script>
+			
+			<for list="@{project-host}" delimiter="," param="val" trim="true" />
 
 			<property name="@{result}" value="${project-host}" />
 		</sequential>
@@ -192,8 +180,6 @@
 	<!--|##############################################################################|-->
 	<macrodef name="git-diff-remote" description="${git.diff.remote.description}">
 		<attribute name="project" description="${git.project.attribute.description}" />
-		<attribute name="login" description="${git.login.attribute.description}" />
-		<attribute name="password" description="${git.password.attribute.description}" />
 		<sequential>
 			<!-- Which branch am I using? -->
 			<git-get-branch result="branch" />
@@ -210,7 +196,6 @@
 			<!-- Get all -->
 			<exec executable="${git.executable}" failonerror="true">
 				<arg value="fetch" />
-				<arg value="https://@{login}:@{password}@${project-host}" />
 			</exec>
 
 			<!-- Execute -->
@@ -274,8 +259,6 @@
 	<!--|##############################################################################|-->
 	<macrodef name="git-revert-remote" description="${git.revert.remote.description}">
 		<attribute name="project" description="${git.project.attribute.description}" />
-		<attribute name="login" description="${git.login.attribute.description}" />
-		<attribute name="password" description="${git.password.attribute.description}" />
 		<sequential>
 			<!-- Which branch am I using? -->
 			<git-get-branch result="branch" />
@@ -292,7 +275,6 @@
 			<!-- Get all -->
 			<exec executable="${git.executable}" failonerror="true">
 				<arg value="fetch" />
-				<arg value="https://@{login}:@{password}@${project-host}" />
 			</exec>
 
 			<!-- Execute -->
@@ -305,7 +287,6 @@
 			<!-- Execute pull -->
 			<exec executable="${git.executable}" failonerror="true">
 				<arg value="pull" />
-				<arg value="https://@{login}:@{password}@${project-host}" />
 				<arg value="${branch}" />
 			</exec>
 
@@ -374,8 +355,6 @@
 	<!--|##############################################################################|-->
 	<macrodef name="git-push" description="${git.push.description}">
 		<attribute name="project" description="${git.project.attribute.description}" />
-		<attribute name="login" description="${git.login.attribute.description}" />
-		<attribute name="password" description="${git.password.attribute.description}" />
 
 		<sequential>
 			<!-- Which branch am I using? -->
@@ -390,7 +369,6 @@
 			<!-- Execute push -->
 			<exec executable="${git.executable}" outputproperty="git-push-out" failonerror="true">
 				<arg value="push" />
-				<arg value="https://@{login}:@{password}@${project-host}" />
 				<arg value="--all" />
 			</exec>
 
@@ -403,8 +381,6 @@
 	<!--| macrodef: git-commit-push                 								   |-->
 	<!--|##############################################################################|-->
 	<macrodef name="git-commit-push" description="${git.commit.push.description}">
-		<attribute name="login" description="${git.login.attribute.description}" />
-		<attribute name="password" description="${git.password.attribute.description}" />
 		<attribute name="project" description="${git.project.attribute.description}" />
 		<attribute name="comment" description="The comment's commit." />
 
@@ -434,12 +410,8 @@
 			<!-- Execute push -->
 			<exec executable="${git.executable}" outputproperty="git-push-output" failonerror="true">
 				<arg value="push" />
-				<arg value="https://@{login}:@{password}@${project-host}" />
 				<arg value="--all" />
 			</exec>
-
-			<!-- remove password and user on output -->
-			<git-hide-url git-output="${git-push-output}" />
 
 			<!-- Success -->
 			<echo message="Commit and push executed with success on @{project}/${branch}." />
@@ -451,8 +423,6 @@
 	<!--|##############################################################################|-->
 	<macrodef name="git-pull" description="${git.pull.description}">
 		<attribute name="project" description="${git.project.attribute.description}" />
-		<attribute name="login" description="${git.login.attribute.description}" />
-		<attribute name="password" description="${git.password.attribute.description}" />
 		<sequential>
 			<!-- Which branch am I using? -->
 			<git-get-branch result="branch" />
@@ -466,12 +436,8 @@
 			<!-- Execute pull -->
 			<exec executable="${git.executable}" failonerror="true" outputproperty="git-pull-output">
 				<arg value="pull" />
-				<arg value="https://@{login}:@{password}@${project-host}" />
 				<arg value="${branch}" />
 			</exec>
-
-			<!-- remove password and user on output -->
-			<git-hide-url git-output="${git-pull-output}" />
 
 			<!-- Success -->
 			<echo message="Pull executed with success on @{project}/${branch}." />
@@ -482,8 +448,6 @@
 	<!--| macrodef: git-show-tag-remote									               |-->
 	<!--|##############################################################################|-->
 	<macrodef name="git-show-tag-remote" description="${git.show.tag.remote.description}">
-		<attribute name="login" description="${git.login.attribute.description}" />
-		<attribute name="password" description="${git.password.attribute.description}" />
 		<sequential>
 			<!-- Get project's host-->
 			<git-get-host result="project-host" />
@@ -493,11 +457,7 @@
 				<arg value="ls-remote" />
 				<arg value="--tags" />
 				<arg value="--refs" />
-				<arg value="https://@{login}:@{password}@${project-host}" />
 			</exec>
-
-			<!-- remove password and user on output -->
-			<git-hide-url git-output="${git-ls-output}" />
 
 		</sequential>
 	</macrodef>
@@ -546,8 +506,6 @@
 	<macrodef name="git-delete-tag-all" description="${git.delete.tag.all.description}">
 		<attribute name="tag" description="The tag that will be deleted." />
 		<attribute name="project" description="${git.project.attribute.description}" />
-		<attribute name="login" description="${git.login.attribute.description}" />
-		<attribute name="password" description="${git.password.attribute.description}" />
 
 		<sequential>
 			<!-- Initial Message -->
@@ -559,7 +517,6 @@
 			<!-- Get project's tags -->
 			<exec executable="${git.executable}" failonerror="true" outputproperty="git-fetch-output">
 				<arg value="fetch" />
-				<arg value="https://@{login}:@{password}@${project-host}" />
 				<arg value="--tags" />
 				<arg value="--prune" />
 			</exec>
@@ -577,7 +534,6 @@
 			<!-- Execute push -->
 			<exec executable="${git.executable}" failonerror="true" outputproperty="git-push-output">
 				<arg value="push" />
-				<arg value="https://@{login}:@{password}@${project-host}" />
 				<arg value=":refs/tags/@{tag}" />
 			</exec>
 
@@ -628,22 +584,18 @@
 			</exec>
 		</sequential>
 	</macrodef>
-
+	
 	<!--|##############################################################################|-->
-	<!--| macrodef: git-hide-url                									   |-->
+	<!--| macrodef: git-merge-branch            									   |-->
 	<!--|##############################################################################|-->
-	<macrodef name="git-hide-url" description="Hide user and login on url git.">
-		<attribute name="git-output" description="The git command output" />
+	<macrodef name="git-merge-branch" description="${git.create.branch.description}">
+		<attribute name="branch" description="The branch's name that bring to yours" />
 		<sequential>
-			<property name="output" value="@{git-output}" />
-
-			<script language="javascript">
-			    var before = new String(project.getProperty("output"));
-			    project.setProperty("output", before.replace(/\https.*.com/gi, '*******************************'));
-			</script>
-			<echo>
-${output}
-            </echo>
+			<exec executable="${git.executable}" failonerror="true">
+				<arg value="merge" />
+				<arg value="--no-ff" />
+				<arg value="@{branch}" />
+			</exec>
 		</sequential>
 	</macrodef>
 

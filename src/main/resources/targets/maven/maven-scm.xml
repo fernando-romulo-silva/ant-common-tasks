@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-scm-git" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Targets ANT that execute GIT commands. Use this script ONLY ROOT'S PROJECTS.
+    </description>
+
+	<import file="../../macrodefs/maven/maven-scm-macrodef.xml" />
+	<import file="../../macrodefs/util/input-macrodef.xml" />
+
+	<!--|############################################################################################################|-->
+	<!--|############################################ SCM COMMANDS ##################################################|-->
+	<!--|############################################################################################################|-->
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-install                   									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-install">
+		<description>
+${scm.install.description}
+		</description>
+
+		<!-- Read Version -->
+		<project-version result="version-temp" input="${pom.project.version}" />
+
+		<!-- get version -->
+		<input message="The version: " addproperty="version" defaultvalue="${version-temp}" unless:true="${batch}" />
+
+		<!-- Profile -->
+		<input-profile result="profile" />
+
+		<!-- Execute -->
+		<scm-install-git profile="${profile}" version="${version}" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-release                   									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-release">
+		<description>
+${scm.release.description}
+		</description>
+
+		<!-- read the current version -->
+		<project-version result="release-version-temp" input="${pom.project.version}" />
+
+		<!-- release version -->
+		<input message="Release Version: " addproperty="release-version" defaultvalue="${release-version-temp}" unless:true="${batch}" />
+
+		<!-- release version -->
+		<input message="Development Version: " addproperty="development-version" defaultvalue="${pom.project.version}" unless:true="${batch}" />
+
+		<!-- origin branch -->
+		<input message="Origin branch: " addproperty="branch" defaultvalue="master" unless:true="${batch}" />
+
+		<!-- Confirmation -->
+		<input-abort-operation message="Do you really want create release version ${release-version} and development version ${development-version} of the ${pom.project.artifactId}?" unless:true="${batch}" />
+
+		<!-- Execute -->
+		<scm-release branch="${branch}" development-version="${development-version}" release-version="${release-version}" profile="prod" />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-rollback                   									   |-->
+	<!--|##############################################################################|-->
+	<target name="scm-rollback">
+		<description>
+${scm.rollback.description}
+		</description>
+
+		<scm-rollback />
+	</target>
+
+	<!--|##############################################################################|-->
+	<!--| target: scm-deploy                  									       |-->
+	<!--|##############################################################################|-->
+	<target name="scm-deploy">
+		<description>
+${scm.deploy.description}	
+		</description>
+
+		
+		<!-- Read Version -->
+		<project-version result="version-temp" input="${pom.project.version}" />
+
+		<!-- get version -->
+		<input message="The version: " addproperty="version" defaultvalue="${version-temp}" unless:true="${batch}" />
+
+		<!-- Execute -->
+		<scm-deploy-git version="${version}" />
+	</target>
+
+</project>

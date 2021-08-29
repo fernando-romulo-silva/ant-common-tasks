@@ -12,15 +12,15 @@
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### REPORTS DESCRIPTIONS #################################################################|-->
 	<!--|###########################################################################################################################|-->
-	<property name="report.surifire.description" value="report-surifire : Create a report with test's results.${line.separator}
+	<property name="report.surefire.description" value="report-surefire : Create a report with test's results.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
-			ant report-surifire${line.separator}
+			ant report-surefire${line.separator}
 		- Batch Mode${line.separator}
-			ant report-surifire -Dbatch=true${line.separator}
-			ant report-surifire -Dbatch=true -Dprofile=dev${line.separator}
+			ant report-surefire -Dbatch=true${line.separator}
+			ant report-surefire -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
-		    ant report-surifire -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+		    ant report-surefire -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
 	<property name="report.all.description" value="report-all : Create PMD, CPD, Spotbugs, Checkstyle, and Cobertura reports of project.${line.separator}
 		Examples :${line.separator}
@@ -87,9 +87,9 @@
 	<!--|###########################################################################################################################| -->
 
 	<!--|##############################################################################|-->
-	<!--| macrodef: report-surifire     					   				      	   |-->
+	<!--| macrodef: report-surefire     					   				      	   |-->
 	<!--|##############################################################################|-->
-	<macrodef name="report-surifire" description="${report.surifire.description}">
+	<macrodef name="report-surefire" description="${report.surefire.description}">
 		<attribute name="profile" default="" description="${profile.description}" />
 		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
 		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
