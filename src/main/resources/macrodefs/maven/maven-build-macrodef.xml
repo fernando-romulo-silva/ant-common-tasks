@@ -134,10 +134,11 @@
 	<!--|##############################################################################|-->
 	<macrodef name="build-purge">
 		<sequential>
+			<!--https://maven.apache.org/plugins/maven-dependency-plugin/examples/purging-local-repository.html -->
 			<!-- Initial Message -->
 			<echo message="|###################################################################################################################################|" />
 			<echo message="| " />
-			<echo message="|build-purge : deleting ALL libs from repository. " />
+			<echo message="|build-purge : Deleting ALL libs from repository ... " />
 			<echo message="| " />
 			<echo message="|###################################################################################################################################|" />
 
@@ -152,7 +153,7 @@
 			<!-- Success -->
 			<echo message="|###################################################################################################################################|" />
 			<echo message="| " />
-			<echo message="|build-purge : The ALL libs from ${pom.project.artifactId} artifacts was deleted." />
+			<echo message="|build-purge : SUCESS - The ALL libs from ${pom.project.artifactId} artifacts was deleted." />
 			<echo message="| " />
 			<echo message="|###################################################################################################################################|" />
 		</sequential>
