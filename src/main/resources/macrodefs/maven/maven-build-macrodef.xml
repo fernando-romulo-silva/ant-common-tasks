@@ -130,6 +130,35 @@
 	</macrodef>
 
 	<!--|##############################################################################|-->
+	<!--| macrodef: build-purge                   									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="build-purge">
+		<sequential>
+			<!-- Initial Message -->
+			<echo message="|###################################################################################################################################|" />
+			<echo message="| " />
+			<echo message="|build-purge : deleting ALL libs from repository. " />
+			<echo message="| " />
+			<echo message="|###################################################################################################################################|" />
+
+			<!-- Execute -->
+			<exec-maven offline="true">
+				<arg-elements>
+					<arg line="dependency:purge-local-repository" />
+					<arg line="-DactTransitively=false" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Success -->
+			<echo message="|###################################################################################################################################|" />
+			<echo message="| " />
+			<echo message="|build-purge : The ALL libs from ${pom.project.artifactId} artifacts was deleted." />
+			<echo message="| " />
+			<echo message="|###################################################################################################################################|" />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
 	<!--| macrodef: build-clean                   									   |-->
 	<!--|##############################################################################|-->
 	<macrodef name="build-clean" description="${build.clean.description}">

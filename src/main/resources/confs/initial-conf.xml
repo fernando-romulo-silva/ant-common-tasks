@@ -12,16 +12,23 @@
 	<!-- SO variables -->
 	<property environment="env" />
 
-	<!-- Check if DEVELOPMENT_HOME environment variable is configured -->	
+	<!-- Check if DEVELOPMENT_HOME environment variable is configured -->
 	<fail unless="env.DEVELOPMENT_HOME" message="The environment variable 'DEVELOPMENT_HOME' isn't set. Please look at the allset-config-devhome project." />
 
 	<fail unless="env.JAVA_HOME" message="The environment variable 'JAVA_HOME' isn't set." />
 
 	<fail unless="env.ANT_HOME" message="The environment variable 'ANT_HOME' isn't set." />
-	
-	<!-- ANT_ARGS='-logger org.apache.tools.ant.listener.AnsiColorLogger' -->
-	<!-- ANT_OPTS="-Xms256M -Xmx512M" -->
-	
+
+	<condition property="ant.opts" value="${env.ANT_OPTS}" else="">
+		<!-- ANT_OPTS="-Xms256M -Xmx512M" -->
+		<isset property="env.ANT_OPTS" />
+	</condition>
+
+	<condition property="ant.args" value="${env.ANT_ARGS}" else="">
+		<!-- ANT_ARGS="-logger org.apache.tools.ant.listener.AnsiColorLogger" -->
+		<isset property="env.ANT_ARGS" />
+	</condition>
+
 	<!-- specif project build properties -->
 	<property file="build.properties" />
 
@@ -72,8 +79,8 @@
 |User      : ${user.name}
 |Java Home : ${exec.java.home}		
 |Ant Home  : ${ant.home}
-|Ant Opts  : ${env.ANT_OPTS}
-|Ant Args  : ${env.ANT_ARGS}
+|Ant Opts  : ${ant.opts}
+|Ant Args  : ${ant.args}
 |Dev Home  : ${env.DEVELOPMENT_HOME}	
 |###################################################################################################################################|
 	</echo>
