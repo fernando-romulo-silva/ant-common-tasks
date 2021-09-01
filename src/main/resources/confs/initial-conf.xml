@@ -17,6 +17,10 @@
 
 	<fail unless="env.JAVA_HOME" message="The environment variable 'JAVA_HOME' isn't set." />
 
+	<condition property="java.opts" value="${env.JAVA_OPTS}" else="">
+		<isset property="env.JAVA_OPTS" />
+	</condition>	
+
 	<fail unless="env.ANT_HOME" message="The environment variable 'ANT_HOME' isn't set." />
 
 	<condition property="ant.opts" value="${env.ANT_OPTS}" else="">
@@ -25,7 +29,7 @@
 	</condition>
 
 	<condition property="ant.args" value="${env.ANT_ARGS}" else="">
-		<!-- ANT_ARGS="-logger org.apache.tools.ant.listener.AnsiColorLogger" -->
+		<!-- ANT_ARGS="-logger org.apache.tools.ant.listener.AnsiColorLogger " -->
 		<isset property="env.ANT_ARGS" />
 	</condition>
 
@@ -72,16 +76,24 @@
 |###################################################################################################################################|		
 |##################### MACHINE INFO ################################################################################################|		
 |###################################################################################################################################|
-|Host Name : ${myhostname} 		
-|S.O.      : ${os.name}
-|Cores     : ${machine.cores.count}
-|Time      : ${machine.time}
-|User      : ${user.name}
-|Java Home : ${exec.java.home}		
-|Ant Home  : ${ant.home}
-|Ant Opts  : ${ant.opts}
-|Ant Args  : ${ant.args}
-|Dev Home  : ${env.DEVELOPMENT_HOME}	
+|		
+| Host Name : ${myhostname} 		
+| S.O.      : ${os.name}
+| Cores     : ${machine.cores.count}
+| Time      : ${machine.time}
+| User      : ${user.name}
+|		
+|###################################################################################################################################|		
+|##################### TOOLS INFO ##################################################################################################|		
+|###################################################################################################################################|
+|		
+| Java Home : ${exec.java.home}
+| Java opts	: ${java.opts}
+| Ant Home  : ${ant.home}
+| Ant Opts  : ${ant.opts}
+| Ant Args  : ${ant.args}
+| Dev Home  : ${env.DEVELOPMENT_HOME}	
+|		
 |###################################################################################################################################|
 	</echo>
 

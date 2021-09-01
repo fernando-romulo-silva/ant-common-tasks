@@ -5,8 +5,6 @@
 	     Scrip ANT com configuracoes MAVEN.
     </description>
 
-
-	<import file="../../confs/initial-conf.xml" />
 	<import file="../../confs/maven-conf.xml" />
 
 	<!--|###########################################################################################################################|-->
@@ -40,7 +38,7 @@
 			ant report-jacoco -Dbatch=true${line.separator}
 			ant report-jacoco -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
-		    ant report-jacoco -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
+		    ant report-jacoco -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
 	<property name="report.spotbugs.description" value="report-spotbugs : Create Spotbugs reports of project.${line.separator}
 		Examples :${line.separator}
@@ -136,7 +134,7 @@
 			<!-- Success -->
 			<echo message="The ${pom.project.artifactId}'s Surefire reports successfully created." />
 		</sequential>
-	</macrodef>	
+	</macrodef>
 
 	<!--|##############################################################################|-->
 	<!--| macrodef: report-pmd         					   				      		   |-->

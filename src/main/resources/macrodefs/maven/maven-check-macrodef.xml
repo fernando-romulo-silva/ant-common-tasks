@@ -5,13 +5,12 @@
 	     Scrip ANT com configuracoes MAVEN.
     </description>
 
-	<import file="../../confs/initial-conf.xml" />
 	<import file="../../confs/maven-conf.xml" />
-
 
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### CHECK DESCRIPTIONS ###################################################################|-->
 	<!--|###########################################################################################################################|-->
+
 	<property name="check.spotbugs.description" value="check-spotbugs : Check the project's code with Spotbugs (detects possible bugs).${line.separator}
 	Examples :${line.separator}
 	- Manual Input${line.separator}
@@ -60,7 +59,7 @@
 			ant check-jacoco -Dbatch=true${line.separator}
 			ant check-jacoco -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
-		    ant check-jacoco -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
+		    ant check-jacoco -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
 	<property name="check.all.description" value="check-all : Check the project's code with all tools.${line.separator}
 		Examples :${line.separator}
@@ -86,18 +85,17 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Checking the ${pom.project.artifactId}'s code with Spotbugs (detects possible bugs)." />
+			<!-- Messages -->
+			<property name="check-spotbugs-msgi" value="Checking the ${pom.project.artifactId}'s code with Spotbugs (detects possible bugs)" />
+			<property name="check-spotbugs-msgf" value="The ${pom.project.artifactId} was successfully checked with Spotbugs" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${check-spotbugs-msgi}" final-msg="${check-spotbugs-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="spotbugs:check" />
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId} was successfully checked with Spotbugs." />
 		</sequential>
 	</macrodef>
 
@@ -111,18 +109,18 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Checking the ${pom.project.artifactId}'s code with Checkstyle (code formattings, code conventions)." />
+
+			<!-- Messages -->
+			<property name="check-checkstyle-msgi" value="Checking the ${pom.project.artifactId}'s code with Checkstyle (code formattings, code conventions)" />
+			<property name="check-checkstyle-msgf" value="The ${pom.project.artifactId}] was successfully checked with Checkstyle" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${check-checkstyle-msgi}" final-msg="${check-checkstyle-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="checkstyle:check" />
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}] was successfully checked with Checkstyle." />
 		</sequential>
 	</macrodef>
 
@@ -136,18 +134,18 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Checking the ${pom.project.artifactId}'s code with PMD (code flaws)." />
+
+			<!-- Messages -->
+			<property name="check-pmd-msgi" value="Checking the ${pom.project.artifactId}'s code with PMD (code flaws)" />
+			<property name="check-pmd-msgf" value="The ${pom.project.artifactId} was successfully checked with PMD" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${check-pmd-msgi}" final-msg="${check-pmd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="pmd:check" />
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId} was successfully checked with PMD." />
 		</sequential>
 	</macrodef>
 
@@ -162,18 +160,17 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Checking the ${pom.project.artifactId}'s code with CPD (duplicated code)." />
+			<!-- Messages -->
+			<property name="check-cpd-msgi" value="Checking the ${pom.project.artifactId}'s code with CPD (duplicated code)" />
+			<property name="check-cpd-msgf" value="The ${pom.project.artifactId}] was successfully checked with CPD" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${check-cpd-msgi}" final-msg="${check-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="pmd:cpd-check" />
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}] was successfully checked with CPD." />
 		</sequential>
 	</macrodef>
 
@@ -188,20 +185,22 @@
 
 		<sequential>
 			<!-- Initial Message -->
-			<echo message="Checking ${pom.project.artifactId}'s code with JaCoco (calculates the percentage of code accessed by tests)." />
+			<echo message="Checking ${pom.project.artifactId}'s code with JaCoco (calculates the percentage of code accessed by tests)" />
+
+			<!-- Messages -->
+			<property name="check-cpd-msgi" value="Checking ${pom.project.artifactId}'s code with JaCoco (calculates the percentage of code accessed by tests)" />
+			<property name="check-cpd-msgf" value="The ${pom.project.artifactId} was successfully checked with JaCoco" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${check-cpd-msgi}" final-msg="${check-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jacoco:check" />
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId} was successfully checked with JaCoco" />
 		</sequential>
-	</macrodef>	
-	
+	</macrodef>
+
 	<!--|##############################################################################|-->
 	<!--| macrodef: check-all              					   				   		   |-->
 	<!--|##############################################################################|-->
@@ -212,13 +211,14 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Checking the ${pom.project.artifactId}'s code with all tools." />
+
+			<!-- Messages -->
+			<property name="check-all-msgi" value="Checking the ${pom.project.artifactId}'s code with all tools" />
+			<property name="check-all-msgf" value="The ${pom.project.artifactId} was successfully checked" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${check-all-msgi}" final-msg="${check-all-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
-					<arg line="cobertura:check" />
 					<arg line="jacoco:check" />
 					<arg line="pmd:check" />
 					<arg line="pmd:cpd-check" />
@@ -227,8 +227,6 @@
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId} was successfully checked." />
 		</sequential>
 	</macrodef>
 

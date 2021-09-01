@@ -60,7 +60,7 @@
 	<condition property="exec.maven.test.groups" value="${pom.project.properties.surefire.groups}" else="">
 		<isset property="pom.project.properties.surefire.groups" />
 	</condition>
-	
+
 	<!--|###########################################################################################################################|-->
 	<!--|################################# PROPERTIES FILE #########################################################################|-->
 	<!--|###########################################################################################################################|-->
@@ -79,15 +79,22 @@
 	<!--|###########################################################################################################################|-->
 	<echo>
 |###################################################################################################################################|		
-|##################### INFO MAVEN ##################################################################################################|		
+|##################### MAVEN INFO ##################################################################################################|		
 |###################################################################################################################################|
-|Maven HOME    : ${exec.maven.home}
-|Maven OPTs    : ${exec.maven.opts}
-|Maven Threads : ${exec.maven.threads}		
-|Application   : ${pom.project.artifactId}
-|Modules       : ${exec.maven.modules}
-|Profiles      : ${exec.maven.profiles}		
-|Test Groups   : ${exec.maven.test.groups}
+|		
+| Maven HOME    : ${exec.maven.home}
+| Maven OPTs    : ${exec.maven.opts}
+| Maven Threads : ${exec.maven.threads}
+|		
+|###################################################################################################################################|		
+|##################### PROJECT INFO ################################################################################################|		
+|###################################################################################################################################|		
+|		
+| Application Name       : ${pom.project.artifactId}
+| Application Modules    : ${exec.maven.modules}
+| Application Profiles   : ${exec.maven.profiles}		
+| Application Test Groups: ${exec.maven.test.groups}
+|		
 |###################################################################################################################################|	
     </echo>
 
@@ -114,29 +121,41 @@
 		<attribute name="opts" default="${exec.maven.opts}" description="${opts.description}" />
 		<attribute name="threads" default="${exec.maven.threads}" description="${threads.description}" />
 		<attribute name="profile" default="" description="${profile.description}" />
+
 		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
 		<attribute name="modules-dependencies" default="" description="${modules.dependencies.description}" />
 		<attribute name="modules-dependents" default="" description="${modules.dependents.description}" />
+
 		<attribute name="fail-on-error" default="true" description="${fail.on.error.description}" />
 		<attribute name="offline" default="true" description="${offline.description}" />
 		<attribute name="update-snapshots" default="false" description="${update.snapshots.description}" />
+
+		<attribute name="initial-msg" default="" description="The message that is showed before the execution" />
+		<attribute name="final-msg" default="" description="The message that is showed after the execution" />
+
 		<element name="arg-elements" />
 
 		<sequential>
-			<!--  Debug -->
-			<echo>
-|###################################################################################################################################|		
-|##################### INFO EXEC ###################################################################################################|		
-|###################################################################################################################################|
-|Value modules-dependents   : @{modules-dependents}
-|Value modules-dependencies : @{modules-dependencies} 
-|Value modules-specified    : @{modules-specified} 
-|Value profile              : @{profile} 
-|Value threads              : @{threads}
-|Value offline              : @{offline}
-|Value update-snapshots     : @{update-snapshots}
-|###################################################################################################################################|				
-			</echo>
+			<condition property="online" value="false" else="true">
+				<equals arg1="@{offline}" arg2="true" />
+			</condition>
+
+			<!-- Initial Msg -->
+			<echo message="|###################################################################################################################################|" />
+			<echo message="|##################### EXEC INFO ###################################################################################################|" />
+			<echo message="|###################################################################################################################################|" />
+			<echo message="| " />
+			<echo message="| Specified Module(s)  : @{modules-specified}" unless:blank="@{modules-specified}" />
+			<echo message="| Modules Dependents   : @{modules-dependents}" unless:blank="@{modules-specified}" />
+			<echo message="| Modules Dependencies : @{modules-dependencies}" unless:blank="@{modules-specified}" />
+			<echo message="| Profile Value        : @{profile}" unless:blank="@{profile}" />
+			<echo message="| Threads Amount       : @{threads}" unless:blank="@{threads}" />
+			<echo message="| Connection Mode      : offline" if:true="@{offline}" />
+			<echo message="| Connection Mode      : online" if:true="${online}" />
+			<echo message="| Force update         : @{update-snapshots}" />
+			<echo message="| " />
+			<echo message="| @{initial-msg}" unless:blank="@{initial-msg}" />
+			<echo message="| " />
 
 			<!-- exec maven -->
 			<exec executable="${exec.maven.home}/bin/${maven.executable}" failonerror="@{fail-on-error}">
@@ -164,6 +183,12 @@
 				<arg value="--also-make" unless:blank="@{modules-specified}" if:true="@{modules-dependencies}" />
 				<arg value="--also-make-dependents" unless:blank="@{modules-specified}" if:true="@{modules-dependents}" />
 			</exec>
+
+			<!-- Success -->
+			<echo message="| " unless:blank="@{final-msg}" />
+			<echo message="| @{final-msg}" unless:blank="@{final-msg}" />
+			<echo message="| " />
+			<echo message="|###################################################################################################################################|" />
 		</sequential>
 	</macrodef>
 
@@ -174,7 +199,18 @@
 	<macrodef name="exec-maven-simple">
 		<attribute name="fail-on-error" default="true" description="${fail.on.error.description}" />
 		<element name="arg-elements" />
+		<attribute name="initial-msg" default="" description="The message that is showed before the execution" />
+		<attribute name="final-msg" default="" description="The message that is showed after the execution" />
+
 		<sequential>
+			<!-- Initial Msg -->
+			<echo message="|###################################################################################################################################|" />
+			<echo message="|##################### EXEC INFO ###################################################################################################|" />
+			<echo message="|###################################################################################################################################|" />
+			<echo message="| " />
+			<echo message="| @{initial-msg}" unless:blank="@{initial-msg}" />
+			<echo message="| " />
+
 			<exec executable="${exec.maven.home}/bin/${maven.executable}" failonerror="@{fail-on-error}">
 				<!-- Execute maven with determined Java -->
 				<env key="JAVA_HOME" value="${exec.java.home}" />
@@ -182,7 +218,33 @@
 				<!-- the command -->
 				<arg-elements />
 			</exec>
+
+			<!-- Success -->
+			<echo message="| " unless:blank="@{final-msg}" />
+			<echo message="| @{final-msg}" unless:blank="@{final-msg}" />
+			<echo message="| " />
+			<echo message="|###################################################################################################################################|" />
+
 		</sequential>
 	</macrodef>
+
+	<macrodef name="loopf">
+		<element name="arg-elements" />
+		<sequential>
+
+			<groovy>
+				  def ant = new groovy.ant.AntBuilder()  
+			      def count = properties.times.toInteger() 
+		
+					ant.echo('hello from Ant!') 
+				
+			      (1..).each {
+			        ant.ant(target: "dosomething")
+			      }
+			</groovy>
+
+		</sequential>
+	</macrodef>
+
 
 </project>

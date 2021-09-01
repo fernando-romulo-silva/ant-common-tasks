@@ -7,13 +7,12 @@
 install- Create a jar with all ants targest and macrodefs and put it on ANT_HOME/lib				
 		</description>
 
-		<echo message="Creating a jar with targets." />
-
 		<build-clean />
+		
 		<build-package-simple />
 
 		<!-- Delete the older ANT_HOME/lib -->
-		<delete verbose="yes" failonerror="no">
+		<delete verbose="yes" failonerror="no" quiet="true">
 			<fileset dir="${ant.home}/lib">
 				<include name="${pom.project.artifactId}" />
 			</fileset>
@@ -23,13 +22,12 @@ install- Create a jar with all ants targest and macrodefs and put it on ANT_HOME
 		<move file="target/${pom.project.artifactId}-${pom.project.version}.jar" tofile="target/${pom.project.artifactId}.jar" />
 
 		<!-- Copy to ANT/lib folder -->
-		<copy todir="${ant.home}/lib" verbose="yes" flatten="yes" failonerror="no">
+		<copy todir="${ant.home}/lib" verbose="yes" flatten="yes" failonerror="no" quiet="true">
 			<fileset dir="target/">
 				<include name="${pom.project.artifactId}.jar" />
 			</fileset>
 		</copy>
 
-		<echo message="The jar file was created." />
 	</target>
 
 </project>

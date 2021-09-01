@@ -5,8 +5,6 @@
 	     Scrips ANT for tests.
     </description>
 
-
-	<import file="../../confs/initial-conf.xml" />
 	<import file="../../confs/maven-conf.xml" />
 
 	<!--|###########################################################################################################################|-->

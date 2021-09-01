@@ -5,7 +5,6 @@
 	     Scrip ANT com configuracoes MAVEN.
     </description>
 
-	<import file="../../confs/initial-conf.xml" />
 	<import file="../../confs/maven-conf.xml" />
 
 	<!--|###########################################################################################################################|-->
@@ -29,8 +28,8 @@
 			ant site-jacoco -Dbatch=true${line.separator}
 			ant site-jacoco -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
-		    ant site-jacoco -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
-	
+		    ant site-jacoco -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
 	<property name="site.checkstyle.description" value="site-checkstyle : Create a site of project with Checkstyle reports.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
@@ -99,7 +98,7 @@
 			<echo message="The ${pom.project.artifactId}'s site successfully created." />
 		</sequential>
 	</macrodef>
-	
+
 	<!--|##############################################################################|-->
 	<!--| macrodef: site-jacoco         					   				   		   |-->
 	<!--|##############################################################################|-->
@@ -131,7 +130,7 @@
 			<!-- Success -->
 			<echo message="The ${pom.project.artifactId}'s Jacoco site successfully created." />
 		</sequential>
-	</macrodef>	
+	</macrodef>
 
 	<!--|##############################################################################|-->
 	<!--| macrodef: site-checkstyle      					   				   		   |-->
