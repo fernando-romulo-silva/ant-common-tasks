@@ -94,11 +94,13 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s Surefire reports." />
+
+			<!-- Messages -->
+			<property name="report-surefire-msgi" value="Creating ${pom.project.artifactId}'s Surefire reports" />
+			<property name="report-surefire-msgf" value="The ${pom.project.artifactId}'s Surefire reports successfully created" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${report-surefire-msgi}" final-msg="${report-surefire-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
@@ -106,8 +108,6 @@
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s Surefire reports successfully created." />
 		</sequential>
 	</macrodef>
 
@@ -121,18 +121,18 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s JaCoco reports." />
+
+			<!-- Messages -->
+			<property name="report-jacoco-msgi" value="Creating ${pom.project.artifactId}'s JaCoco reports" />
+			<property name="report-jacoco-msgf" value="The ${pom.project.artifactId}'s JaCoco reports successfully created" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${report-jacoco-msgi}" final-msg="${report-jacoco-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jacoco:report" />
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s Surefire reports successfully created." />
 		</sequential>
 	</macrodef>
 
@@ -146,11 +146,13 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s PMD reports." />
+
+			<!-- Messages -->
+			<property name="report-pmd-msgi" value="Creating ${pom.project.artifactId}'s PMD reports" />
+			<property name="report-pmd-msgf" value="The ${pom.project.artifactId}'s PMD reports successfully created" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${report-pmd-msgi}" final-msg="${report-pmd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
@@ -158,8 +160,6 @@
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s PMD reports successfully created." />
 		</sequential>
 	</macrodef>
 
@@ -173,11 +173,13 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s CPD reports." />
+
+			<!-- Messages -->
+			<property name="report-cpd-msgi" value="Creating ${pom.project.artifactId}'s CPD reports" />
+			<property name="report-cpd-msgf" value="The ${pom.project.artifactId}'s CPD reports successfully created" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${report-cpd-msgi}" final-msg="${report-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
@@ -185,8 +187,6 @@
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s CPD reports successfully created." />
 		</sequential>
 	</macrodef>
 
@@ -200,11 +200,13 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s Spotbugs reports." />
+
+			<!-- Messages -->
+			<property name="report-spotbugs-msgi" value="Creating ${pom.project.artifactId}'s Spotbugs reports" />
+			<property name="report-spotbugs-msgf" value="The ${pom.project.artifactId}'s Spotbugs reports successfully created" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${report-spotbugs-msgi}" final-msg="${report-spotbugs-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
@@ -212,8 +214,6 @@
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s Spotbugs reports successfully created." />
 		</sequential>
 	</macrodef>
 
@@ -227,11 +227,13 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s Checkstyle reports." />
+
+			<!-- Messages -->
+			<property name="report-checkstyle-msgi" value="Creating ${pom.project.artifactId}'s Checkstyle reports" />
+			<property name="report-checkstyle-msgf" value="The ${pom.project.artifactId}'s Spotbugs reports successfully created" />
 
 			<!-- Gerando relatorio do Checkstyle -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${report-checkstyle-msgi}" final-msg="${report-checkstyle-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
@@ -239,8 +241,6 @@
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s Spotbugs reports successfully created." />
 		</sequential>
 	</macrodef>
 
@@ -254,11 +254,13 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s tools reports." />
+
+			<!-- Messages -->
+			<property name="report-all-msgi" value="Creating ${pom.project.artifactId}'s tools reports" />
+			<property name="report-all-msgf" value="The ${pom.project.artifactId}'s tools reports successfully created" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${report-all-msgi}" final-msg="${report-all-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
@@ -271,8 +273,6 @@
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s tools reports successfully created." />
 		</sequential>
 	</macrodef>
 

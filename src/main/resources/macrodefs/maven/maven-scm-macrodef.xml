@@ -120,7 +120,7 @@
 				<arg value="-DreleaseVersion=@{release-version}" />
 				<arg value="-DdevelopmentVersion=@{development-version}" />
 
-				<arg value="-DpreparationGoals=clean install -DskipTests=true -P@{profile} -Dpmd.failOnViolation=false -Dcpd.failOnViolation=false -Dspotbugs.failOnError=false -Dcheckstyle.skip=true -Djacoco.haltOnFailure=false" />
+				<arg value="-DpreparationGoals=clean install -DskipTests=true -P@{profile} -Dpmd.failOnViolation=false -Dcpd.failOnViolation=false -Dspotbugs.failOnError=false -Dcheckstyle.failOnViolation=false -Djacoco.haltOnFailure=false" />
 			</exec>
 
 			<exec executable="${exec.maven.home}/bin/${maven.executable}" failonerror="true">
@@ -195,9 +195,9 @@
 				<arg-elements>
 					<arg line="-Dmaven.source.skip=true" />
 					<arg line="-Dmaven.javadoc.skip=true" />
-					<arg line="-Dpmd.failOnViolation=false" />
-					<arg line="-Dcpd.failOnViolation=false" />
-					<arg line="-Dspotbugs.failOnError=false" />
+					<arg line="-Dpmd.skip=true" />
+					<arg line="-Dcpd.skip=true" />
+					<arg line="-Dspotbugs.skip=true" />
 					<arg line="-Dcheckstyle.skip=true" />
 					<arg line="-Djacoco.skip=true" />
 					<arg line="-DskipTests=true" />

@@ -242,10 +242,13 @@
 				<arg-elements>
 					<arg line="-Dmaven.source.skip=true" />
 					<arg line="-Dmaven.javadoc.skip=true" />
+								
 					<arg line="-Dpmd.failOnViolation=false" />
 					<arg line="-Dcpd.failOnViolation=false" />
 					<arg line="-Dspotbugs.failOnError=false" />
-					<arg line="-Dcheckstyle.skip=true" />
+					<arg line="-Djacoco.haltOnFailure=false" />
+					<arg line="-Dcheckstyle.failOnViolation=false" />					
+										
 					<arg line="-DskipTests=true" />
 					<arg line="package" />
 				</arg-elements>
@@ -297,10 +300,13 @@
 				<arg-elements>
 					<arg line="-Dmaven.source.skip=true" />
 					<arg line="-Dmaven.javadoc.skip=true" />
+					
 					<arg line="-Dpmd.failOnViolation=false" />
 					<arg line="-Dcpd.failOnViolation=false" />
 					<arg line="-Dspotbugs.failOnError=false" />
-					<arg line="-Dcheckstyle.skip=true" />
+					<arg line="-Djacoco.haltOnFailure=false" />
+					<arg line="-Dcheckstyle.failOnViolation=false" />
+					
 					<arg line="-DskipTests=true" />
 					<arg line="install" />
 				</arg-elements>
