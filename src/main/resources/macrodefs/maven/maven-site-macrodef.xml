@@ -84,18 +84,18 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s site." />
+
+			<!-- Messages -->
+			<property name="site-all-msgi" value="Creating ${pom.project.artifactId}'s site" />
+			<property name="site-all-msgf" value="The ${pom.project.artifactId}'s site successfully created" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${site-all-msgi}" final-msg="${site-all-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="site" />
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s site successfully created." />
 		</sequential>
 	</macrodef>
 
@@ -109,11 +109,12 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s Jacoco site." />
+			<!-- Messages -->
+			<property name="site-jacoco-msgi" value="Creating ${pom.project.artifactId}'s Jacoco site" />
+			<property name="site-jacoco-msgf" value="The ${pom.project.artifactId}'s Jacoco site successfully created" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${site-jacoco-msgi}" final-msg="${site-jacoco-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-Dcheckstyle.skip=true" />
 					<arg line="-Dpmd.skip=true" />
@@ -127,8 +128,6 @@
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s Jacoco site successfully created." />
 		</sequential>
 	</macrodef>
 
@@ -142,11 +141,12 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s Checkstyle site." />
+			<!-- Messages -->
+			<property name="site-checkstyle-msgi" value="Creating ${pom.project.artifactId}'s Checkstyle site" />
+			<property name="site-checkstyle-msgf" value="The ${pom.project.artifactId}'s Checkstyle site successfully created" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${site-checkstyle-msgi}" final-msg="${site-checkstyle-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-DskipSurefireReport=true" />
 					<arg line="-Dmaven.test.skip=true" />
@@ -163,8 +163,6 @@
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s Checkstyle site successfully created." />
 		</sequential>
 	</macrodef>
 
@@ -178,11 +176,13 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s Spotbugs site." />
+
+			<!-- Messages -->
+			<property name="site-spotbugs-msgi" value="Creating ${pom.project.artifactId}'s Spotbugs site" />
+			<property name="site-spotbugs-msgf" value="The ${pom.project.artifactId}'s Spotbugs site successfully created" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${site-spotbugs-msgi}" final-msg="${site-spotbugs-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-DskipSurefireReport=true" />
 					<arg line="-Dmaven.test.skip=true" />
@@ -199,8 +199,6 @@
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s Spotbugs site successfully created." />
 		</sequential>
 	</macrodef>
 
@@ -214,11 +212,13 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s PMD site." />
+
+			<!-- Messages -->
+			<property name="site-pmd-msgi" value="Creating ${pom.project.artifactId}'s PMD site" />
+			<property name="site-pmd-msgf" value="The ${pom.project.artifactId}'s PMD site successfully created" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${site-pmd-msgi}" final-msg="${site-pmd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-DskipSurefireReport=true" />
 					<arg line="-Dmaven.test.skip=true" />
@@ -234,8 +234,6 @@
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s PMD site successfully created." />
 		</sequential>
 	</macrodef>
 
@@ -250,11 +248,13 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating ${pom.project.artifactId}'s CPD site." />
+
+			<!-- Messages -->
+			<property name="site-cpd-msgi" value="Creating ${pom.project.artifactId}'s CPD site" />
+			<property name="site-cpd-msgf" value="The ${pom.project.artifactId}'s CPD site successfully created" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${site-cpd-msgi}" final-msg="${site-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-Dmaven.test.skip=true" />
 					<arg line="-DskipSurefireReport=true" />
@@ -271,8 +271,6 @@
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The ${pom.project.artifactId}'s CPD site successfully created." />
 		</sequential>
 	</macrodef>
 

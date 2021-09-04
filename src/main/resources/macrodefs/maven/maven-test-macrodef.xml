@@ -56,7 +56,7 @@
 			ant test-functional -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
 		    ant test-functional -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
-	
+
 	<property name="test.acceptance.description" value="test-acceptance : Execute project's ACCEPTANCEs tests.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
@@ -65,7 +65,7 @@
 			ant test-acceptance -Dbatch=true${line.separator}
 			ant test-acceptance -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
-		    ant test-acceptance -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
+		    ant test-acceptance -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
 	<property name="test.perform.description" value="test-perform : Execute project's PERFORMs tests.${line.separator}
 		Examples :${line.separator}
@@ -75,8 +75,8 @@
 			ant test-perform -Dbatch=true${line.separator}
 			ant test-perform -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
-		    ant test-perform -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />		
-	
+		    ant test-perform -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
 	<!--|###########################################################################################################################| -->
 	<!--|############################################ TESTS ########################################################################| -->
 	<!--|###########################################################################################################################| -->
@@ -92,19 +92,19 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Starting ${pom.project.artifactId} the @{groups} test" />
+
+			<!-- Messages -->
+			<property name="test-groups-msgi" value="Starting ${pom.project.artifactId} the @{groups} testing" />
+			<property name="test-groups-msgf" value="The @{groups} tests of ${pom.project.artifactId} was successfully done" />
 
 			<!-- Execute -->
-			<exec-maven profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${test-groups-msgi}" final-msg="${test-groups-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-Dgroups=@{groups}" unless:blank="@{groups}" />
 					<arg line="test" />
 				</arg-elements>
 			</exec-maven>
 
-			<!-- Success -->
-			<echo message="The @{groups} tests of ${pom.project.artifactId} was successfully done." />
 		</sequential>
 	</macrodef>
 

@@ -56,11 +56,6 @@
 		<isset property="pom.project.profiles.profile.id" />
 	</condition>
 
-	<!-- maven.tests -->
-	<condition property="exec.maven.test.groups" value="${pom.project.properties.surefire.groups}" else="">
-		<isset property="pom.project.properties.surefire.groups" />
-	</condition>
-
 	<!--|###########################################################################################################################|-->
 	<!--|################################# PROPERTIES FILE #########################################################################|-->
 	<!--|###########################################################################################################################|-->
@@ -77,26 +72,27 @@
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### START MESSAGE ########################################################################|-->
 	<!--|###########################################################################################################################|-->
-	<echo>
-|###################################################################################################################################|		
-|##################### MAVEN INFO ##################################################################################################|		
-|###################################################################################################################################|
-|		
-| Maven HOME    : ${exec.maven.home}
-| Maven OPTs    : ${exec.maven.opts}
-| Maven Threads : ${exec.maven.threads}
-|		
-|###################################################################################################################################|		
-|##################### PROJECT INFO ################################################################################################|		
-|###################################################################################################################################|		
-|		
-| Application Name       : ${pom.project.artifactId}
-| Application Modules    : ${exec.maven.modules}
-| Application Profiles   : ${exec.maven.profiles}		
-| Application Test Groups: ${exec.maven.test.groups}
-|		
-|###################################################################################################################################|	
-    </echo>
+
+	<echo message="|###################################################################################################################################|" />
+	<echo message="|##################### MAVEN INFO ##################################################################################################|" />
+	<echo message="|###################################################################################################################################|" />
+	<echo message="| " />
+	<echo message="| Maven HOME    : ${exec.maven.home} " />
+	<echo message="| Maven OPTs    : ${exec.maven.opts} " />
+	<echo message="| Maven Threads : ${exec.maven.threads} " />
+	<echo message="| " />
+	<echo message="|###################################################################################################################################|" />
+	<echo message="|##################### PROJECT INFO ################################################################################################|" />
+	<echo message="|###################################################################################################################################|" />
+	<echo message="| " />
+	<echo message="| Project Name       : ${pom.project.artifactId} " />
+	<echo message="| Project Group Id   : ${pom.project.groupId} " />
+	<echo message="| Project Version    : ${pom.project.version} " />
+	<echo message="| Project Modules    : ${exec.maven.modules}" unless:blank="${exec.maven.modules}" />
+	<echo message="| Project Profiles   : ${exec.maven.profiles}" unless:blank="${exec.maven.modules}" />
+	<echo message="| Project Description: ${pom.project.description} " />
+	<echo message="| " />
+	<echo message="|###################################################################################################################################| " />
 
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### DESCRIPTIONS #########################################################################|-->
@@ -149,13 +145,12 @@
 			<echo message="| Modules Dependents   : @{modules-dependents}" unless:blank="@{modules-specified}" />
 			<echo message="| Modules Dependencies : @{modules-dependencies}" unless:blank="@{modules-specified}" />
 			<echo message="| Profile Value        : @{profile}" unless:blank="@{profile}" />
-			<echo message="| Threads Amount       : @{threads}" unless:blank="@{threads}" />
 			<echo message="| Connection Mode      : offline" if:true="@{offline}" />
 			<echo message="| Connection Mode      : online" if:true="${online}" />
 			<echo message="| Force update         : @{update-snapshots}" />
 			<echo message="| " />
 			<echo message="| @{initial-msg}" unless:blank="@{initial-msg}" />
-			<echo message="| " />
+			<echo message="| " unless:blank="@{initial-msg}" />
 
 			<!-- exec maven -->
 			<exec executable="${exec.maven.home}/bin/${maven.executable}" failonerror="@{fail-on-error}">

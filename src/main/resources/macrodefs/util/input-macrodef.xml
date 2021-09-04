@@ -92,17 +92,14 @@
 	</macrodef>
 
 	<!--|##############################################################################|-->
-	<!--| macrodef: input-test-group                                                   |-->
+	<!--| macrodef: input-test-groups                                                  |-->
 	<!--|##############################################################################|-->
-	<macrodef name="input-test-group">
+	<macrodef name="input-test-groups">
 		<attribute name="result" default="" />
 		<sequential>
-			<input message="Select a test's type: " addproperty="result" validargs="${exec.maven.test.groups}" defaultvalue="" unless:true="${batch}" />
-			<condition property="result" value="">
-				<not>
-					<isset property="result" />
-				</not>
-			</condition>
+
+			<input message="Enter the groups' names separated by commas without spaces. (for all tests, leave empty): " addproperty="@{result}" defaultvalue="" description="Modules which the command will run." />
+
 		</sequential>
 	</macrodef>
 

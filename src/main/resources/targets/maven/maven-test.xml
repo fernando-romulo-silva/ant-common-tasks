@@ -16,12 +16,7 @@
 ${test.groups.description}
 		</description>
 
-		<input-test-group result="groups" unless:blank="${exec.maven.test.groups}" />
-		<condition property="groups" value="">
-			<not>
-				<isset property="groups" />
-			</not>
-		</condition>
+		<input-test-groups result="groups" />
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
