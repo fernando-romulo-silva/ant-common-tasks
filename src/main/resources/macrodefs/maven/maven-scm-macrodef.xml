@@ -47,15 +47,17 @@
 		<attribute name="version" description="The version of project." />
 		<attribute name="profile" description="The package's profile." />
 		<sequential>
+			<!-- Initial Msg -->
+			<echo message="|###################################################################################################################################|" />
+			<echo message="|##################### EXEC INFO ###################################################################################################|" />
+			<echo message="|###################################################################################################################################|" />
+			<echo message="| " />
+			<echo message="| Installing ${pom.project.artifactId}'s packages from @{version}." />
+			<echo message="| " />
+
 			<!-- Which branch am I using? -->
 			<git-get-branch result="branch" />
-
-			<!-- Initial Message -->
-			<echo message="Installing ${pom.project.artifactId}'s packages from @{version}." />
-
-			<!-- Get the host -->
-			<git-get-host result="project-host" />
-
+			
 			<!-- Get all tags -->
 			<exec executable="${git.executable}" failonerror="true">
 				<arg value="fetch" />
@@ -72,7 +74,19 @@
 			</exec>
 
 			<!-- Create a new package from new branch -->
-			<build-install-simple profile="@{profile}" />
+			<exec executable="${exec.maven.home}/bin/${maven.executable}" failonerror="true">
+				<arg line="-Dmaven.source.skip=true" />
+				<arg line="-Dmaven.javadoc.skip=true" />
+
+				<arg line="-Dpmd.failOnViolation=false" />
+				<arg line="-Dcpd.failOnViolation=false" />
+				<arg line="-Dspotbugs.failOnError=false" />
+				<arg line="-Djacoco.haltOnFailure=false" />
+				<arg line="-Dcheckstyle.failOnViolation=false" />
+
+				<arg line="-DskipTests=true" />
+				<arg line="install" />
+			</exec>
 
 			<!-- Go to last branch -->
 			<exec executable="${git.executable}">
@@ -88,7 +102,11 @@
 			</exec>
 
 			<!-- Success -->
-			<echo message="The @{version} of ${pom.project.artifactId} was successfully installed." />
+			<echo message="| " />
+			<echo message="| The @{version} of ${pom.project.artifactId} was successfully installed." />
+			<echo message="| " />
+			<echo message="|###################################################################################################################################|" />
+
 		</sequential>
 	</macrodef>
 
@@ -100,8 +118,14 @@
 		<attribute name="release-version" description="The new release version." />
 		<attribute name="development-version" description="The new development version." />
 		<sequential>
-			<!-- Initial Message -->
-			<echo message="Creating the @{release-version} version of ${pom.project.artifactId}." />
+			<!-- Initial Msg -->
+			<echo message="|###################################################################################################################################|" />
+			<echo message="|##################### EXEC INFO ###################################################################################################|" />
+			<echo message="|###################################################################################################################################|" />
+			<echo message="| " />
+			<echo message="| Creating the @{release-version} version of ${pom.project.artifactId}." />
+			<echo message="| " />
+
 
 			<!-- Current branch -->
 			<git-get-branch result="branch-old" />
@@ -132,7 +156,11 @@
 			<git-change-branch branch="${branch-old}" />
 
 			<!-- Success -->
-			<echo message="The release ${release-version} of ${pom.project.artifactId} was successfully created." />
+			<echo message="| " />
+			<echo message="| The release ${release-version} of ${pom.project.artifactId} was successfully created." />
+			<echo message="| " />
+			<echo message="|###################################################################################################################################|" />
+
 		</sequential>
 	</macrodef>
 
@@ -171,9 +199,6 @@
 			<!-- Which branch am I using? -->
 			<git-get-branch result="branch" />
 
-			<!-- Get the host -->
-			<git-get-host result="project-host" />
-
 			<!-- Get all tags -->
 			<exec executable="${git.executable}" failonerror="true">
 				<arg value="fetch" />
@@ -191,19 +216,17 @@
 			</exec>
 
 			<!-- Execute -->
-			<exec-maven>
-				<arg-elements>
-					<arg line="-Dmaven.source.skip=true" />
-					<arg line="-Dmaven.javadoc.skip=true" />
-					<arg line="-Dpmd.skip=true" />
-					<arg line="-Dcpd.skip=true" />
-					<arg line="-Dspotbugs.skip=true" />
-					<arg line="-Dcheckstyle.skip=true" />
-					<arg line="-Djacoco.skip=true" />
-					<arg line="-DskipTests=true" />
-					<arg line="deploy" />
-				</arg-elements>
-			</exec-maven>
+			<exec executable="${exec.maven.home}/bin/${maven.executable}" failonerror="true">
+				<arg line="-Dmaven.source.skip=true" />
+				<arg line="-Dmaven.javadoc.skip=true" />
+				<arg line="-Dpmd.skip=true" />
+				<arg line="-Dcpd.skip=true" />
+				<arg line="-Dspotbugs.skip=true" />
+				<arg line="-Dcheckstyle.skip=true" />
+				<arg line="-Djacoco.skip=true" />
+				<arg line="-DskipTests=true" />
+				<arg line="deploy" />
+			</exec>
 
 			<!-- Go back -->
 			<exec executable="${git.executable}">

@@ -90,7 +90,6 @@
 	<echo message="| Project Version    : ${pom.project.version} " />
 	<echo message="| Project Modules    : ${exec.maven.modules}" unless:blank="${exec.maven.modules}" />
 	<echo message="| Project Profiles   : ${exec.maven.profiles}" unless:blank="${exec.maven.modules}" />
-	<echo message="| Project Description: ${pom.project.description} " />
 	<echo message="| " />
 	<echo message="|###################################################################################################################################| " />
 
