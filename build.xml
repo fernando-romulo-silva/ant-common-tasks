@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ant-common-tasks">
 	<import file="src/main/resources/macrodefs/maven/maven-build-macrodef.xml" />
-
+	<import file="src/main/resources/targets/maven/maven-scm.xml" />
+	
 	<target name="install">
 		<description>
 install- Create a jar with all ants targest and macrodefs and put it on ANT_HOME/lib				
