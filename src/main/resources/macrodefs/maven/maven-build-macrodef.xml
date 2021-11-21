@@ -11,26 +11,26 @@
 	<!--|#################################### BUILD DESCRIPTIONS ###################################################################|-->
 	<!--|###########################################################################################################################|-->
 
-	<property name="build.update.lib.description" value="build-update-libs - Delete the project's target folder.${line.separator}
+	<property name="build.download.lib.description" value="build-download-libs - Download all project's libs.${line.separator}
 	Examples :${line.separator}
 	- Manual Input${line.separator}
-		ant build-update-lib${line.separator}
+		ant build-download-lib${line.separator}
 	- Batch Mode${line.separator}
-		ant build-update-lib -Dbatch=true" />
+		ant build-download-lib -Dbatch=true" />
 
-	<property name="build.update.plugin.description" value="build-update-plugins - Get all project's plugins.${line.separator}
+	<property name="build.download.plugin.description" value="build-download-plugins - Download all project's plugins.${line.separator}
 	Examples :${line.separator}
 	- Manual Input${line.separator}
-		ant build-update-plugin${line.separator}
+		ant build-download-plugin${line.separator}
 	- Batch Mode${line.separator}
-		ant build-update-plugin -Dbatch=true" />
+		ant build-download-plugin -Dbatch=true" />
 
-	<property name="build.update.source.description" value="build-update-source - Get all libs source.${line.separator}
+	<property name="build.download.source.description" value="build-download-source - Download all project's libs source.${line.separator}
 	Examples :${line.separator}
 	- Manual Input${line.separator}
-		ant build-update-source${line.separator}
+		ant build-download-source${line.separator}
 	- Batch Mode${line.separator}
-		ant build-update-source -Dbatch=true" />
+		ant build-download-source -Dbatch=true" />
 
 	<property name="build.clean.description" value="build-clean - Clean the project's artifacts.${line.separator}
 		Examples :${line.separator}
@@ -99,24 +99,24 @@
 	<!--|##############################################################################|-->
 	<!--| macrodef: build-update                   									   |-->
 	<!--|##############################################################################|-->
-	<macrodef name="build-update">
+	<macrodef name="build-download">
 		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
 		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
-		<attribute name="libs" default="true" description="Busca as libs do Project" />
-		<attribute name="plugins" default="false" description="Busca plugins do Project" />
-		<attribute name="sources" default="false" description="Busca codigos das libs do Projec" />
-		<attribute name="javadoc" default="false" description="Busca javadocs das libs do Project" />
+		<attribute name="libs" default="true" description="Download project's libs" />
+		<attribute name="plugins" default="false" description="Download project's plugins" />
+		<attribute name="sources" default="false" description="Download project's libs sources" />
+		<attribute name="javadoc" default="false" description="Download project's libs docs" />
 
 		<sequential>
 
 			<!-- Messages -->
-			<property name="build-update-msgi" value="Getting the all ${pom.project.artifactId}'s libs, plugins, sources, and javadoc" />
-			<property name="build-update-msgf" value="The ${pom.project.artifactId} artifacts was successfully downloaded" />
+			<property name="build-download-msgi" value="Getting the all ${pom.project.artifactId}'s libs, plugins, sources, and javadoc" />
+			<property name="build-download-msgf" value="The ${pom.project.artifactId} artifacts was successfully downloaded" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${build-update-msgi}" final-msg="${build-update-msgf}" offline="false" update-snapshots="true" modules-specified="@{modules-specified}" modules-dependents="@{modules-dependents}" modules-dependencies="@{modules-dependencies}">
+			<exec-maven initial-msg="${build-download-msgi}" final-msg="${build-download-msgf}" offline="false" update-snapshots="true" modules-specified="@{modules-specified}" modules-dependents="@{modules-dependents}" modules-dependencies="@{modules-dependencies}">
 				<arg-elements>
 					<arg line="dependency:resolve" if:true="@{libs}" />
 					<arg line="dependency:resolve-plugins" if:true="@{plugins}" />

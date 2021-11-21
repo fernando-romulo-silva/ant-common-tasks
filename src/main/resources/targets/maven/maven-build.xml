@@ -15,42 +15,42 @@
 	<!--|############################################################################################################################################|-->
 
 	<!--|############################################################################################################################################|-->
-	<!--| target: build-update-lib               									                                                                 |-->
+	<!--| target: build-download-lib               									                                                                 |-->
 	<!--|############################################################################################################################################|-->
-	<target name="build-update-lib">
+	<target name="build-download-lib">
 		<description>
-${build.update.lib.description}
+${build.download.lib.description}
 		</description>
 
 		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s libs?" unless:true="${batch}" />
 
-		<build-update />
+		<build-download />
 	</target>
 
 	<!--|############################################################################################################################################|-->
-	<!--| target: build-update-plugin             									                                                                 |-->
+	<!--| target: build-download-plugin             									                                                                 |-->
 	<!--|############################################################################################################################################|-->
-	<target name="build-update-plugin">
+	<target name="build-download-plugin">
 		<description>
-${build.update.plugin.description}
+${build.download.plugin.description}
 		</description>
 
 		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s plugins?" unless:true="${batch}" />
 
-		<build-update plugins="true" libs="false" />
+		<build-download plugins="true" libs="false" />
 	</target>
 
 	<!--|############################################################################################################################################|-->
-	<!--| target: build-update-source            									                                                                 |-->
+	<!--| target: build-download-source            									                                                                 |-->
 	<!--|############################################################################################################################################|-->
-	<target name="build-update-source">
+	<target name="build-download-source">
 		<description>
-${build.update.source.description}
+${build.download.source.description}
 		</description>
 
 		<input-abort-operation message="Do you really download ALL ${pom.project.artifactId}'s source libs?" unless:true="${batch}" />
 
-		<build-update sources="true" libs="false" />
+		<build-download sources="true" libs="false" />
 	</target>
 
 	<!--|############################################################################################################################################|-->
