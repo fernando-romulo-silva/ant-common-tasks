@@ -108,6 +108,19 @@ ${build.package.simple.description}
 
 		<build-package-simple profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
+	
+	<!--|##########################################################################################################################################|-->
+	<!--| target: build-package-doc             									                                                               |-->
+	<!--|##########################################################################################################################################|-->
+	<target name="build-package-doc">
+		<description>
+${build.package.doc.description}
+		</description>
+
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
+
+		<build-package-doc profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+	</target>	
 
 	<!--|#########################################################################################################################################|-->
 	<!--| target: build-install                 									                                                              |-->

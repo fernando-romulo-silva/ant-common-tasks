@@ -52,7 +52,7 @@
 		- If there are modules:${line.separator}
 		    ant build-compile -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
-	<property name="build.package.description" value="build-package - Create packages (JAR, WAR, EAR, APK, etc) of project WITH tests, check code, and documentation.${line.separator}
+	<property name="build.package.description" value="build-package - Create packages (JAR, WAR, EAR, APK, etc) of project WITH tests and check code.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant build-package${line.separator}
@@ -62,7 +62,7 @@
 		- If there are modules:${line.separator}
 		    ant build-package -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
-	<property name="build.package.simple.description" value="build-package-simple - Create packages of project WITHOUT tests, check code, and documentation.${line.separator}
+	<property name="build.package.simple.description" value="build-package-simple - Create packages of project WITHOUT tests and check code.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant build-package-simple${line.separator}
@@ -71,8 +71,18 @@
 			ant build-package-simple -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
 		    ant build-package-simple -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+	
+	<property name="build.package.doc.description" value="build-package-doc - Create packages of project documentation.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant build-package-doc${line.separator}
+		- Batch Mode${line.separator}
+			ant build-package-doc -Dbatch=true${line.separator}
+			ant build-package-doc -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant build-package-doc -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
-	<property name="build.install.description" value="build-install - Create packages and put it in the local repository WITH tests, check code, and documentation.${line.separator}
+	<property name="build.install.description" value="build-install - Create packages and put it in the local repository WITH tests and check code.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant build-install${line.separator}
@@ -82,7 +92,7 @@
 		- If there are modules:${line.separator}
 		    ant build-install -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
-	<property name="build.install.simple.description" value="build-install-simple - Create package and put project in the local repository WITHOUT tests, check code, and documentation.${line.separator}
+	<property name="build.install.simple.description" value="build-install-simple - Create package and put project in the local repository WITHOUT tests and check code.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant build-install-simple${line.separator}
@@ -251,6 +261,38 @@
 										
 					<arg line="-DskipTests=true" />
 					<arg line="package" />
+				</arg-elements>
+			</exec-maven>
+
+		</sequential>
+	</macrodef>
+	
+	
+	<!--|##############################################################################|-->
+	<!--| macrodef: build-package-doc              									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="build-package-doc" description="${build.package.doc.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Messages -->
+			<property name="build-package-doc-msgi" value="Generates jar with javadocs using the Javadoc tool" />
+			<property name="build-package-doc-msgf" value="The ${pom.project.artifactId} doc was successfully packaged" />
+
+			<!-- Execute -->
+			<exec-maven initial-msg="${build-package-doc-msgi}" final-msg="${build-package-doc-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="-Dpmd.failOnViolation=false" />
+					<arg line="-Dcpd.failOnViolation=false" />
+					<arg line="-Dspotbugs.failOnError=false" />
+					<arg line="-Djacoco.haltOnFailure=false" />
+					<arg line="-Dcheckstyle.failOnViolation=false" />					
+										
+					<arg line="-DskipTests=true" />
+					<arg line="javadoc:jar" />
 				</arg-elements>
 			</exec-maven>
 
