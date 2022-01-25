@@ -120,6 +120,19 @@ ${build.package.doc.description}
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
 		<build-package-doc profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+	</target>
+	
+	<!--|##########################################################################################################################################|-->
+	<!--| target: build-package-src             									                                                               |-->
+	<!--|##########################################################################################################################################|-->
+	<target name="build-package-src">
+		<description>
+${build.package.src.description}
+		</description>
+
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
+
+		<build-package-src profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>	
 
 	<!--|#########################################################################################################################################|-->

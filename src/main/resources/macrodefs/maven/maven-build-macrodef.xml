@@ -71,8 +71,8 @@
 			ant build-package-simple -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
 		    ant build-package-simple -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
-	
-	<property name="build.package.doc.description" value="build-package-doc - Create packages of project documentation.${line.separator}
+
+	<property name="build.package.doc.description" value="build-package-doc - Create project javadoc's package.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant build-package-doc${line.separator}
@@ -81,6 +81,16 @@
 			ant build-package-doc -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
 		    ant build-package-doc -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="build.package.src.description" value="build-package-src - Create project source's packages.${line.separator}
+			Examples :${line.separator}
+			- Manual Input${line.separator}
+				ant build-package-src${line.separator}
+			- Batch Mode${line.separator}
+				ant build-package-src -Dbatch=true${line.separator}
+				ant build-package-src -Dbatch=true -Dprofile=dev${line.separator}
+			- If there are modules:${line.separator}
+			    ant build-package-src -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
 	<property name="build.install.description" value="build-install - Create packages and put it in the local repository WITH tests and check code.${line.separator}
 		Examples :${line.separator}
@@ -252,13 +262,13 @@
 				<arg-elements>
 					<arg line="-Dmaven.source.skip=true" />
 					<arg line="-Dmaven.javadoc.skip=true" />
-								
+
 					<arg line="-Dpmd.failOnViolation=false" />
 					<arg line="-Dcpd.failOnViolation=false" />
 					<arg line="-Dspotbugs.failOnError=false" />
 					<arg line="-Djacoco.haltOnFailure=false" />
-					<arg line="-Dcheckstyle.failOnViolation=false" />					
-										
+					<arg line="-Dcheckstyle.failOnViolation=false" />
+
 					<arg line="-DskipTests=true" />
 					<arg line="package" />
 				</arg-elements>
@@ -266,8 +276,8 @@
 
 		</sequential>
 	</macrodef>
-	
-	
+
+
 	<!--|##############################################################################|-->
 	<!--| macrodef: build-package-doc              									   |-->
 	<!--|##############################################################################|-->
@@ -289,10 +299,41 @@
 					<arg line="-Dcpd.failOnViolation=false" />
 					<arg line="-Dspotbugs.failOnError=false" />
 					<arg line="-Djacoco.haltOnFailure=false" />
-					<arg line="-Dcheckstyle.failOnViolation=false" />					
-										
+					<arg line="-Dcheckstyle.failOnViolation=false" />
+
 					<arg line="-DskipTests=true" />
 					<arg line="javadoc:jar" />
+				</arg-elements>
+			</exec-maven>
+
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: build-package-src              									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="build-package-src" description="${build.package.src.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Messages -->
+			<property name="build-package-src-msgi" value="Generates jar with project's sources" />
+			<property name="build-package-src-msgf" value="The ${pom.project.artifactId} sources was successfully packaged" />
+
+			<!-- Execute -->
+			<exec-maven initial-msg="${build-package-src-msgi}" final-msg="${build-package-src-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="-Dpmd.failOnViolation=false" />
+					<arg line="-Dcpd.failOnViolation=false" />
+					<arg line="-Dspotbugs.failOnError=false" />
+					<arg line="-Djacoco.haltOnFailure=false" />
+					<arg line="-Dcheckstyle.failOnViolation=false" />
+
+					<arg line="-DskipTests=true" />
+					<arg line="source:jar" />
 				</arg-elements>
 			</exec-maven>
 
@@ -342,13 +383,13 @@
 				<arg-elements>
 					<arg line="-Dmaven.source.skip=true" />
 					<arg line="-Dmaven.javadoc.skip=true" />
-					
+
 					<arg line="-Dpmd.failOnViolation=false" />
 					<arg line="-Dcpd.failOnViolation=false" />
 					<arg line="-Dspotbugs.failOnError=false" />
 					<arg line="-Djacoco.haltOnFailure=false" />
 					<arg line="-Dcheckstyle.failOnViolation=false" />
-					
+
 					<arg line="-DskipTests=true" />
 					<arg line="install" />
 				</arg-elements>
