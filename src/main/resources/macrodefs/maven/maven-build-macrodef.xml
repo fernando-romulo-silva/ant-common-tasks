@@ -11,47 +11,6 @@
 	<!--|#################################### BUILD DESCRIPTIONS ###################################################################|-->
 	<!--|###########################################################################################################################|-->
 
-	<property name="build.download.lib.description" value="build-download-libs - Download all project's libs.${line.separator}
-	Examples :${line.separator}
-	- Manual Input${line.separator}
-		ant build-download-lib${line.separator}
-	- Batch Mode${line.separator}
-		ant build-download-lib -Dbatch=true" />
-
-	<property name="build.download.plugin.description" value="build-download-plugins - Download all project's plugins.${line.separator}
-	Examples :${line.separator}
-	- Manual Input${line.separator}
-		ant build-download-plugin${line.separator}
-	- Batch Mode${line.separator}
-		ant build-download-plugin -Dbatch=true" />
-
-	<property name="build.download.source.description" value="build-download-source - Download all project's libs source.${line.separator}
-	Examples :${line.separator}
-	- Manual Input${line.separator}
-		ant build-download-source${line.separator}
-	- Batch Mode${line.separator}
-		ant build-download-source -Dbatch=true" />
-
-	<property name="build.clean.description" value="build-clean - Clean the project's artifacts.${line.separator}
-		Examples :${line.separator}
-		- Manual Input${line.separator}
-			ant build-clean${line.separator}
-		- Batch Mode${line.separator}
-			ant build-clean -Dbatch=true${line.separator}
-			ant build-clean -Dbatch=true -Dprofile=dev${line.separator}
-		- If there are modules:${line.separator}
-		    ant build-clean -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
-
-	<property name="build.compile.description" value="build-compile - Compile the project's classes.${line.separator}
-		Examples :${line.separator}
-		- Manual Input${line.separator}
-			ant build-compile${line.separator}
-		- Batch Mode${line.separator}
-			ant build-compile -Dbatch=true${line.separator}
-			ant build-compile -Dbatch=true -Dprofile=dev${line.separator}
-		- If there are modules:${line.separator}
-		    ant build-compile -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
-
 	<property name="build.package.description" value="build-package - Create packages (JAR, WAR, EAR, APK, etc) of project WITH tests and check code.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
@@ -111,113 +70,30 @@
 			ant build-install-simple -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
 		    ant build-install-simple -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+	
+	<property name="build.install.doc.description" value="build-install-doc - Install project javadoc's package.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant build-install-doc${line.separator}
+		- Batch Mode${line.separator}
+			ant build-install-doc -Dbatch=true${line.separator}
+			ant build-install-doc -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant build-install-doc -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="build.install.src.description" value="build-install-src - Create project source's packages.${line.separator}
+			Examples :${line.separator}
+			- Manual Input${line.separator}
+				ant build-install-src${line.separator}
+			- Batch Mode${line.separator}
+				ant build-install-src -Dbatch=true${line.separator}
+				ant build-install-src -Dbatch=true -Dprofile=dev${line.separator}
+			- If there are modules:${line.separator}
+			    ant build-install-src -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
 
 	<!--|###########################################################################################################################|-->
-	<!--|#################################### BUILD DEFAUL #########################################################################|-->
+	<!--|#################################### MACRODEFS ############################################################################|-->
 	<!--|###########################################################################################################################|-->
-
-	<!--|##############################################################################|-->
-	<!--| macrodef: build-update                   									   |-->
-	<!--|##############################################################################|-->
-	<macrodef name="build-download">
-		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
-		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
-		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
-
-		<attribute name="libs" default="true" description="Download project's libs" />
-		<attribute name="plugins" default="false" description="Download project's plugins" />
-		<attribute name="sources" default="false" description="Download project's libs sources" />
-		<attribute name="javadoc" default="false" description="Download project's libs docs" />
-
-		<sequential>
-
-			<!-- Messages -->
-			<property name="build-download-msgi" value="Getting the all ${pom.project.artifactId}'s libs, plugins, sources, and javadoc" />
-			<property name="build-download-msgf" value="The ${pom.project.artifactId} artifacts was successfully downloaded" />
-
-			<!-- Execute -->
-			<exec-maven initial-msg="${build-download-msgi}" final-msg="${build-download-msgf}" offline="false" update-snapshots="true" modules-specified="@{modules-specified}" modules-dependents="@{modules-dependents}" modules-dependencies="@{modules-dependencies}">
-				<arg-elements>
-					<arg line="dependency:resolve" if:true="@{libs}" />
-					<arg line="dependency:resolve-plugins" if:true="@{plugins}" />
-					<arg line="dependency:sources" if:true="@{sources}" />
-					<arg line="dependency:resolve -Dclassifier=javadoc" if:true="@{javadoc}" />
-					<arg line="--update-snapshots" />
-				</arg-elements>
-			</exec-maven>
-
-		</sequential>
-	</macrodef>
-
-	<!--|##############################################################################|-->
-	<!--| macrodef: build-purge                   									   |-->
-	<!--|##############################################################################|-->
-	<macrodef name="build-purge">
-		<sequential>
-			<!--https://maven.apache.org/plugins/maven-dependency-plugin/examples/purging-local-repository.html -->
-
-			<!-- Messages -->
-			<property name="build-purge-msgi" value="Cleaning the maven repository" />
-			<property name="build-purge-msgf" value="The maven repository was successfully cleaned" />
-
-			<!-- Execute -->
-			<exec-maven offline="true" initial-msg="${build-purge-msgi}" final-msg="${build-purge-msgf}">
-				<arg-elements>
-					<arg line="dependency:purge-local-repository" />
-					<arg line="-DactTransitively=false" />
-				</arg-elements>
-			</exec-maven>
-
-		</sequential>
-	</macrodef>
-
-	<!--|##############################################################################|-->
-	<!--| macrodef: build-clean                   									   |-->
-	<!--|##############################################################################|-->
-	<macrodef name="build-clean" description="${build.clean.description}">
-		<attribute name="profile" default="" description="${profile.description}" />
-		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
-		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
-		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
-
-		<sequential>
-			<!-- Messages -->
-			<property name="build-clean-msgi" value="Cleaning the ${pom.project.artifactId}'s artifacts in target folder" />
-			<property name="build-clean-msgf" value="The ${pom.project.artifactId} was successfully cleaned" />
-
-			<!-- Execute -->
-			<exec-maven initial-msg="${build-clean-msgi}" final-msg="${build-clean-msgf}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
-				<arg-elements>
-					<arg line="clean" />
-				</arg-elements>
-			</exec-maven>
-
-		</sequential>
-	</macrodef>
-
-	<!--|##############################################################################|-->
-	<!--| macrodef: build-compile          									           |-->
-	<!--|##############################################################################|-->
-	<macrodef name="build-compile" description="${build.compile.description}">
-		<attribute name="profile" default="" description="${profile.description}" />
-		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
-		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
-		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
-
-		<sequential>
-			<!-- Messages -->
-			<property name="build-compile-msgi" value="Compiling the ${pom.project.artifactId}'s classes" />
-			<property name="build-compile-msgf" value="The ${pom.project.artifactId} was successfully compiled" />
-
-			<!-- Execute -->
-			<exec-maven initial-msg="${build-compile-msgi}" final-msg="${build-compile-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
-				<arg-elements>
-					<arg line="compile" />
-				</arg-elements>
-			</exec-maven>
-
-		</sequential>
-	</macrodef>
 
 	<!--|##############################################################################|-->
 	<!--| macrodef: build-package                  									   |-->
@@ -230,7 +106,7 @@
 
 		<sequential>
 			<!-- Messages -->
-			<property name="build-package-msgi" value="Packing ${pom.project.artifactId} WITH tests, check code, and documentation" />
+			<property name="build-package-msgi" value="Packing ${pom.project.artifactId} project WITH testing and checkings" />
 			<property name="build-package-msgf" value="The ${pom.project.artifactId} was successfully packaged" />
 
 			<!-- Execute -->
@@ -254,7 +130,7 @@
 
 		<sequential>
 			<!-- Messages -->
-			<property name="build-package-simple-msgi" value="Packing the project WITHOUT tests, check code, and documentation" />
+			<property name="build-package-simple-msgi" value="Packing ${pom.project.artifactId} project WITHOUT testings and checkings" />
 			<property name="build-package-simple-msgf" value="The ${pom.project.artifactId} was successfully packaged" />
 
 			<!-- Execute -->
@@ -269,6 +145,12 @@
 					<arg line="-Djacoco.haltOnFailure=false" />
 					<arg line="-Dcheckstyle.failOnViolation=false" />
 
+					<arg line="-Dspotbugs.skip=true" />
+					<arg line="-Dpmd.skip=true" />
+					<arg line="-Dcpd.skip=true" />
+					<arg line="-Djacoco.skip=true"/>
+					<arg line="-Dcheckstyle.skip=true" />
+					
 					<arg line="-DskipTests=true" />
 					<arg line="package" />
 				</arg-elements>
@@ -289,7 +171,7 @@
 
 		<sequential>
 			<!-- Messages -->
-			<property name="build-package-doc-msgi" value="Generates jar with javadocs using the Javadoc tool" />
+			<property name="build-package-doc-msgi" value="Generates the ${pom.project.artifactId} project jar with javadocs using the Javadoc tool" />
 			<property name="build-package-doc-msgf" value="The ${pom.project.artifactId} doc was successfully packaged" />
 
 			<!-- Execute -->
@@ -320,7 +202,7 @@
 
 		<sequential>
 			<!-- Messages -->
-			<property name="build-package-src-msgi" value="Generates jar with project's sources" />
+			<property name="build-package-src-msgi" value="Generates the Packing ${pom.project.artifactId} project jar with project's sources" />
 			<property name="build-package-src-msgf" value="The ${pom.project.artifactId} sources was successfully packaged" />
 
 			<!-- Execute -->
@@ -351,7 +233,7 @@
 
 		<sequential>
 			<!-- Messages -->
-			<property name="build-install-msgi" value="Installing ${pom.project.artifactId} project in the local repository WITH tests, check code, and documentation" />
+			<property name="build-install-msgi" value="Install ${pom.project.artifactId} project in the local repository WITH testings and checkings" />
 			<property name="build-install-msgf" value="The ${pom.project.artifactId} was successfully installed" />
 
 			<!-- Execute -->
@@ -375,7 +257,7 @@
 
 		<sequential>
 			<!-- Messages -->
-			<property name="build-install-simple-msgi" value="Installing ${pom.project.artifactId} in the local repository WITHOUT tests, check code, and documentation" />
+			<property name="build-install-simple-msgi" value="Installing ${pom.project.artifactId} project in the local repository WITHOUT testings and checkings" />
 			<property name="build-install-simple-msgf" value="The ${pom.project.artifactId} was successfully installed" />
 
 			<!-- Execute -->
@@ -397,5 +279,68 @@
 
 		</sequential>
 	</macrodef>
+	
+	<!--|##############################################################################|-->
+	<!--| macrodef: build-install-doc              									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="build-install-doc" description="${build.install.doc.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Messages -->
+			<property name="build-install-doc-msgi" value="Generates jar with javadocs using the Javadoc tool and install it on user's repository" />
+			<property name="build-install-doc-msgf" value="The ${pom.project.artifactId} doc was successfully packaged" />
+
+			<!-- Execute -->
+			<exec-maven initial-msg="${build-install-doc-msgi}" final-msg="${build-install-doc-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="-Dpmd.failOnViolation=false" />
+					<arg line="-Dcpd.failOnViolation=false" />
+					<arg line="-Dspotbugs.failOnError=false" />
+					<arg line="-Djacoco.haltOnFailure=false" />
+					<arg line="-Dcheckstyle.failOnViolation=false" />
+
+					<arg line="-DskipTests=true" />
+					<arg line="javadoc:jar install" />
+				</arg-elements>
+			</exec-maven>
+
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: build-install-src              									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="build-install-src" description="${build.install.src.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Messages -->
+			<property name="build-install-src-msgi" value="Generates jar with project's sources" />
+			<property name="build-install-src-msgf" value="The ${pom.project.artifactId} sources was successfully packaged" />
+
+			<!-- Execute -->
+			<exec-maven initial-msg="${build-install-src-msgi}" final-msg="${build-install-src-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="-Dpmd.failOnViolation=false" />
+					<arg line="-Dcpd.failOnViolation=false" />
+					<arg line="-Dspotbugs.failOnError=false" />
+					<arg line="-Djacoco.haltOnFailure=false" />
+					<arg line="-Dcheckstyle.failOnViolation=false" />
+
+					<arg line="-DskipTests=true" />
+					<arg line="source:jar install" />
+				</arg-elements>
+			</exec-maven>
+
+		</sequential>
+	</macrodef>
+	
 
 </project>

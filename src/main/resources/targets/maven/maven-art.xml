@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-art" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+	     Scrip ANT for ARTIFACTS MAVEN.
+    </description>
+
+	<import file="../../macrodefs/maven/maven-art-macrodef.xml" />
+	<import file="../../macrodefs/util/input-macrodef.xml" />
+
+	<!-- ant art-update-libs -Dbatch=true -Dmodules-specified=allset-config-ant -Dmodules-dependents=true -Dmodules-dependencies=false -->
+
+	<!--|############################################################################################################################################|-->
+	<!--|#################################### TARGETS ###############################################################################################|-->
+	<!--|############################################################################################################################################|-->
+
+	<!--|################################################################|-->
+	<!--| target: art-download-lib               					     |-->
+	<!--|################################################################|-->
+	<target name="art-download-lib">
+		<description>
+${art.download.lib.description}
+		</description>
+
+		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s libs?" unless:true="${batch}" />
+
+		<art-download />
+	</target>
+
+	<!--|################################################################|-->
+	<!--| target: art-download-plugin                                  |-->
+	<!--|################################################################|-->
+	<target name="art-download-plugin">
+		<description>
+${art.download.plugin.description}
+		</description>
+
+		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s plugins?" unless:true="${batch}" />
+
+		<art-download plugins="true" libs="false" />
+	</target>
+
+	<!--|################################################################|-->
+	<!--| target: art-download-source                                  |-->
+	<!--|################################################################|-->
+	<target name="art-download-source">
+		<description>
+${art.download.source.description}
+		</description>
+
+		<input-abort-operation message="Do you really download ALL ${pom.project.artifactId}'s source libs?" unless:true="${batch}" />
+
+		<art-download sources="true" libs="false" />
+	</target>
+
+	<!--|################################################################|-->
+	<!--| target: art-clean                    						 |-->
+	<!--|################################################################|-->
+	<target name="art-clean">
+		<description>
+${art.clean.description}
+		</description>
+
+		<input-abort-operation message="Do you really want to delete target folder of ${pom.project.artifactId}?" unless:true="${batch}" />
+
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
+
+		<art-clean profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+	</target>
+
+	<!--|################################################################|-->
+	<!--| target: art-compile            							     |-->
+	<!--|################################################################|-->
+	<target name="art-compile">
+		<description>
+${art.compile.description}
+		</description>
+
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
+
+		<art-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+
+	</target>
+
+</project>

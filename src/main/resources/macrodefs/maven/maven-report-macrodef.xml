@@ -10,7 +10,7 @@
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### REPORTS DESCRIPTIONS #################################################################|-->
 	<!--|###########################################################################################################################|-->
-	<property name="report.surefire.description" value="report-surefire : Create a report with test's results.${line.separator}
+	<property name="report.surefire.description" value="report-surefire: Create a report with test's results.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant report-surefire${line.separator}
@@ -20,7 +20,7 @@
 		- If there are modules:${line.separator}
 		    ant report-surefire -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
-	<property name="report.all.description" value="report-all : Create PMD, CPD, Spotbugs, Checkstyle, and Cobertura reports of project.${line.separator}
+	<property name="report.all.description" value="report-all: Create PMD, CPD, Spotbugs, Checkstyle, and Cobertura reports of project.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant report-all${line.separator}
@@ -30,7 +30,7 @@
 		- If there are modules:${line.separator}
 		    ant report-all -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
-	<property name="report.jacoco.description" value="report-jacoco : Create Jacoco reports of project.${line.separator}
+	<property name="report.jacoco.description" value="report-jacoco: Create Jacoco reports of project.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant report-jacoco${line.separator}
@@ -40,7 +40,7 @@
 		- If there are modules:${line.separator}
 		    ant report-jacoco -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
-	<property name="report.spotbugs.description" value="report-spotbugs : Create Spotbugs reports of project.${line.separator}
+	<property name="report.spotbugs.description" value="report-spotbugs: Create Spotbugs reports of project.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant report-spotbugs${line.separator}
@@ -50,7 +50,7 @@
 		- If there are modules:${line.separator}
 		    ant report-spotbugs -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
-	<property name="report.pmd.description" value="report-pmd : Create PMD reports of project.${line.separator}
+	<property name="report.pmd.description" value="report-pmd: Create PMD reports of project.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant report-pmd${line.separator}
@@ -60,7 +60,7 @@
 		- If there are modules:${line.separator}
 		    ant report-pmd -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
-	<property name="report.cpd.description" value="report-cpd : Create CPD reports of project.${line.separator}
+	<property name="report.cpd.description" value="report-cpd: Create CPD reports of project.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant report-cpd${line.separator}
@@ -70,7 +70,7 @@
 		- If there are modules:${line.separator}
 		    ant report-cpd -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
-	<property name="report.checkstyle.description" value="report-checkstyle : Create Checkstyle reports of project.${line.separator}
+	<property name="report.checkstyle.description" value="report-checkstyle: Create Checkstyle reports of project.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
 			ant report-checkstyle${line.separator}

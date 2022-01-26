@@ -93,6 +93,7 @@
 			<exec-maven initial-msg="${check-spotbugs-msgi}" final-msg="${check-spotbugs-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="spotbugs:check" />
+					<arg line="-Dspotbugs.failOnError=true" />
 				</arg-elements>
 			</exec-maven>
 
@@ -118,6 +119,7 @@
 			<exec-maven initial-msg="${check-checkstyle-msgi}" final-msg="${check-checkstyle-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="checkstyle:check" />
+					<arg line="-Dcheckstyle.failOnViolation=true" />	
 				</arg-elements>
 			</exec-maven>
 
@@ -143,6 +145,7 @@
 			<exec-maven initial-msg="${check-pmd-msgi}" final-msg="${check-pmd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="pmd:check" />
+					<arg line="-Dpmd.failOnViolation=true" />
 				</arg-elements>
 			</exec-maven>
 
@@ -168,6 +171,7 @@
 			<exec-maven initial-msg="${check-cpd-msgi}" final-msg="${check-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="pmd:cpd-check" />
+					<arg line="-Dcpd.failOnViolation=true" />
 				</arg-elements>
 			</exec-maven>
 
@@ -195,6 +199,7 @@
 			<exec-maven initial-msg="${check-cpd-msgi}" final-msg="${check-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jacoco:check" />
+					<arg line="-Djacoco.haltOnFailure=true" />
 				</arg-elements>
 			</exec-maven>
 
@@ -219,11 +224,19 @@
 			<!-- Execute -->
 			<exec-maven initial-msg="${check-all-msgi}" final-msg="${check-all-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
+					
 					<arg line="jacoco:check" />
 					<arg line="pmd:check" />
 					<arg line="pmd:cpd-check" />
 					<arg line="spotbugs:check" />
 					<arg line="checkstyle:check" />
+
+					<arg line="-Djacoco.haltOnFailure=true" />
+					<arg line="-Dpmd.failOnViolation=true" />
+					<arg line="-Dcpd.failOnViolation=true" />
+					<arg line="-Dspotbugs.failOnError=true" />
+					<arg line="-Dcheckstyle.failOnViolation=true" />					
+					
 				</arg-elements>
 			</exec-maven>
 

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-art-macrodef" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<description>
+		Macrodefs for maven artifacts related commands.
+    </description>
+
+	<import file="../../confs/maven-conf.xml" />
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### DESCRIPTIONS #########################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<property name="art.download.lib.description" value="art-download-libs - Download all project's libs.${line.separator}
+	Examples :${line.separator}
+	- Manual Input${line.separator}
+		ant art-download-lib${line.separator}
+	- Batch Mode${line.separator}
+		ant art-download-lib -Dbatch=true" />
+
+	<property name="art.download.plugin.description" value="art-download-plugins - Download all project's plugins.${line.separator}
+	Examples :${line.separator}
+	- Manual Input${line.separator}
+		ant ope-download-plugin${line.separator}
+	- Batch Mode${line.separator}
+		ant art-download-plugin -Dbatch=true" />
+
+	<property name="art.download.source.description" value="art-download-source - Download all project's libs source.${line.separator}
+	Examples :${line.separator}
+	- Manual Input${line.separator}
+		ant art-download-source${line.separator}
+	- Batch Mode${line.separator}
+		ant art-download-source -Dbatch=true" />
+
+	<property name="art.clean.description" value="art-clean - Clean the project's artifacts.${line.separator}
+	Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant art-clean${line.separator}
+		- Batch Mode${line.separator}
+			ant art-clean -Dbatch=true${line.separator}
+			ant art-clean -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant art-clean -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+	<property name="art.compile.description" value="art-compile - Compile the project's classes.${line.separator}
+	Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant art-compile${line.separator}
+		- Batch Mode${line.separator}
+			ant art-compile -Dbatch=true${line.separator}
+			ant art-compile -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant art-compile -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
+
+	<!--|###########################################################################################################################|-->
+	<!--|#################################### MACRODEFS ############################################################################|-->
+	<!--|###########################################################################################################################|-->
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: art-update                   									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="art-download">
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<attribute name="libs" default="true" description="Download project's libs" />
+		<attribute name="plugins" default="false" description="Download project's plugins" />
+		<attribute name="sources" default="false" description="Download project's libs sources" />
+		<attribute name="javadoc" default="false" description="Download project's libs docs" />
+
+		<sequential>
+
+			<!-- Messages -->
+			<property name="art-download-msgi" value="Getting the all ${pom.project.artifactId}'s libs, plugins, sources, and javadoc" />
+			<property name="art-download-msgf" value="The ${pom.project.artifactId} artifacts was successfully downloaded" />
+
+			<!-- Execute -->
+			<exec-maven initial-msg="${art-download-msgi}" final-msg="${art-download-msgf}" offline="false" update-snapshots="true" modules-specified="@{modules-specified}" modules-dependents="@{modules-dependents}" modules-dependencies="@{modules-dependencies}">
+				<arg-elements>
+					<arg line="dependency:resolve" if:true="@{libs}" />
+					<arg line="dependency:resolve-plugins" if:true="@{plugins}" />
+					<arg line="dependency:sources" if:true="@{sources}" />
+					<arg line="dependency:resolve -Dclassifier=javadoc" if:true="@{javadoc}" />
+					<arg line="--update-snapshots" />
+				</arg-elements>
+			</exec-maven>
+
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: art-purge                   									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="art-purge">
+		<sequential>
+			<!--https://maven.apache.org/plugins/maven-dependency-plugin/examples/purging-local-repository.html -->
+
+			<!-- Messages -->
+			<property name="art-purge-msgi" value="Cleaning the maven repository" />
+			<property name="art-purge-msgf" value="The maven repository was successfully cleaned" />
+
+			<!-- Execute -->
+			<exec-maven offline="true" initial-msg="${art-purge-msgi}" final-msg="${art-purge-msgf}">
+				<arg-elements>
+					<arg line="dependency:purge-local-repository" />
+					<arg line="-DactTransitively=false" />
+				</arg-elements>
+			</exec-maven>
+
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: art-clean                   									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="art-clean" description="${art.clean.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Messages -->
+			<property name="art-clean-msgi" value="Cleaning the ${pom.project.artifactId}'s artifacts in target folder" />
+			<property name="art-clean-msgf" value="The ${pom.project.artifactId} was successfully cleaned" />
+
+			<!-- Execute -->
+			<exec-maven initial-msg="${art-clean-msgi}" final-msg="${art-clean-msgf}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="clean" />
+				</arg-elements>
+			</exec-maven>
+
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: art-compile          									           |-->
+	<!--|##############################################################################|-->
+	<macrodef name="art-compile" description="${art.compile.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			<!-- Messages -->
+			<property name="art-compile-msgi" value="Compiling the ${pom.project.artifactId}'s classes" />
+			<property name="art-compile-msgf" value="The ${pom.project.artifactId} was successfully compiled" />
+
+			<!-- Execute -->
+			<exec-maven initial-msg="${art-compile-msgi}" final-msg="${art-compile-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="compile" />
+				</arg-elements>
+			</exec-maven>
+
+		</sequential>
+	</macrodef>
+
+</project>
