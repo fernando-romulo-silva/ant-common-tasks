@@ -31,6 +31,13 @@
 		ant art-download-source${line.separator}
 	- Batch Mode${line.separator}
 		ant art-download-source -Dbatch=true" />
+	
+	<property name="art.purge.description" value="art-purge - Remove libs from local repository.${line.separator}
+	Examples :${line.separator}
+	- Manual Input${line.separator}
+		ant art-purge${line.separator}
+	- Batch Mode${line.separator}
+		ant art-purge -Dbatch=true -Dinclude={groupId}" />
 
 	<property name="art.clean.description" value="art-clean - Clean the project's artifacts.${line.separator}
 	Examples :${line.separator}
@@ -94,21 +101,21 @@
 	<!--| macrodef: art-purge                   									   |-->
 	<!--|##############################################################################|-->
 	<macrodef name="art-purge">
+		<attribute name="include" default="" description="The group id lib's that will be deleted. Ex: org.slf4j | br.com.mylib:1.0 " />
 		<sequential>
-			<!--https://maven.apache.org/plugins/maven-dependency-plugin/examples/purging-local-repository.html -->
-
+			
 			<!-- Messages -->
 			<property name="art-purge-msgi" value="Cleaning the maven repository" />
 			<property name="art-purge-msgf" value="The maven repository was successfully cleaned" />
-
+			
 			<!-- Execute -->
 			<exec-maven offline="true" initial-msg="${art-purge-msgi}" final-msg="${art-purge-msgf}">
 				<arg-elements>
 					<arg line="dependency:purge-local-repository" />
-					<arg line="-DactTransitively=false" />
+					<arg line="-DmanualInclude=@{include}" unless:blank="@{include}" />
 				</arg-elements>
 			</exec-maven>
-
+			
 		</sequential>
 	</macrodef>
 
@@ -122,6 +129,7 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
+			
 			<!-- Messages -->
 			<property name="art-clean-msgi" value="Cleaning the ${pom.project.artifactId}'s artifacts in target folder" />
 			<property name="art-clean-msgf" value="The ${pom.project.artifactId} was successfully cleaned" />

@@ -28,7 +28,7 @@ ${art.download.lib.description}
 	</target>
 
 	<!--|################################################################|-->
-	<!--| target: art-download-plugin                                  |-->
+	<!--| target: art-download-plugin                                    |-->
 	<!--|################################################################|-->
 	<target name="art-download-plugin">
 		<description>
@@ -41,7 +41,7 @@ ${art.download.plugin.description}
 	</target>
 
 	<!--|################################################################|-->
-	<!--| target: art-download-source                                  |-->
+	<!--| target: art-download-source                                    |-->
 	<!--|################################################################|-->
 	<target name="art-download-source">
 		<description>
@@ -52,9 +52,30 @@ ${art.download.source.description}
 
 		<art-download sources="true" libs="false" />
 	</target>
+	
+	
+	<!--|##############################################################################|-->
+	<!--| target: art-purge                      									   |-->
+	<!--|##############################################################################|-->
+	<target name="art-purge">
+		<description>
+${art.purge.description}
+		</description>
+		
+		<!-- group id -->
+		<input message="Enter a group id: " addproperty="include" defaultvalue="${pom.project.groupId}" unless:true="${batch}" />
+		
+		<fail if:blank="${include}" message="The environment variable 'group id' isn't set." />
+		
+		<input-abort-operation message="Do you really want to purge group id '${include}' from your local repository?" unless:true="${batch}" />
+
+		<!-- Execute -->
+		<art-purge include="${include}" />
+	</target>	
+	
 
 	<!--|################################################################|-->
-	<!--| target: art-clean                    						 |-->
+	<!--| target: art-clean                    						     |-->
 	<!--|################################################################|-->
 	<target name="art-clean">
 		<description>

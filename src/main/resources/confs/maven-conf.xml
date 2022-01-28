@@ -85,11 +85,11 @@
 	<echo message="|##################### PROJECT INFO ################################################################################################|" />
 	<echo message="|###################################################################################################################################|" />
 	<echo message="| " />
-	<echo message="| Project Name       : ${pom.project.artifactId} " />
-	<echo message="| Project Group Id   : ${pom.project.groupId} " />
-	<echo message="| Project Version    : ${pom.project.version} " />
-	<echo message="| Project Modules    : ${exec.maven.modules}" unless:blank="${exec.maven.modules}" />
-	<echo message="| Project Profiles   : ${exec.maven.profiles}" unless:blank="${exec.maven.modules}" />
+	<echo message="| Project Name     : ${pom.project.artifactId} " />
+	<echo message="| Project Group Id : ${pom.project.groupId} " />
+	<echo message="| Project Version  : ${pom.project.version} " />
+	<echo message="| Project Modules  : ${exec.maven.modules}" unless:blank="${exec.maven.modules}" />
+	<echo message="| Project Profiles : ${exec.maven.profiles}" unless:blank="${exec.maven.modules}" />
 	<echo message="| " />
 	<echo message="|###################################################################################################################################| " />
 
