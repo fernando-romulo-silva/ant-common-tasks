@@ -24,7 +24,7 @@ ${test.all.description}
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+		<art-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 
 		<site-all profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
@@ -39,7 +39,7 @@ ${site.jacoco.description}
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+		<art-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 
 		<site-jacoco profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
@@ -69,7 +69,7 @@ ${site.spotbugs.description}
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+		<art-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 
 		<site-spotbugs profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
@@ -84,7 +84,7 @@ ${site.pmd.description}
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+		<art-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 
 		<site-pmd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
@@ -99,7 +99,7 @@ ${site.cpd.description}
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+		<art-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 
 		<site-cpd profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
