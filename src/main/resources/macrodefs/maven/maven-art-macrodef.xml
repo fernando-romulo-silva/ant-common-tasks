@@ -86,10 +86,20 @@
 			<!-- Execute -->
 			<exec-maven initial-msg="${art-download-msgi}" final-msg="${art-download-msgf}" offline="false" update-snapshots="true" modules-specified="@{modules-specified}" modules-dependents="@{modules-dependents}" modules-dependencies="@{modules-dependencies}">
 				<arg-elements>
+					<!-- libs -->
 					<arg line="dependency:resolve" if:true="@{libs}" />
+					
+					<!-- plugins -->
+					<arg line="dependency:go-offline" if:true="@{plugins}" />
 					<arg line="dependency:resolve-plugins" if:true="@{plugins}" />
+					
+					<!-- lib's source -->
 					<arg line="dependency:sources" if:true="@{sources}" />
+					
+					<!-- lib's javadoc -->
 					<arg line="dependency:resolve -Dclassifier=javadoc" if:true="@{javadoc}" />
+					
+					<!-- force get news -->
 					<arg line="--update-snapshots" />
 				</arg-elements>
 			</exec-maven>

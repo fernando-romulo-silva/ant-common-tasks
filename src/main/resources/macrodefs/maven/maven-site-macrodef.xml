@@ -11,6 +11,17 @@
 	<!--|#################################### SITE DESCRIPTIONS ####################################################################|-->
 	<!--|###########################################################################################################################|-->
 	
+	<!--
+		site surefire
+		
+		site javadoc
+		site tag list
+		site jdpend
+		site dependency list 
+		
+		groups tests
+	-->
+	
 	<property name="site.all.description" value="site-all : Create a site with all tools with informations like tests, bugs, errors, etc.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
