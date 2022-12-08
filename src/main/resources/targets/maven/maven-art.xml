@@ -72,6 +72,19 @@ ${art.purge.description}
 		<!-- Execute -->
 		<art-purge include="${include}" />
 	</target>	
+
+	<!--|################################################################|-->
+	<!--| target: art-unused                   						     |-->
+	<!--|################################################################|-->
+	<target name="art-unused">
+		<description>
+${art-unused.description}
+		</description>
+
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
+
+		<art-unused profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+	</target>	
 	
 
 	<!--|################################################################|-->

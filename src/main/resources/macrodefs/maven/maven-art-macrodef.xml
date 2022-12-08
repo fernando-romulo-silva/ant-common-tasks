@@ -39,6 +39,13 @@
 	- Batch Mode${line.separator}
 		ant art-purge -Dbatch=true -Dinclude={groupId}" />
 
+	<property name="art.unused.description" value="art-unused - Show the unused dependencies.${line.separator}
+	Examples :${line.separator}
+	- Manual Input${line.separator}
+		ant art-unused${line.separator}
+	- Batch Mode${line.separator}
+		ant art-unused -Dbatch=true -Dinclude={groupId}" />	
+
 	<property name="art.clean.description" value="art-clean - Clean the project's artifacts.${line.separator}
 	Examples :${line.separator}
 		- Manual Input${line.separator}
@@ -128,6 +135,32 @@
 			
 		</sequential>
 	</macrodef>
+	
+	<!--|##############################################################################|-->
+	<!--| macrodef: art-unused                   									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="art-unused" description="${art.unused.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
+
+		<sequential>
+			
+			<!-- Messages -->
+			<property name="art-unused-msgi" value="Check the unused ${pom.project.artifactId}'s artifacts in target folder" />
+			<property name="art-unused-msgf" value="The ${pom.project.artifactId} was successfully checked" />
+
+			<!-- Execute -->
+			<exec-maven initial-msg="${art-unused-msgi}" final-msg="${art-unused-msgf}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="dependency:analyze-only" />
+				</arg-elements>
+			</exec-maven>
+
+		</sequential>
+	</macrodef>	
+	
 
 	<!--|##############################################################################|-->
 	<!--| macrodef: art-clean                   									   |-->
