@@ -57,7 +57,7 @@
 
 			<!-- Which branch am I using? -->
 			<git-get-branch result="branch" />
-			
+
 			<!-- Get all tags -->
 			<exec executable="${git.executable}" failonerror="true">
 				<arg value="fetch" />
@@ -231,6 +231,49 @@
 
 			<!-- Success -->
 			<echo message="The ${pom.project.artifactId} was successfully deployed." />
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: scm-publish                  								       |-->
+	<!--|##############################################################################|-->
+	<!-- https://www.lorenzobettini.it/2020/01/publishing-a-maven-site-to-github-pages/
+         1 - git checkout -\-orphan gh-pages
+         2 - rm .git/index ; 
+         3 - git clean -fdx
+         4 - echo "It works" > index.html
+         5 - git add . && git commit -m "initial site content" && git push origin gh-pages			
+	-->
+	<macrodef name="scm-publish">
+		<attribute name="version" description="The version of project." />
+		<sequential>
+			<!-- Which branch am I using? -->
+			<git-get-branch result="branch" />
+			
+			<!-- Go master -->
+			<exec executable="${git.executable}">
+				<arg value="checkout" />
+				<arg value="master" />
+			</exec>
+
+			<!-- Initial Message -->
+			<echo message="Deploying ${pom.project.artifactId} project site on remote repository." />
+
+			<!-- Execute -->
+			<exec-maven initial-msg="${site-deploy-msgi}" final-msg="${site-all-deploy}" profile="@{profile}">
+				<arg-elements>
+					<arg line="scm-publish:publish-scm" />
+				</arg-elements>
+			</exec-maven>
+
+			<!-- Go back -->
+			<exec executable="${git.executable}">
+				<arg value="checkout" />
+				<arg value="${branch}" />
+			</exec>
+
+			<!-- Success -->
+			<echo message="The ${pom.project.artifactId} project site was successfully deployed." />
 		</sequential>
 	</macrodef>
 

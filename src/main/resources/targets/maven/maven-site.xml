@@ -13,13 +13,25 @@
 	<!--|########################################################################################################################################| -->
 	<!--|################################# SITE #################################################################################################| -->
 	<!--|########################################################################################################################################| -->
-
+	
+	<!--|########################################################################################################################################|-->
+	<!--| target: site-stage                                                                          									     |-->
+	<!--|########################################################################################################################################|-->
+	<target name="site-stage">
+		<description>
+${site.stage.description}		
+		</description>
+		
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
+		
+		<site-stage profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />		
+	</target>				
 	<!--|########################################################################################################################################|-->
 	<!--| target: site-all           					   				      		                                                             |-->
 	<!--|########################################################################################################################################|-->
 	<target name="site-all">
 		<description>
-${test.all.description}		
+${site.all.description}		
 		</description>
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />

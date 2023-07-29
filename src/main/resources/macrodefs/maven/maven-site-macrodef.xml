@@ -22,6 +22,16 @@
 		groups tests
 	-->
 	
+	<property name="site.stage.description" value="site-stage : Stage the site on specified place (scmBranch gh-pages).${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant site-all${line.separator}
+		- Batch Mode${line.separator}
+			ant site-all -Dbatch=true${line.separator}
+			ant site-all -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant site-all -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
+	
 	<property name="site.all.description" value="site-all : Create a site with all tools with informations like tests, bugs, errors, etc.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
@@ -85,7 +95,33 @@
 	<!--|###########################################################################################################################| -->
 	<!--|################################# SITE ####################################################################################| -->
 	<!--|###########################################################################################################################| -->
+	
+	<!--|##############################################################################|-->
+	<!--| macrodef: site-stage           					   				   		   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="site-stage" description="${site.deploy.description}">
+		<attribute name="profile" default="" description="${profile.description}" />
+		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
+		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
+		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
+		<sequential>
+			
+			<!-- Messages -->
+			<property name="site-deploy-msgi" value="Deploying ${pom.project.artifactId}'s site" />
+			<property name="site-deploy-msgf" value="The ${pom.project.artifactId}'s site successfully deployed" />
+
+			<!-- Execute -->
+			<exec-maven initial-msg="${site-deploy-msgi}" final-msg="${site-all-deploy}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+				<arg-elements>
+					<arg line="site" />
+					<arg line="site:stage" />
+				</arg-elements>
+			</exec-maven>
+
+		</sequential>
+	</macrodef>	
+	
 	<!--|##############################################################################|-->
 	<!--| macrodef: site-all             					   				   		   |-->
 	<!--|##############################################################################|-->

@@ -89,5 +89,5 @@ ${scm.deploy.description}
 		<!-- Execute -->
 		<scm-deploy-git version="${version}" />
 	</target>
-
+	
 </project>
