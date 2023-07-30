@@ -242,7 +242,13 @@
          2 - rm .git/index ; 
          3 - git clean -fdx
          4 - echo "It works" > index.html
-         5 - git add . && git commit -m "initial site content" && git push origin gh-pages			
+         5 - git add . && git commit -m "initial site content" && git push origin gh-pages
+         ############
+         1 - mvn clean site
+         2 - mvn site:stage scm-publish:publish-scm
+         OR ?
+         2 - mvn site:stage 
+         3 - mvn scm-publish:publish-scm			
 	-->
 	<macrodef name="scm-publish">
 		<attribute name="version" description="The version of project." />
