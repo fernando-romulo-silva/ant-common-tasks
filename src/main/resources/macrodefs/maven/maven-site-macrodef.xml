@@ -99,7 +99,7 @@
 	<!--|##############################################################################|-->
 	<!--| macrodef: site-stage           					   				   		   |-->
 	<!--|##############################################################################|-->
-	<macrodef name="site-stage" description="${site.deploy.description}">
+	<macrodef name="site-stage" description="${site.stage.description}">
 		<attribute name="profile" default="" description="${profile.description}" />
 		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
 		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
@@ -108,11 +108,11 @@
 		<sequential>
 			
 			<!-- Messages -->
-			<property name="site-deploy-msgi" value="Deploying ${pom.project.artifactId}'s site" />
-			<property name="site-deploy-msgf" value="The ${pom.project.artifactId}'s site successfully deployed" />
+			<property name="site-stage-msgi" value="Deploying ${pom.project.artifactId}'s site" />
+			<property name="site-stage-msgf" value="The ${pom.project.artifactId}'s site successfully deployed" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${site-deploy-msgi}" final-msg="${site-all-deploy}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${site-stage-msgi}" final-msg="${site-stage-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="site" />
 					<arg line="site:stage" />
