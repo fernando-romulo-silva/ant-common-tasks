@@ -7,13 +7,24 @@
 
 This a useful collection of ant tasks, that executes advanced tools command lines, like Maven, Gradle, etc.
 As the name suggests, ant common tasks are the activities that are common to Java developer with Maven e Graddle tools.
+For instance, to create only a pmd report, instead you execute a full command like:
+
+```bash
+$ mvn -T 3 --offline -DskipSurefireReport=true -Dmaven.test.skip=true -Dspotbugs.skip=true -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true -Djdepend.skip=true -Dtaglist.skip=true -Dmpir.skip=true -Dcpd.skip=true -Djacoco.skip=true site
+```
+You just execute it:
+
+```bash
+$ ant site-pmd
+```
+Using these tasks, you can save time on your daily work.
 
 # Technologies
 
 - Java
 - Ant
 - Maven
-- Graddle
+- Graddle (future)
 
 # Install
 
@@ -29,7 +40,7 @@ $ git clone git@github.com:fernando-romulo-silva/ant-common-task.git
 $ cd ant-common-tasks
 
 # execute
-$ ant deploy
+$ ant install
 ```
 It'll create jar and put it into the $ANT_HOME/lib folder, thus you'll able to be inherited.
 
