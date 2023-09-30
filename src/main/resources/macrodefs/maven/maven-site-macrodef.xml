@@ -199,6 +199,7 @@
 					<arg line="-DskipSurefireReport=true" />
 					<arg line="-Dmaven.test.skip=true" />
 					<arg line="-DskipTests=true" />
+					<arg line="-DskipITs=true" />
 					<arg line="-Dpmd.skip=true" />
 					<arg line="-Dcpd.skip=true" />
 					<arg line="-Dspotbugs.skip=true" />
@@ -235,6 +236,7 @@
 					<arg line="-DskipSurefireReport=true" />
 					<arg line="-Dmaven.test.skip=true" />
 					<arg line="-DskipTests=true" />
+					<arg line="-DskipITs=true" />
 					<arg line="-Dpmd.skip=true" />
 					<arg line="-Dcpd.skip=true" />
 					<arg line="-Dcheckstyle.skip=true" />
@@ -307,6 +309,7 @@
 					<arg line="-Dmaven.test.skip=true" />
 					<arg line="-DskipSurefireReport=true" />
 					<arg line="-DskipTests=true" />
+					<arg line="-DskipITs=true" />
 					<arg line="-Dspotbugs.skip=true" />
 					<arg line="-Dcheckstyle.skip=true" />
 					<arg line="-Dmaven.javadoc.skip=true" />

@@ -152,6 +152,7 @@
 					<arg line="-Dcheckstyle.skip=true" />
 					
 					<arg line="-DskipTests=true" />
+					<arg line="-DskipITs=true" />
 					<arg line="package" />
 				</arg-elements>
 			</exec-maven>
@@ -184,6 +185,7 @@
 					<arg line="-Dcheckstyle.failOnViolation=false" />
 
 					<arg line="-DskipTests=true" />
+					<arg line="-DskipITs=true" />
 					<arg line="javadoc:jar" />
 				</arg-elements>
 			</exec-maven>
@@ -215,6 +217,7 @@
 					<arg line="-Dcheckstyle.failOnViolation=false" />
 
 					<arg line="-DskipTests=true" />
+					<arg line="-DskipITs=true" />
 					<arg line="source:jar" />
 				</arg-elements>
 			</exec-maven>
@@ -273,6 +276,7 @@
 					<arg line="-Dcheckstyle.failOnViolation=false" />
 
 					<arg line="-DskipTests=true" />
+					<arg line="-DskipITs=true" />
 					<arg line="install" />
 				</arg-elements>
 			</exec-maven>
@@ -335,6 +339,7 @@
 					<arg line="-Dcheckstyle.failOnViolation=false" />
 
 					<arg line="-DskipTests=true" />
+					<arg line="-DskipITs=true" />
 					<arg line="source:jar install" />
 				</arg-elements>
 			</exec-maven>

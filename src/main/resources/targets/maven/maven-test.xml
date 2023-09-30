@@ -50,19 +50,6 @@ ${test.unit.description}
 	</target>
 
 	<!--|#########################################################################################################################################|-->
-	<!--| target: test-functional      					   				      		                                                              |-->
-	<!--|#########################################################################################################################################|-->
-	<target name="test-functional">
-		<description>
-${test.functional.description}
-		</description>
-
-		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
-
-		<test-groups groups="functional" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
-	</target>
-
-	<!--|#########################################################################################################################################|-->
 	<!--| target: test-integration    					   				      		                                                              |-->
 	<!--|#########################################################################################################################################|-->
 	<target name="test-integration">
@@ -74,6 +61,32 @@ ${test.integration.description}
 
 		<test-groups groups="integration" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
+	
+	<!--|#########################################################################################################################################|-->
+	<!--| target: test-functional      					   				      		                                                              |-->
+	<!--|#########################################################################################################################################|-->
+	<target name="test-functional">
+		<description>
+${test.functional.description}
+		</description>
+
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
+
+		<test-groups groups="functional" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+	</target>	
+	
+	<!--|#########################################################################################################################################|-->
+	<!--| target: test-system    					   				      		                                                              |-->
+	<!--|#########################################################################################################################################|-->
+	<target name="test-system">
+		<description>
+${test.system.description}
+		</description>
+
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
+
+		<test-groups groups="integration" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+	</target>	
 
 	<!--|#########################################################################################################################################|-->
 	<!--| target: test-acceptance   					   				      		                                                              |-->

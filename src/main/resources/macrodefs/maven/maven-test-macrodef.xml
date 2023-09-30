@@ -56,6 +56,16 @@
 			ant test-functional -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
 		    ant test-functional -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+	
+	<property name="test.system.description" value="test-system : Execute project's SYSTEMs tests.${line.separator}
+		Examples :${line.separator}
+		- Manual Input${line.separator}
+			ant test-system${line.separator}
+		- Batch Mode${line.separator}
+			ant test-system -Dbatch=true${line.separator}
+			ant test-system -Dbatch=true -Dprofile=dev${line.separator}
+		- If there are modules:${line.separator}
+		    ant test-system -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
 
 	<property name="test.acceptance.description" value="test-acceptance : Execute project's ACCEPTANCEs tests.${line.separator}
 		Examples :${line.separator}
