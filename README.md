@@ -3,6 +3,10 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Project status](https://img.shields.io/badge/Project%20status-Maintenance-orange.svg)](https://img.shields.io/badge/Project%20status-Maintenance-orange.svg)
 
+# Project status
+
+I change this project constantly improving and adding new plugins, click [here](docs/STATUS.md) to follow up.
+
 # About
 
 This a useful collection of ant tasks, that executes advanced tools command lines, like Maven, Gradle, etc.
@@ -21,10 +25,37 @@ Using these tasks, you can save time on your daily work.
 
 # Technologies
 
+Technologies used on this project:
+
 - Java
 - Ant
 - Maven
 - Graddle (future)
+
+# Requirements
+
+These are the requirements:
+
+- Git
+
+```bash
+# check the git version
+git --version
+```
+
+- Java version >= 8 
+
+```bash
+# check the Java version
+java --version
+```
+
+- Ant version >= 1.9
+
+```bash
+# check the Ant version
+ant -version
+```
 
 # Install
 
@@ -83,7 +114,7 @@ install a taged version,
 
 ## check 
 
-pmd, checkstyle, spotbugs, jacoco)
+pmd, checkstyle, spotbugs, jacoco
 
 ## report
 

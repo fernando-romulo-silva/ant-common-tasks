@@ -73,25 +73,25 @@
 	<!--|#################################### START MESSAGE ########################################################################|-->
 	<!--|###########################################################################################################################|-->
 
-	<echo message="|###################################################################################################################################|" />
-	<echo message="|##################### MAVEN INFO ##################################################################################################|" />
-	<echo message="|###################################################################################################################################|" />
+	<echo message="|##############################################################################|" level="info" />
+	<echo message="|##################### MAVEN INFO #############################################|" level="info" />
+	<echo message="|##############################################################################|" level="info" />
 	<echo message="| " />
 	<echo message="| Maven HOME    : ${exec.maven.home} " />
 	<echo message="| Maven OPTs    : ${exec.maven.opts} " />
 	<echo message="| Maven Threads : ${exec.maven.threads} " />
 	<echo message="| " />
-	<echo message="|###################################################################################################################################|" />
-	<echo message="|##################### PROJECT INFO ################################################################################################|" />
-	<echo message="|###################################################################################################################################|" />
+	<echo message="|##############################################################################|" level="info" />
+	<echo message="|##################### PROJECT INFO ###########################################|" level="info" />
+	<echo message="|##############################################################################|" level="info" />
 	<echo message="| " />
-	<echo message="| Project Name     : ${pom.project.artifactId} " />
-	<echo message="| Project Group Id : ${pom.project.groupId} " />
-	<echo message="| Project Version  : ${pom.project.version} " />
-	<echo message="| Project Modules  : ${exec.maven.modules}" unless:blank="${exec.maven.modules}" />
-	<echo message="| Project Profiles : ${exec.maven.profiles}" unless:blank="${exec.maven.modules}" />
+	<echo message="| Project Name     : ${pom.project.artifactId} " level="info" />
+	<echo message="| Project Group Id : ${pom.project.groupId} " level="info" />
+	<echo message="| Project Version  : ${pom.project.version} " level="info"/>
+	<echo message="| Project Modules  : ${exec.maven.modules}" unless:blank="${exec.maven.modules}" level="info" />
+	<echo message="| Project Profiles : ${exec.maven.profiles}" unless:blank="${exec.maven.modules}" level="info" />
 	<echo message="| " />
-	<echo message="|###################################################################################################################################| " />
+	<echo message="|##############################################################################|" level="info"/>
 
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### DESCRIPTIONS #########################################################################|-->

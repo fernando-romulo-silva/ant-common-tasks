@@ -14,6 +14,29 @@
 		<maven.release.plugin.version>2.5.3</maven.release.plugin.version>
 		<maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
 	</properties>
+	
+	<name>Ant Common Tasks</name>
+  	
+  	<description>
+		Collection of ant tasks, that executes build tools like Maven and Gradle.
+    </description>
+    
+    <inceptionYear>2018</inceptionYear>
+
+	<contributors>
+		<contributor>
+			<name>Fernando Romulo da Silva</name>
+		</contributor>
+	</contributors>
+
+	<prerequisites>
+		<maven>3.8.8</maven>
+	</prerequisites>
+
+	<issueManagement>
+		<system>GITHUB</system>
+		<url>https://github.com/fernando-romulo-silva/ant-commons-tasks/blob/master/docs/STATUS.md</url>
+	</issueManagement>	
 
 	<licenses>
 		<license>
@@ -55,7 +78,7 @@
 		<dependency>
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant-testutil</artifactId>
-			<version>1.10.12</version>
+			<version>1.10.14</version>
 			<scope>test</scope>
 		</dependency>
 
