@@ -46,27 +46,6 @@
 	- Batch Mode${line.separator}
 		ant art-unused -Dbatch=true -Dinclude={groupId}" />	
 
-	<property name="art.clean.description" value="art-clean - Clean the project's artifacts.${line.separator}
-	Examples :${line.separator}
-		- Manual Input${line.separator}
-			ant art-clean${line.separator}
-		- Batch Mode${line.separator}
-			ant art-clean -Dbatch=true${line.separator}
-			ant art-clean -Dbatch=true -Dprofile=dev${line.separator}
-		- If there are modules:${line.separator}
-		    ant art-clean -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
-
-	<property name="art.compile.description" value="art-compile - Compile the project's classes.${line.separator}
-	Examples :${line.separator}
-		- Manual Input${line.separator}
-			ant art-compile${line.separator}
-		- Batch Mode${line.separator}
-			ant art-compile -Dbatch=true${line.separator}
-			ant art-compile -Dbatch=true -Dprofile=dev${line.separator}
-		- If there are modules:${line.separator}
-		    ant art-compile -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
-
-
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### MACRODEFS ############################################################################|-->
 	<!--|###########################################################################################################################|-->
@@ -161,54 +140,4 @@
 		</sequential>
 	</macrodef>	
 	
-
-	<!--|##############################################################################|-->
-	<!--| macrodef: art-clean                   									   |-->
-	<!--|##############################################################################|-->
-	<macrodef name="art-clean" description="${art.clean.description}">
-		<attribute name="profile" default="" description="${profile.description}" />
-		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
-		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
-		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
-
-		<sequential>
-			
-			<!-- Messages -->
-			<property name="art-clean-msgi" value="Cleaning the ${pom.project.artifactId}'s artifacts in target folder" />
-			<property name="art-clean-msgf" value="The ${pom.project.artifactId} was successfully cleaned" />
-
-			<!-- Execute -->
-			<exec-maven initial-msg="${art-clean-msgi}" final-msg="${art-clean-msgf}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
-				<arg-elements>
-					<arg line="clean" />
-				</arg-elements>
-			</exec-maven>
-
-		</sequential>
-	</macrodef>
-
-	<!--|##############################################################################|-->
-	<!--| macrodef: art-compile          									           |-->
-	<!--|##############################################################################|-->
-	<macrodef name="art-compile" description="${art.compile.description}">
-		<attribute name="profile" default="" description="${profile.description}" />
-		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
-		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
-		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
-
-		<sequential>
-			<!-- Messages -->
-			<property name="art-compile-msgi" value="Compiling the ${pom.project.artifactId}'s classes" />
-			<property name="art-compile-msgf" value="The ${pom.project.artifactId} was successfully compiled" />
-
-			<!-- Execute -->
-			<exec-maven initial-msg="${art-compile-msgi}" final-msg="${art-compile-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
-				<arg-elements>
-					<arg line="compile" />
-				</arg-elements>
-			</exec-maven>
-
-		</sequential>
-	</macrodef>
-
 </project>

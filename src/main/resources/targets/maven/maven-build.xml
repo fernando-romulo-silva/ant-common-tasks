@@ -11,6 +11,37 @@
 	<!--|############################################################################################################################################|-->
 	<!--|#################################### TARGETS ###############################################################################################|-->
 	<!--|############################################################################################################################################|-->
+	
+	<!--|################################################################|-->
+	<!--| target: build-clean                    						     |-->
+	<!--|################################################################|-->
+	<target name="build-clean">
+		<description>
+${build.clean.description}
+		</description>
+
+		<input-abort-operation message="Do you really want to delete target folder of ${pom.project.artifactId}?" unless:true="${batch}" />
+
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
+
+		<build-clean profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+		
+	</target>
+
+	<!--|################################################################|-->
+	<!--| target: build-compile            							     |-->
+	<!--|################################################################|-->
+	<target name="build-compile">
+		<description>
+${build.compile.description}
+		</description>
+
+		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
+
+		<build-compile profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+		
+	</target>	
+	
 
 	<!--|################################################################|-->
 	<!--| target: build-package                                          |-->
