@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="maven-conf" xmlns:if="ant:if" xmlns:unless="ant:unless" xmlns:artifact="urn:maven-artifact-ant">
+<project xmlns:if="ant:if" xmlns:unless="ant:unless" xmlns:artifact="urn:maven-artifact-ant">
 
 	<description>
 	     Configs of Maven.
@@ -76,21 +76,21 @@
 	<echo message="|##############################################################################|" level="info" />
 	<echo message="|##################### MAVEN INFO #############################################|" level="info" />
 	<echo message="|##############################################################################|" level="info" />
-	<echo message="| " />
-	<echo message="| Maven HOME    : ${exec.maven.home} " />
-	<echo message="| Maven OPTs    : ${exec.maven.opts} " />
-	<echo message="| Maven Threads : ${exec.maven.threads} " />
-	<echo message="| " />
+	<echo message="| " level="info" />
+	<echo message="| Maven HOME    : ${exec.maven.home} " level="info" />
+	<echo message="| Maven OPTs    : ${exec.maven.opts} " level="info" />
+	<echo message="| Maven Threads : ${exec.maven.threads} " level="info" />
+	<echo message="| " level="info" />
 	<echo message="|##############################################################################|" level="info" />
 	<echo message="|##################### PROJECT INFO ###########################################|" level="info" />
 	<echo message="|##############################################################################|" level="info" />
-	<echo message="| " />
+	<echo message="| " level="info" />
 	<echo message="| Project Name     : ${pom.project.artifactId} " level="info" />
 	<echo message="| Project Group Id : ${pom.project.groupId} " level="info" />
 	<echo message="| Project Version  : ${pom.project.version} " level="info"/>
 	<echo message="| Project Modules  : ${exec.maven.modules}" unless:blank="${exec.maven.modules}" level="info" />
 	<echo message="| Project Profiles : ${exec.maven.profiles}" unless:blank="${exec.maven.modules}" level="info" />
-	<echo message="| " />
+	<echo message="| " level="info" />
 	<echo message="|##############################################################################|" level="info"/>
 
 	<!--|###########################################################################################################################|-->
@@ -136,17 +136,17 @@
 			</condition>
 
 			<!-- Initial Msg -->
-			<echo message="|###################################################################################################################################|" />
-			<echo message="|##################### EXEC INFO ###################################################################################################|" />
-			<echo message="|###################################################################################################################################|" />
+			<echo message="|##############################################################################|" />
+			<echo message="|##################### EXEC INFO ##############################################|" />
+			<echo message="|##############################################################################|" />
 			<echo message="| " />
-			<echo message="| Specified Module(s)  : @{modules-specified}" unless:blank="@{modules-specified}" />
-			<echo message="| Modules Dependents   : @{modules-dependents}" unless:blank="@{modules-specified}" />
-			<echo message="| Modules Dependencies : @{modules-dependencies}" unless:blank="@{modules-specified}" />
-			<echo message="| Profile Value        : @{profile}" unless:blank="@{profile}" />
-			<echo message="| Connection Mode      : offline" if:true="@{offline}" />
-			<echo message="| Connection Mode      : online" if:true="${online}" />
-			<echo message="| Force update         : @{update-snapshots}" />
+			<echo message="| Specified Module(s)  : @{modules-specified}" unless:blank="@{modules-specified}" level="info" />
+			<echo message="| Modules Dependents   : @{modules-dependents}" unless:blank="@{modules-specified}" level="info" />
+			<echo message="| Modules Dependencies : @{modules-dependencies}" unless:blank="@{modules-specified}" level="info" />
+			<echo message="| Profile Value        : @{profile}" unless:blank="@{profile}" level="info" />
+			<echo message="| Connection Mode      : offline" if:true="@{offline}" level="info" />
+			<echo message="| Connection Mode      : online" if:true="${online}" level="info" />
+			<echo message="| Force update         : @{update-snapshots}" level="info" />
 			<echo message="| " />
 			<echo message="| @{initial-msg}" unless:blank="@{initial-msg}" />
 			<echo message="| " unless:blank="@{initial-msg}" />
@@ -182,7 +182,7 @@
 			<echo message="| " unless:blank="@{final-msg}" />
 			<echo message="| @{final-msg}" unless:blank="@{final-msg}" />
 			<echo message="| " />
-			<echo message="|###################################################################################################################################|" />
+			<echo message="|##############################################################################|" />
 		</sequential>
 	</macrodef>
 
@@ -198,9 +198,9 @@
 
 		<sequential>
 			<!-- Initial Msg -->
-			<echo message="|###################################################################################################################################|" />
-			<echo message="|##################### EXEC INFO ###################################################################################################|" />
-			<echo message="|###################################################################################################################################|" />
+			<echo message="|##############################################################################|" />
+			<echo message="|##################### EXEC INFO ##############################################|" />
+			<echo message="|##############################################################################|" />
 			<echo message="| " />
 			<echo message="| @{initial-msg}" unless:blank="@{initial-msg}" />
 			<echo message="| " />
@@ -217,7 +217,7 @@
 			<echo message="| " unless:blank="@{final-msg}" />
 			<echo message="| @{final-msg}" unless:blank="@{final-msg}" />
 			<echo message="| " />
-			<echo message="|###################################################################################################################################|" />
+			<echo message="|##############################################################################|" />
 
 		</sequential>
 	</macrodef>

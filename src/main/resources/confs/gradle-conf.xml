@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="gradle-conf" xmlns:if="ant:if" xmlns:unless="ant:unless">
+<project xmlns:if="ant:if" xmlns:unless="ant:unless">
 
 	<description>
 	     Configs of Gradle.

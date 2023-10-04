@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="maven-art" xmlns:if="ant:if" xmlns:unless="ant:unless">
+<project xmlns:if="ant:if" xmlns:unless="ant:unless" >
 
 	<description>
 	     Scrip ANT for ARTIFACTS MAVEN.
@@ -13,24 +13,31 @@
 	<!--|############################################################################################################################################|-->
 	<!--|#################################### TARGETS ###############################################################################################|-->
 	<!--|############################################################################################################################################|-->
-	
+
 	<!--|################################################################|-->
 	<!--| target: art-download-lib               					     |-->
 	<!--|################################################################|-->
-	<target name="art-download-lib-man">
-		<echo>
-${art.download.lib.description}			
-		</echo>
-	</target>
-	
 	<target name="art-download-lib">
 		<description>
 ${art.download.lib.description}
 		</description>
 
-		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s libs?" unless:true="${batch}" />
+		<condition property="execute" value="true" else="false">
+			<or>
+				<not>
+					<and>
+						<equals arg1="${man}" arg2="true" />
+						<isset property="man" />
+					</and>
+				</not>
+			</or>
+		</condition>
 
-		<art-download />
+		<echo message="${art.download.lib.description}" unless:true="${execute}"/>
+
+		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s libs?" unless:true="${batch}" if:true="${execute}"  />
+
+		<art-download if:true="${execute}" />
 	</target>
 
 	<!--|################################################################|-->
@@ -58,8 +65,8 @@ ${art.download.source.description}
 
 		<art-download sources="true" libs="false" />
 	</target>
-	
-	
+
+
 	<!--|##############################################################################|-->
 	<!--| target: art-purge                      									   |-->
 	<!--|##############################################################################|-->
@@ -67,17 +74,17 @@ ${art.download.source.description}
 		<description>
 ${art.purge.description}
 		</description>
-		
+
 		<!-- group id -->
 		<input message="Enter a group id: " addproperty="include" defaultvalue="${pom.project.groupId}" unless:true="${batch}" />
-		
+
 		<fail if:blank="${include}" message="The environment variable 'group id' isn't set." />
-		
+
 		<input-abort-operation message="Do you really want to purge group id '${include}' from your local repository?" unless:true="${batch}" />
 
 		<!-- Execute -->
 		<art-purge include="${include}" />
-	</target>	
+	</target>
 
 	<!--|################################################################|-->
 	<!--| target: art-unused                   						     |-->
@@ -91,13 +98,13 @@ ${art-unused.description}
 
 		<art-unused profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
-	
+
 	<!--|################################################################|-->
 	<!--| target: art-man                 					             |-->
 	<!--|################################################################|-->
 	<target name="art-man">
 		<antcall target="art-download-lib-man"/>
-		
-	</target>	
-	
+
+	</target>
+
 </project>

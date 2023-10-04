@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="maven-scm-git" xmlns:if="ant:if" xmlns:unless="ant:unless">
+<project xmlns:if="ant:if" xmlns:unless="ant:unless">
 
 	<description>
 	     Targets ANT that execute GIT commands. Use this script ONLY ROOT'S PROJECTS.

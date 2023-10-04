@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="initial-conf" xmlns:if="ant:if" xmlns:unless="ant:unless" basedir=".">
+<project xmlns:if="ant:if" xmlns:unless="ant:unless" basedir=".">
 
 	<description>
 	     Configs of Machine.
@@ -72,29 +72,27 @@
 	<!--|#################################### START MESSAGE ########################################################################|-->
 	<!--|###########################################################################################################################|-->
 
-	<echo>
-|###################################################################################################################################|		
-|##################### MACHINE INFO ################################################################################################|		
-|###################################################################################################################################|
-|		
-| Host Name : ${myhostname} 		
-| S.O.      : ${os.name}
-| Cores     : ${machine.cores.count}
-| Time      : ${machine.time}
-| User      : ${user.name}
-|		
-|###################################################################################################################################|		
-|##################### TOOLS INFO ##################################################################################################|		
-|###################################################################################################################################|
-|		
-| Java Home : ${exec.java.home}
-| Java opts	: ${java.opts}
-| Ant Home  : ${ant.home}
-| Ant Opts  : ${ant.opts}
-| Ant Args  : ${ant.args}
-| Dev Home  : ${env.DEVELOPMENT_HOME}	
-|		
-|###################################################################################################################################|
-	</echo>
+	<echo message="|##############################################################################|" level="info" />		
+	<echo message="|##################### MACHINE INFO ###########################################|" level="info" />		
+	<echo message="|##############################################################################|" level="info" />
+	<echo message="|" level="info" />		
+	<echo message="| Host Name : ${myhostname}" level="info" /> 		
+	<echo message="| S.O.      : ${os.name}" level="info" />
+	<echo message="| Cores     : ${machine.cores.count}" level="info" />
+	<echo message="| Time      : ${machine.time}" level="info" />
+	<echo message="| User      : ${user.name}" level="info" />
+	<echo message="|" level="info" />
+	<echo message="|##############################################################################|" level="info" />		
+	<echo message="|##################### TOOLS INFO #############################################|" level="info" />		
+	<echo message="|##############################################################################|" level="info" />
+	<echo message="|" level="info" />
+	<echo message="| Java Home : ${exec.java.home}" level="info" />
+	<echo message="| Java opts	: ${java.opts}" level="info" />
+	<echo message="| Ant Home  : ${ant.home}" level="info" />
+	<echo message="| Ant Opts  : ${ant.opts}" level="info" />
+    <echo message="| Ant Args  : ${ant.args}" level="info" />
+    <echo message="| Dev Home  : ${env.DEVELOPMENT_HOME}" level="info" />
+    <echo message="|" level="info" />
+	<echo message="|##############################################################################|" level="info" />
 
 </project>
