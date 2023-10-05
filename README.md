@@ -43,11 +43,18 @@ These are the requirements:
 git --version
 ```
 
-- Java version >= 8 
+- Java version >= 17 
 
 ```bash
 # check the Java version
 java --version
+```
+
+- Maven version >= 3.8.8
+
+```bash
+# check the Maven version
+maven --version
 ```
 
 - Ant version >= 1.9
@@ -73,7 +80,7 @@ cd ant-common-tasks
 # execute
 ant install
 ```
-It'll create jar and put it into the $ANT_HOME/lib folder, thus you'll able to be inherited.
+It'll create jar and put it into the $ANT_HOME/lib folder, thus you'll able to you use it.
 
 # How to Use
 
