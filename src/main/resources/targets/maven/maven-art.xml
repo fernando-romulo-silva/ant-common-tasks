@@ -22,17 +22,7 @@
 ${art.download.lib.description}
 		</description>
 
-		<condition property="execute" value="true" else="false">
-			<or>
-				<not>
-					<and>
-						<equals arg1="${man}" arg2="true" />
-						<isset property="man" />
-					</and>
-				</not>
-			</or>
-		</condition>
-
+		<input-help execute="execute" />
 		<echo message="${art.download.lib.description}" unless:true="${execute}"/>
 
 		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s libs?" unless:true="${batch}" if:true="${execute}"  />

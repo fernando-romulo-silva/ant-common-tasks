@@ -147,7 +147,7 @@
 			<echo message="| Connection Mode      : offline" if:true="@{offline}" level="info" />
 			<echo message="| Connection Mode      : online" if:true="${online}" level="info" />
 			<echo message="| Force update         : @{update-snapshots}" level="info" />
-			<echo message="| " />
+			<echo message="| " level="info" />
 			<echo message="| @{initial-msg}" unless:blank="@{initial-msg}" />
 			<echo message="| " unless:blank="@{initial-msg}" />
 

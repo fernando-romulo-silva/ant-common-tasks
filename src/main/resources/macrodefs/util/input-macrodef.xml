@@ -12,9 +12,29 @@
 	<!--|###########################################################################################################################|-->
 
 	<!--|##############################################################################|-->
-	<!--| macrodef: imput-scm                    									   |-->
+	<!--| macrodef: input-help                    									   |-->
 	<!--|##############################################################################|-->
-	<macrodef name="imput-scm">
+	<macrodef name="input-help">
+		<attribute name="execute" default="true"/>
+		<sequential>
+			
+			<condition property="@{execute}" value="true" else="false">
+				<or>
+					<not>
+						<and>
+							<equals arg1="${help}" arg2="true" />
+							<isset property="help" />
+						</and>
+					</not>
+				</or>
+			</condition>
+		</sequential>
+	</macrodef>
+
+	<!--|##############################################################################|-->
+	<!--| macrodef: input-scm                    									   |-->
+	<!--|##############################################################################|-->
+	<macrodef name="input-scm">
 		<attribute name="login" default="" />
 		<attribute name="password" default="" />
 		<sequential>

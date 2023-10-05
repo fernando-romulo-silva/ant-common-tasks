@@ -16,13 +16,15 @@
 	<exec executable="${git.executable}" outputproperty="git.path" failonerror="true">
 		<arg value="--exec-path" />
 	</exec>
-
+	
 	<echo message="|##############################################################################|" level="info" />
 	<echo message="|##################### INFO GIT ###############################################|" level="info" />
 	<echo message="|##############################################################################|" level="info" />
-	<echo message="|Git Version  : ${git.version}" level="info" />
-	<echo message="|Git Path     : ${git.path}" level="info" />
-	<echo message="|##############################################################################|" level="info" />	
+	<echo message="|" level="info" />
+	<echo message="| Git Version  : ${git.version}" level="info" />
+	<echo message="| Git Path     : ${git.path}" level="info" />
+	<echo message="|" level="info" />
+	<echo message="|##############################################################################|" level="info" />
 
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### SCM DESCRIPTIONS #####################################################################|-->
