@@ -5,6 +5,7 @@ This is the project tasks controller
 ### Todo
 
 - [ ] Add support to failsafe plugins
+- [ ] To finish the documentation
 
 ### In Progress
 
