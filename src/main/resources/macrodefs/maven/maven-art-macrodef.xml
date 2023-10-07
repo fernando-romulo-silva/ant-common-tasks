@@ -10,6 +10,7 @@
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### DESCRIPTIONS #########################################################################|-->
 	<!--|###########################################################################################################################|-->
+	<property name="art-man.description" value="art-man - Show all manuals target's artifact." />
 
 	<property name="art.download.lib.description" value="art-download-libs - Download all project's libs.${line.separator}
 	Examples :${line.separator}

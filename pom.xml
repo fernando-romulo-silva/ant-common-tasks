@@ -3,57 +3,19 @@
 	<groupId>org.antcommontasks</groupId>
 	<version>1.0.0-SNAPSHOT</version>
 	<artifactId>ant-commons-tasks</artifactId>
-
-	<properties>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
-
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-		<maven.release.plugin.version>3.0.1</maven.release.plugin.version>
-		<maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
-	</properties>
+	
+	<parent>
+		<groupId>org.allset.java</groupId>
+		<artifactId>allset-java</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>	
 	
 	<name>Ant Common Tasks</name>
-  	
   	<description>
 		Collection of ant tasks, that executes build tools like Maven and Gradle.
     </description>
-    
     <inceptionYear>2018</inceptionYear>
-
-	<contributors>
-		<contributor>
-			<name>Fernando Romulo da Silva</name>
-		</contributor>
-	</contributors>
-
-	<prerequisites>
-		<maven>3.8.8</maven>
-	</prerequisites>
-
-	<issueManagement>
-		<system>GITHUB</system>
-		<url>https://github.com/fernando-romulo-silva/ant-commons-tasks/blob/master/docs/STATUS.md</url>
-	</issueManagement>	
-
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
-	<url>https://github.com/fernando-romulo-silva/ant-commons-tasks</url>
-
-	<scm>
-		<url>https://github.com/fernando-romulo-silva/ant-commons-tasks</url>
-		<connection>scm:git:ssh://git@github.com/fernando-romulo-silva/ant-commons-tasks.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/fernando-romulo-silva/ant-commons-tasks.git</developerConnection>
-		<tag>HEAD</tag>
-	</scm>
+    <url>https://${scm.platform}/${scm.account}/${project.artifactId}</url>
 
 	<build>
 		<plugins>
@@ -61,13 +23,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>${maven.release.plugin.version}</version>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven.compiler.plugin.version}</version>
 			</plugin>
 
 		</plugins>

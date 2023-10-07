@@ -23,7 +23,17 @@ ${art.download.lib.description}
 		</description>
 
 		<input-help execute="execute" />
-		<echo message="${art.download.lib.description}" unless:true="${execute}"/>
+		
+		<echo unless:true="${execute}">
+|##############################################################################|
+|##################### EXEC INFO ##############################################|
+|##############################################################################|
+			
+ ${art.download.lib.description}
+
+			
+|##############################################################################|
+		</echo>
 
 		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s libs?" unless:true="${batch}" if:true="${execute}"  />
 
@@ -93,8 +103,12 @@ ${art-unused.description}
 	<!--| target: art-man                 					             |-->
 	<!--|################################################################|-->
 	<target name="art-man">
-		<antcall target="art-download-lib-man"/>
-
+		<description>
+${art-man.description}
+		</description>		
+		<antcall target="art-download-lib">
+			<param name="help" value="true" />
+		</antcall>
 	</target>
 
 </project>

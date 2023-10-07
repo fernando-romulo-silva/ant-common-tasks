@@ -20,11 +20,8 @@
 ${scm.install.description}
 		</description>
 
-		<!-- Read Version -->
-		<project-version result="version-temp" input="${pom.project.version}" />
-
 		<!-- get version -->
-		<input message="The version: " addproperty="version" defaultvalue="${version-temp}" unless:true="${batch}" />
+		<input message="The version: " addproperty="version" defaultvalue="${pom.project.version}" unless:true="${batch}" />
 
 		<!-- Profile -->
 		<input-profile result="profile" />
@@ -79,12 +76,8 @@ ${scm.rollback.description}
 ${scm.deploy.description}	
 		</description>
 
-		
-		<!-- Read Version -->
-		<project-version result="version-temp" input="${pom.project.version}" />
-
 		<!-- get version -->
-		<input message="The version: " addproperty="version" defaultvalue="${version-temp}" unless:true="${batch}" />
+		<input message="The version: " addproperty="version" defaultvalue="${pom.project.version}" unless:true="${batch}" />
 
 		<!-- Execute -->
 		<scm-deploy-git version="${version}" />
