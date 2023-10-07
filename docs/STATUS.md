@@ -5,11 +5,11 @@ This is the project tasks controller
 ### Todo
 
 - [ ] Add support to failsafe plugins
-- [ ] To finish the documentation
+- [ ] Finish the documentation
 
 ### In Progress
 
-- [ ] Add task to show the manual's task (art-download-lib -Dhelp=true)
+- [ ] Add task to show the manual's task (like art-download-lib -Dhelp=true)
 
 ### Done ✓
 
