@@ -4,6 +4,7 @@ This is the project tasks controller
 
 ### Todo
 
+- [ ] Add to deploy the projects site (scm-publish)
 - [ ] Add support to failsafe plugins
 - [ ] Finish the documentation
 
