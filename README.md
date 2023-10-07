@@ -27,6 +27,7 @@ Using these tasks, you can save time on your daily work.
 
 Technologies used on this project:
 
+- Git
 - Java
 - Ant
 - Maven
@@ -57,7 +58,7 @@ java --version
 maven --version
 ```
 
-- Ant version >= 1.9
+- Ant version >= 1.10
 
 ```bash
 # check the Ant version
