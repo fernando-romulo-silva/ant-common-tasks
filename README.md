@@ -5,22 +5,39 @@
 
 # Project status
 
-I change this project constantly improving and adding new plugins, click [here](docs/STATUS.md) to follow up.
+I change this project constantly improving and adding new tasks, click [here](docs/STATUS.md) to follow up.
 
-# About
+# The Problem
 
-This a useful collection of ant tasks, that executes advanced tools command lines, like Maven, Gradle, etc.
-As the name suggests, ant common tasks are the activities that are common to Java developer with Maven e Graddle tools.
-For instance, to create only a pmd report, instead you execute a full command like:
+So you are using your build tool with a lot plugins/add-ons and you have to write big terminal commands, for instance, to create only a PMD report, instead you execute a full command like:
 
 ```bash
-mvn -T 3 --offline -DskipSurefireReport=true -Dmaven.test.skip=true -Dspotbugs.skip=true -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true -Djdepend.skip=true -Dtaglist.skip=true -Dmpir.skip=true -Dcpd.skip=true -Djacoco.skip=true site
+mvn -T 3 --offline \
+         -DskipSurefireReport=true \
+         -Dmaven.test.skip=true \
+         -Dspotbugs.skip=true \
+         -Dcheckstyle.skip=true \
+         -Dmaven.javadoc.skip=true \
+         -Djdepend.skip=true \
+         -Dtaglist.skip=true \
+         -Dmpir.skip=true \
+         -Dcpd.skip=true \
+         -Djacoco.skip=true \
+         site
 ```
-You just execute it:
+
+Should be nicer if had configured tasks to executed COMMON operations that save time? <br />
+Instead of the big commands, you just executed something like it:
 
 ```bash
 ant site-pmd
 ```
+
+# About
+
+As the name suggests, ant common tasks are the activities that are common to Java developer with Maven e Graddle tools. <br />
+This a useful collection of ant tasks, that executes advanced tools command lines, like Maven, Gradle, etc. <br />
+This project was developed to work with the [allset-java](https://github.com/fernando-romulo-silva/allset-java) project, the ant tasks are align with plugins/tools used by the allset-java project. <br />
 Using these tasks, you can save time on your daily work.
 
 # Technologies
