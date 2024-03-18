@@ -36,7 +36,6 @@ ant site-pmd
 # About
 
 As the name suggests, ant common tasks are the activities that are common to Java developer with Maven e Graddle tools. <br />
-This a useful collection of ant tasks, that executes advanced tools command lines, like Maven, Gradle, etc. <br />
 This project was developed to work with the [allset-java](https://github.com/fernando-romulo-silva/allset-java) project, the ant tasks are align with plugins/tools used by the allset-java project. <br />
 Using these tasks, you can save time on your daily work.
 
