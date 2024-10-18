@@ -19,7 +19,7 @@
 
 	<condition property="java.opts" value="${env.JAVA_OPTS}" else="">
 		<isset property="env.JAVA_OPTS" />
-	</condition>	
+	</condition>
 
 	<fail unless="env.ANT_HOME" message="The environment variable 'ANT_HOME' isn't set." />
 
@@ -68,30 +68,32 @@
 	<!-- Host name -->
 	<exec executable="hostname" outputproperty="myhostname" />
 
+	<mkdir dir="${basedir}/target" />
+
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### START MESSAGE ########################################################################|-->
 	<!--|###########################################################################################################################|-->
-
-	<echo message="|##################### MACHINE INFO ###########################################|" level="info" />		
+	<record name="${basedir}/target/machine-info.log" loglevel="info" action="start" />
+	<echo message="|##################### MACHINE INFO ###########################################|" level="info" />
 	<echo message="|##############################################################################|" level="info" />
-	<echo message="|" level="info" />		
-	<echo message="| Host Name : ${myhostname}" level="info" /> 		
+	<echo message="|" level="info" />
+	<echo message="| Host Name : ${myhostname}" level="info" />
 	<echo message="| S.O.      : ${os.name}" level="info" />
 	<echo message="| Cores     : ${machine.cores.count}" level="info" />
 	<echo message="| Time      : ${machine.time}" level="info" />
 	<echo message="| User      : ${user.name}" level="info" />
 	<echo message="|" level="info" />
-	<echo message="|##############################################################################|" level="info" />		
-	<echo message="|##################### TOOLS INFO #############################################|" level="info" />		
+	<echo message="|##############################################################################|" level="info" />
+	<echo message="|##################### TOOLS INFO #############################################|" level="info" />
 	<echo message="|##############################################################################|" level="info" />
 	<echo message="|" level="info" />
 	<echo message="| Java Home : ${exec.java.home}" level="info" />
 	<echo message="| Java opts	: ${java.opts}" level="info" />
 	<echo message="| Ant Home  : ${ant.home}" level="info" />
 	<echo message="| Ant Opts  : ${ant.opts}" level="info" />
-    <echo message="| Ant Args  : ${ant.args}" level="info" />
-    <echo message="| Dev Home  : ${env.DEVELOPMENT_HOME}" level="info" />
-    <echo message="|" level="info" />
+	<echo message="| Ant Args  : ${ant.args}" level="info" />
+	<echo message="| Dev Home  : ${env.DEVELOPMENT_HOME}" level="info" />
+	<echo message="|" level="info" />
 	<echo message="|##############################################################################|" level="info" />
-
+	<record name="${basedir}/target/machine-info.log" loglevel="info" action="stop" />
 </project>

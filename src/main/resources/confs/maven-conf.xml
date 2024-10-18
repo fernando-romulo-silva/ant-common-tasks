@@ -72,7 +72,7 @@
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### START MESSAGE ########################################################################|-->
 	<!--|###########################################################################################################################|-->
-
+	<record name="${basedir}/target/maven-info.log" loglevel="info" action="start" />
 	<echo message="|##############################################################################|" level="info" />
 	<echo message="|##################### MAVEN INFO #############################################|" level="info" />
 	<echo message="|##############################################################################|" level="info" />
@@ -87,12 +87,12 @@
 	<echo message="| " level="info" />
 	<echo message="| Project Name     : ${pom.project.artifactId} " level="info" />
 	<echo message="| Project Group Id : ${pom.project.groupId} " level="info" />
-	<echo message="| Project Version  : ${pom.project.version} " level="info"/>
+	<echo message="| Project Version  : ${pom.project.version} " level="info" />
 	<echo message="| Project Modules  : ${exec.maven.modules}" unless:blank="${exec.maven.modules}" level="info" />
 	<echo message="| Project Profiles : ${exec.maven.profiles}" unless:blank="${exec.maven.modules}" level="info" />
 	<echo message="| " level="info" />
-	<echo message="|##############################################################################|" level="info"/>
-
+	<echo message="|##############################################################################|" level="info" />
+	<record name="${basedir}/target/maven-info.log" loglevel="info" action="stop" />
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### DESCRIPTIONS #########################################################################|-->
 	<!--|###########################################################################################################################|-->
@@ -113,6 +113,8 @@
 	<!--|###########################################################################################################################|-->
 
 	<macrodef name="exec-maven">
+		<attribute name="exec-command" default="" description="The maven command" />
+
 		<attribute name="opts" default="${exec.maven.opts}" description="${opts.description}" />
 		<attribute name="threads" default="${exec.maven.threads}" description="${threads.description}" />
 		<attribute name="profile" default="" description="${profile.description}" />
@@ -131,6 +133,8 @@
 		<element name="arg-elements" />
 
 		<sequential>
+			<record name="${basedir}/target/@{exec-command}.log" loglevel="info" action="start" unless:blank="@{exec-command}" />
+
 			<condition property="online" value="false" else="true">
 				<equals arg1="@{offline}" arg2="true" />
 			</condition>
@@ -140,6 +144,7 @@
 			<echo message="|##################### EXEC INFO ##############################################|" />
 			<echo message="|##############################################################################|" />
 			<echo message="| " />
+			<echo message="| Ant Command          : @{exec-command}" unless:blank="@{exec-command}" level="info" />
 			<echo message="| Specified Module(s)  : @{modules-specified}" unless:blank="@{modules-specified}" level="info" />
 			<echo message="| Modules Dependents   : @{modules-dependents}" unless:blank="@{modules-specified}" level="info" />
 			<echo message="| Modules Dependencies : @{modules-dependencies}" unless:blank="@{modules-specified}" level="info" />
@@ -183,7 +188,9 @@
 			<echo message="| @{final-msg}" unless:blank="@{final-msg}" />
 			<echo message="| " />
 			<echo message="|##############################################################################|" />
+			<record name="${basedir}/target/@{exec-command}.log" loglevel="info" action="stop" unless:blank="@{exec-command}" />
 		</sequential>
+
 	</macrodef>
 
 	<!--|###########################################################################################################################|-->
@@ -197,11 +204,13 @@
 		<attribute name="final-msg" default="" description="The message that is showed after the execution" />
 
 		<sequential>
+			<record name="${basedir}/target/@{exec-command}.log" loglevel="info" action="start" unless:blank="@{exec-command}" />
 			<!-- Initial Msg -->
 			<echo message="|##############################################################################|" />
 			<echo message="|##################### EXEC INFO ##############################################|" />
 			<echo message="|##############################################################################|" />
 			<echo message="| " />
+			<echo message="| Ant Command          : @{exec-command}" unless:blank="@{exec-command}" level="info" />
 			<echo message="| @{initial-msg}" unless:blank="@{initial-msg}" />
 			<echo message="| " />
 
@@ -218,7 +227,7 @@
 			<echo message="| @{final-msg}" unless:blank="@{final-msg}" />
 			<echo message="| " />
 			<echo message="|##############################################################################|" />
-
+			<record name="${basedir}/target/@{exec-command}.log" loglevel="info" action="stop" unless:blank="@{exec-command}" />
 		</sequential>
 	</macrodef>
 

@@ -9,7 +9,7 @@ I change this project constantly improving and adding new tasks, click [here](do
 
 # The Problem
 
-So you are using your build tool with a lot plugins/add-ons and you have to write big terminal commands, for instance, to create only a PMD report, instead you execute a full command like:
+So you are using your build tool with a lot plugins/add-ons and you have to write big terminal commands, for instance, to create only a PMD site (because you want to save time), instead you execute a full command like:
 
 ```bash
 mvn -T 3 --offline \
@@ -60,7 +60,7 @@ These are the requirements:
 git --version
 ```
 
-- Java version >= 17 
+- Java version >= 17
 
 ```bash
 # check the Java version
@@ -97,6 +97,7 @@ cd ant-common-tasks
 # execute
 ant install
 ```
+
 It'll create jar and put it into the $ANT_HOME/lib folder, thus you'll able to you use it.
 
 # How to Use
@@ -121,22 +122,23 @@ The art groups are related to the project's building process, which include clea
 
 - build-clean (Clean the project's artifacts)
 - build-compile (Compile the project's classes)
-- build-package (Create packages JAR, WAR, EAR, APK, etc. of the project WITH tests and check code) 
+- build-package (Create packages JAR, WAR, EAR, APK, etc. of the project WITH tests and check code)
 - build-package-simple (Create packages of the project WITHOUT tests and check code)
 - build-package-doc (Create project javadoc's package)
 - build-package-src (Create project source's packages)
 - build-install (Create packages and put it in the local repository WITH tests and check code)
-- build-install-simple (Create package and put project in the local repository WITHOUT tests and check 
-code)
+- build-install-simple (Create package and put project in the local repository WITHOUT tests and check
+  code)
 
-### Group scm 
+### Group scm
 
-### Group realease, 
+### Group realease,
+
 install a taged version,
 
 ### Group test
 
-### Group check 
+### Group check
 
 pmd, checkstyle, spotbugs, jacoco
 
@@ -155,24 +157,24 @@ Create a build.xml on your project root's:
 	<import>
 		<!-- import art group targets -->
 		<javaresource classpath="ant-common-tasks.jar" name="targets/maven/maven-art.xml" />
-		
+
 		<!-- import build group targets -->
 		<javaresource classpath="ant-common-tasks.jar" name="targets/maven/maven-build.xml" />
-		
+
 		<!-- import test group targets -->
 		<javaresource classpath="ant-common-tasks.jar" name="targets/maven/maven-test.xml" />
-		
+
 		<!-- import site group targets -->
 		<javaresource classpath="ant-common-tasks.jar" name="targets/maven/maven-site.xml" />
-		
+
 		<!-- import check group targets -->
 		<javaresource classpath="ant-common-tasks.jar" name="targets/maven/maven-check.xml" />
-		
+
 		<!-- import report group targets -->
 		<javaresource classpath="ant-common-tasks.jar" name="targets/maven/maven-report.xml" />
-		
+
 		<!-- import scm group targets -->
-		<javaresource classpath="ant-common-tasks.jar" name="targets/maven/maven-scm.xml" />			
+		<javaresource classpath="ant-common-tasks.jar" name="targets/maven/maven-scm.xml" />
 	</import>
 	...
 

@@ -32,7 +32,7 @@
 		ant art-download-source${line.separator}
 	- Batch Mode${line.separator}
 		ant art-download-source -Dbatch=true" />
-	
+
 	<property name="art.purge.description" value="art-purge - Remove libs from local repository.${line.separator}
 	Examples :${line.separator}
 	- Manual Input${line.separator}
@@ -45,7 +45,7 @@
 	- Manual Input${line.separator}
 		ant art-unused${line.separator}
 	- Batch Mode${line.separator}
-		ant art-unused -Dbatch=true -Dinclude={groupId}" />	
+		ant art-unused -Dbatch=true -Dinclude={groupId}" />
 
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### MACRODEFS ############################################################################|-->
@@ -55,6 +55,7 @@
 	<!--| macrodef: art-update                   									   |-->
 	<!--|##############################################################################|-->
 	<macrodef name="art-download">
+		<attribute name="exec-command" default="" />
 		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
 		<attribute name="modules-dependencies" default="true" description="${modules.dependencies.description}" />
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
@@ -71,21 +72,21 @@
 			<property name="art-download-msgf" value="The ${pom.project.artifactId} artifacts was successfully downloaded" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${art-download-msgi}" final-msg="${art-download-msgf}" offline="false" update-snapshots="true" modules-specified="@{modules-specified}" modules-dependents="@{modules-dependents}" modules-dependencies="@{modules-dependencies}">
+			<exec-maven exec-command="@{exec-command}" initial-msg="${art-download-msgi}" final-msg="${art-download-msgf}" offline="false" update-snapshots="true" modules-specified="@{modules-specified}" modules-dependents="@{modules-dependents}" modules-dependencies="@{modules-dependencies}">
 				<arg-elements>
 					<!-- libs -->
 					<arg line="dependency:resolve" if:true="@{libs}" />
-					
+
 					<!-- plugins -->
 					<arg line="dependency:go-offline" if:true="@{plugins}" />
 					<arg line="dependency:resolve-plugins" if:true="@{plugins}" />
-					
+
 					<!-- lib's source -->
 					<arg line="dependency:sources" if:true="@{sources}" />
-					
+
 					<!-- lib's javadoc -->
 					<arg line="dependency:resolve -Dclassifier=javadoc" if:true="@{javadoc}" />
-					
+
 					<!-- force get news -->
 					<arg line="--update-snapshots" />
 				</arg-elements>
@@ -100,22 +101,22 @@
 	<macrodef name="art-purge">
 		<attribute name="include" default="" description="The group id lib's that will be deleted. Ex: org.slf4j | br.com.mylib:1.0 " />
 		<sequential>
-			
+
 			<!-- Messages -->
 			<property name="art-purge-msgi" value="Cleaning the maven repository" />
 			<property name="art-purge-msgf" value="The maven repository was successfully cleaned" />
-			
+
 			<!-- Execute -->
-			<exec-maven offline="true" initial-msg="${art-purge-msgi}" final-msg="${art-purge-msgf}">
+			<exec-maven offline="true" initial-msg="${art-purge-msgi}" final-msg="${art-purge-msgf}" exec-command="art-purge">
 				<arg-elements>
 					<arg line="dependency:purge-local-repository" />
 					<arg line="-DmanualInclude=@{include}" unless:blank="@{include}" />
 				</arg-elements>
 			</exec-maven>
-			
+
 		</sequential>
 	</macrodef>
-	
+
 	<!--|##############################################################################|-->
 	<!--| macrodef: art-unused                   									   |-->
 	<!--|##############################################################################|-->
@@ -126,19 +127,19 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			
+
 			<!-- Messages -->
 			<property name="art-unused-msgi" value="Check the unused ${pom.project.artifactId}'s artifacts in target folder" />
 			<property name="art-unused-msgf" value="The ${pom.project.artifactId} was successfully checked" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${art-unused-msgi}" final-msg="${art-unused-msgf}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven initial-msg="${art-unused-msgi}" final-msg="${art-unused-msgf}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}" exec-command="art-unused">
 				<arg-elements>
 					<arg line="dependency:analyze-only" />
 				</arg-elements>
 			</exec-maven>
 
 		</sequential>
-	</macrodef>	
-	
+	</macrodef>
+
 </project>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:if="ant:if" xmlns:unless="ant:unless" >
-
+<project xmlns:if="ant:if" xmlns:unless="ant:unless">
 	<description>
 	     Scrip ANT for ARTIFACTS MAVEN.
     </description>
@@ -23,7 +22,7 @@ ${art.download.lib.description}
 		</description>
 
 		<input-help execute="execute" />
-		
+
 		<echo unless:true="${execute}">
 |##############################################################################|
 |##################### EXEC INFO ##############################################|
@@ -35,9 +34,9 @@ ${art.download.lib.description}
 |##############################################################################|
 		</echo>
 
-		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s libs?" unless:true="${batch}" if:true="${execute}"  />
+		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s libs?" unless:true="${batch}" if:true="${execute}" />
 
-		<art-download if:true="${execute}" />
+		<art-download if:true="${execute}" exec-command="art-download-lib" />
 	</target>
 
 	<!--|################################################################|-->
@@ -50,7 +49,7 @@ ${art.download.plugin.description}
 
 		<input-abort-operation message="Do you really want to download ALL ${pom.project.artifactId}'s plugins?" unless:true="${batch}" />
 
-		<art-download plugins="true" libs="false" />
+		<art-download plugins="true" libs="false" exec-command="art-download-plugin" />
 	</target>
 
 	<!--|################################################################|-->
@@ -83,7 +82,7 @@ ${art.purge.description}
 		<input-abort-operation message="Do you really want to purge group id '${include}' from your local repository?" unless:true="${batch}" />
 
 		<!-- Execute -->
-		<art-purge include="${include}" />
+		<art-purge include="${include}" exec-command="art-purge" />
 	</target>
 
 	<!--|################################################################|-->
@@ -105,7 +104,7 @@ ${art-unused.description}
 	<target name="art-man">
 		<description>
 ${art-man.description}
-		</description>		
+		</description>
 		<antcall target="art-download-lib">
 			<param name="help" value="true" />
 		</antcall>

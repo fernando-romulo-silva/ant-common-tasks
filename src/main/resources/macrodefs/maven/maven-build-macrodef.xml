@@ -10,7 +10,7 @@
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### BUILD DESCRIPTIONS ###################################################################|-->
 	<!--|###########################################################################################################################|-->
-	
+
 	<property name="build.clean.description" value="build-clean - Clean the project's artifacts.${line.separator}
 	Examples :${line.separator}
 		- Manual Input${line.separator}
@@ -29,7 +29,7 @@
 			ant art-compile -Dbatch=true${line.separator}
 			ant art-compile -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
-		    ant art-compile -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
+		    ant art-compile -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
 	<property name="build.package.description" value="build-package - Create packages (JAR, WAR, EAR, APK, etc) of the project WITH tests and check code.${line.separator}
 		Examples :${line.separator}
@@ -90,7 +90,7 @@
 			ant build-install-simple -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
 		    ant build-install-simple -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
-	
+
 	<property name="build.install.doc.description" value="build-install-doc - Install project javadoc's package.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
@@ -109,12 +109,12 @@
 				ant build-install-src -Dbatch=true${line.separator}
 				ant build-install-src -Dbatch=true -Dprofile=dev${line.separator}
 			- If there are modules:${line.separator}
-			    ant build-install-src -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
+			    ant build-install-src -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### MACRODEFS ############################################################################|-->
 	<!--|###########################################################################################################################|-->
-	
+
 	<!--|##############################################################################|-->
 	<!--| macrodef: build-clean                   									   |-->
 	<!--|##############################################################################|-->
@@ -125,13 +125,13 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			
+
 			<!-- Messages -->
 			<property name="art-clean-msgi" value="Cleaning the ${pom.project.artifactId}'s artifacts in target folder" />
 			<property name="art-clean-msgf" value="The ${pom.project.artifactId} was successfully cleaned" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${art-clean-msgi}" final-msg="${art-clean-msgf}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="build-clean" initial-msg="${art-clean-msgi}" final-msg="${art-clean-msgf}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="clean" />
 				</arg-elements>
@@ -155,7 +155,7 @@
 			<property name="art-compile-msgf" value="The ${pom.project.artifactId} was successfully compiled" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${art-compile-msgi}" final-msg="${art-compile-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="build-compile" initial-msg="${art-compile-msgi}" final-msg="${art-compile-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="compile" />
 				</arg-elements>
@@ -163,7 +163,7 @@
 
 		</sequential>
 	</macrodef>
-	
+
 
 	<!--|##############################################################################|-->
 	<!--| macrodef: build-package                  									   |-->
@@ -218,9 +218,9 @@
 					<arg line="-Dspotbugs.skip=true" />
 					<arg line="-Dpmd.skip=true" />
 					<arg line="-Dcpd.skip=true" />
-					<arg line="-Djacoco.skip=true"/>
+					<arg line="-Djacoco.skip=true" />
 					<arg line="-Dcheckstyle.skip=true" />
-					
+
 					<arg line="-DskipTests=true" />
 					<arg line="-DskipITs=true" />
 					<arg line="package" />
@@ -353,7 +353,7 @@
 
 		</sequential>
 	</macrodef>
-	
+
 	<!--|##############################################################################|-->
 	<!--| macrodef: build-install-doc              									   |-->
 	<!--|##############################################################################|-->
@@ -416,6 +416,6 @@
 
 		</sequential>
 	</macrodef>
-	
+
 
 </project>
