@@ -10,7 +10,7 @@
 	<!--|###########################################################################################################################|-->
 	<!--|#################################### SITE DESCRIPTIONS ####################################################################|-->
 	<!--|###########################################################################################################################|-->
-	
+
 	<!--
 		site surefire
 		
@@ -21,7 +21,7 @@
 		
 		groups tests
 	-->
-	
+
 	<property name="site.stage.description" value="site-stage : Stage the site on specified place (scmBranch gh-pages).${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
@@ -30,8 +30,8 @@
 			ant site-all -Dbatch=true${line.separator}
 			ant site-all -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
-		    ant site-all -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
-	
+		    ant site-all -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
+
 	<property name="site.all.description" value="site-all : Create a site with all tools with informations like tests, bugs, errors, etc.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
@@ -95,7 +95,7 @@
 	<!--|###########################################################################################################################| -->
 	<!--|################################# SITE ####################################################################################| -->
 	<!--|###########################################################################################################################| -->
-	
+
 	<!--|##############################################################################|-->
 	<!--| macrodef: site-stage           					   				   		   |-->
 	<!--|##############################################################################|-->
@@ -106,13 +106,13 @@
 		<attribute name="modules-dependents" default="true" description="${modules.dependents.description}" />
 
 		<sequential>
-			
+
 			<!-- Messages -->
 			<property name="site-stage-msgi" value="Deploying ${pom.project.artifactId}'s site" />
 			<property name="site-stage-msgf" value="The ${pom.project.artifactId}'s site successfully deployed" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${site-stage-msgi}" final-msg="${site-stage-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="site-stage" initial-msg="${site-stage-msgi}" final-msg="${site-stage-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="site" />
 					<arg line="site:stage" />
@@ -120,8 +120,8 @@
 			</exec-maven>
 
 		</sequential>
-	</macrodef>	
-	
+	</macrodef>
+
 	<!--|##############################################################################|-->
 	<!--| macrodef: site-all             					   				   		   |-->
 	<!--|##############################################################################|-->
@@ -138,7 +138,7 @@
 			<property name="site-all-msgf" value="The ${pom.project.artifactId}'s site successfully created" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${site-all-msgi}" final-msg="${site-all-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="site-all" initial-msg="${site-all-msgi}" final-msg="${site-all-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="site" />
 				</arg-elements>
@@ -162,7 +162,7 @@
 			<property name="site-jacoco-msgf" value="The ${pom.project.artifactId}'s Jacoco site successfully created" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${site-jacoco-msgi}" final-msg="${site-jacoco-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="site-jacoco" initial-msg="${site-jacoco-msgi}" final-msg="${site-jacoco-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-Dcheckstyle.skip=true" />
 					<arg line="-Dpmd.skip=true" />
@@ -194,7 +194,7 @@
 			<property name="site-checkstyle-msgf" value="The ${pom.project.artifactId}'s Checkstyle site successfully created" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${site-checkstyle-msgi}" final-msg="${site-checkstyle-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="site-checkstyle" initial-msg="${site-checkstyle-msgi}" final-msg="${site-checkstyle-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-DskipSurefireReport=true" />
 					<arg line="-Dmaven.test.skip=true" />
@@ -231,7 +231,7 @@
 			<property name="site-spotbugs-msgf" value="The ${pom.project.artifactId}'s Spotbugs site successfully created" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${site-spotbugs-msgi}" final-msg="${site-spotbugs-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="site-spotbugs" initial-msg="${site-spotbugs-msgi}" final-msg="${site-spotbugs-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-DskipSurefireReport=true" />
 					<arg line="-Dmaven.test.skip=true" />
@@ -268,7 +268,7 @@
 			<property name="site-pmd-msgf" value="The ${pom.project.artifactId}'s PMD site successfully created" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${site-pmd-msgi}" final-msg="${site-pmd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="site-pmd" initial-msg="${site-pmd-msgi}" final-msg="${site-pmd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-DskipSurefireReport=true" />
 					<arg line="-Dmaven.test.skip=true" />
@@ -304,7 +304,7 @@
 			<property name="site-cpd-msgf" value="The ${pom.project.artifactId}'s CPD site successfully created" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${site-cpd-msgi}" final-msg="${site-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="site-cpd" initial-msg="${site-cpd-msgi}" final-msg="${site-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-Dmaven.test.skip=true" />
 					<arg line="-DskipSurefireReport=true" />

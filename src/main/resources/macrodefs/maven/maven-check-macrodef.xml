@@ -90,7 +90,7 @@
 			<property name="check-spotbugs-msgf" value="The ${pom.project.artifactId} was successfully checked with Spotbugs" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${check-spotbugs-msgi}" final-msg="${check-spotbugs-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="check-spotbugs" initial-msg="${check-spotbugs-msgi}" final-msg="${check-spotbugs-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="spotbugs:check" />
 					<arg line="-Dspotbugs.failOnError=true" />
@@ -116,10 +116,10 @@
 			<property name="check-checkstyle-msgf" value="The ${pom.project.artifactId}] was successfully checked with Checkstyle" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${check-checkstyle-msgi}" final-msg="${check-checkstyle-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="check-checkstyle" initial-msg="${check-checkstyle-msgi}" final-msg="${check-checkstyle-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="checkstyle:check" />
-					<arg line="-Dcheckstyle.failOnViolation=true" />	
+					<arg line="-Dcheckstyle.failOnViolation=true" />
 				</arg-elements>
 			</exec-maven>
 
@@ -142,7 +142,7 @@
 			<property name="check-pmd-msgf" value="The ${pom.project.artifactId} was successfully checked with PMD" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${check-pmd-msgi}" final-msg="${check-pmd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="check-pmd" initial-msg="${check-pmd-msgi}" final-msg="${check-pmd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="pmd:check" />
 					<arg line="-Dpmd.failOnViolation=true" />
@@ -168,7 +168,7 @@
 			<property name="check-cpd-msgf" value="The ${pom.project.artifactId}] was successfully checked with CPD" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${check-cpd-msgi}" final-msg="${check-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="check-cpd" initial-msg="${check-cpd-msgi}" final-msg="${check-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="pmd:cpd-check" />
 					<arg line="-Dcpd.failOnViolation=true" />
@@ -196,7 +196,7 @@
 			<property name="check-cpd-msgf" value="The ${pom.project.artifactId} was successfully checked with JaCoco" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${check-cpd-msgi}" final-msg="${check-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="check-jacoco" initial-msg="${check-cpd-msgi}" final-msg="${check-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jacoco:check" />
 					<arg line="-Djacoco.haltOnFailure=true" />
@@ -222,9 +222,9 @@
 			<property name="check-all-msgf" value="The ${pom.project.artifactId} was successfully checked" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${check-all-msgi}" final-msg="${check-all-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="check-all" initial-msg="${check-all-msgi}" final-msg="${check-all-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
-					
+
 					<arg line="jacoco:check" />
 					<arg line="pmd:check" />
 					<arg line="pmd:cpd-check" />
@@ -235,8 +235,8 @@
 					<arg line="-Dpmd.failOnViolation=true" />
 					<arg line="-Dcpd.failOnViolation=true" />
 					<arg line="-Dspotbugs.failOnError=true" />
-					<arg line="-Dcheckstyle.failOnViolation=true" />					
-					
+					<arg line="-Dcheckstyle.failOnViolation=true" />
+
 				</arg-elements>
 			</exec-maven>
 

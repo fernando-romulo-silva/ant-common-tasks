@@ -100,7 +100,7 @@
 			<property name="report-surefire-msgf" value="The ${pom.project.artifactId}'s Surefire reports successfully created" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${report-surefire-msgi}" final-msg="${report-surefire-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="report-surefire" initial-msg="${report-surefire-msgi}" final-msg="${report-surefire-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
@@ -127,7 +127,7 @@
 			<property name="report-jacoco-msgf" value="The ${pom.project.artifactId}'s JaCoco reports successfully created" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${report-jacoco-msgi}" final-msg="${report-jacoco-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="report-jacoco" initial-msg="${report-jacoco-msgi}" final-msg="${report-jacoco-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jacoco:report" />
 				</arg-elements>
@@ -152,7 +152,7 @@
 			<property name="report-pmd-msgf" value="The ${pom.project.artifactId}'s PMD reports successfully created" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${report-pmd-msgi}" final-msg="${report-pmd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="report-pmd" initial-msg="${report-pmd-msgi}" final-msg="${report-pmd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
@@ -179,7 +179,7 @@
 			<property name="report-cpd-msgf" value="The ${pom.project.artifactId}'s CPD reports successfully created" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${report-cpd-msgi}" final-msg="${report-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="report-cpd" initial-msg="${report-cpd-msgi}" final-msg="${report-cpd-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
@@ -206,7 +206,7 @@
 			<property name="report-spotbugs-msgf" value="The ${pom.project.artifactId}'s Spotbugs reports successfully created" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${report-spotbugs-msgi}" final-msg="${report-spotbugs-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="report-spotbugs" initial-msg="${report-spotbugs-msgi}" final-msg="${report-spotbugs-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
@@ -233,7 +233,7 @@
 			<property name="report-checkstyle-msgf" value="The ${pom.project.artifactId}'s Spotbugs reports successfully created" />
 
 			<!-- Gerando relatorio do Checkstyle -->
-			<exec-maven initial-msg="${report-checkstyle-msgi}" final-msg="${report-checkstyle-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="report-checkstyle" initial-msg="${report-checkstyle-msgi}" final-msg="${report-checkstyle-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />
@@ -260,7 +260,7 @@
 			<property name="report-all-msgf" value="The ${pom.project.artifactId}'s tools reports successfully created" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${report-all-msgi}" final-msg="${report-all-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="report-all" initial-msg="${report-all-msgi}" final-msg="${report-all-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="jxr:jxr" />
 					<arg line="jxr:test-jxr" />

@@ -20,7 +20,7 @@ ${test.groups.description}
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<test-groups groups="${groups}" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+		<test-groups exec-command="test-groups" groups="${groups}" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|#########################################################################################################################################|-->
@@ -33,7 +33,7 @@ ${test.all.description}
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<test-groups profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+		<test-groups exec-command="test-all" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|#########################################################################################################################################|-->
@@ -46,7 +46,7 @@ ${test.unit.description}
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<test-groups groups="unit" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+		<test-groups exec-command="test-unit" groups="unit" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|#########################################################################################################################################|-->
@@ -59,9 +59,9 @@ ${test.integration.description}
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<test-groups groups="integration" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+		<test-groups exec-command="test-integration" groups="integration" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
-	
+
 	<!--|#########################################################################################################################################|-->
 	<!--| target: test-functional      					   				      		                                                              |-->
 	<!--|#########################################################################################################################################|-->
@@ -72,9 +72,9 @@ ${test.functional.description}
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<test-groups groups="functional" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
-	</target>	
-	
+		<test-groups exec-command="test-functional" groups="functional" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+	</target>
+
 	<!--|#########################################################################################################################################|-->
 	<!--| target: test-system    					   				      		                                                              |-->
 	<!--|#########################################################################################################################################|-->
@@ -85,8 +85,8 @@ ${test.system.description}
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<test-groups groups="integration" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
-	</target>	
+		<test-groups exec-command="test-system" groups="integration" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+	</target>
 
 	<!--|#########################################################################################################################################|-->
 	<!--| target: test-acceptance   					   				      		                                                              |-->
@@ -98,7 +98,7 @@ ${test.acceptance.description}
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<test-groups groups="acceptance" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+		<test-groups exec-command="test-acceptance" groups="acceptance" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 	<!--|#########################################################################################################################################|-->
@@ -111,7 +111,7 @@ ${test.perform.description}
 
 		<input-args profile="profile" modules-specified="modules-specified" modules-dependents="modules-dependents" modules-dependencies="modules-dependencies" />
 
-		<test-groups groups="perform" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
+		<test-groups exec-command="test-perform" groups="perform" profile="${profile}" modules-specified="${modules-specified}" modules-dependents="${modules-dependents}" modules-dependencies="${modules-dependencies}" />
 	</target>
 
 </project>

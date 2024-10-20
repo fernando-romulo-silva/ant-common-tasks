@@ -56,7 +56,7 @@
 			ant test-functional -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
 		    ant test-functional -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
-	
+
 	<property name="test.system.description" value="test-system : Execute project's SYSTEMs tests.${line.separator}
 		Examples :${line.separator}
 		- Manual Input${line.separator}
@@ -65,7 +65,7 @@
 			ant test-system -Dbatch=true${line.separator}
 			ant test-system -Dbatch=true -Dprofile=dev${line.separator}
 		- If there are modules:${line.separator}
-		    ant test-system -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />	
+		    ant test-system -Dbatch=true -Dmodules-specified={module-maven} -Dmodules-dependents={boolean} -Dmodules-dependencies={boolean}" />
 
 	<property name="test.acceptance.description" value="test-acceptance : Execute project's ACCEPTANCEs tests.${line.separator}
 		Examples :${line.separator}
@@ -95,6 +95,7 @@
 	<!--| macrodef: test-groups            					   				      	   |-->
 	<!--|##############################################################################|-->
 	<macrodef name="test-groups" description="${test.groups.description}">
+		<attribute name="exec-command" default="" />
 		<attribute name="profile" default="" description="${profile.description}" />
 		<attribute name="groups" default="" description="${test.groups.description}" />
 		<attribute name="modules-specified" default="" description="${modules.specified.description}" />
@@ -108,7 +109,7 @@
 			<property name="test-groups-msgf" value="The @{groups} tests of ${pom.project.artifactId} was successfully done" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${test-groups-msgi}" final-msg="${test-groups-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="@{exec-command}" initial-msg="${test-groups-msgi}" final-msg="${test-groups-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-Dgroups=@{groups}" unless:blank="@{groups}" />
 					<arg line="test" />

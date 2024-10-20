@@ -107,7 +107,7 @@
 			<property name="art-purge-msgf" value="The maven repository was successfully cleaned" />
 
 			<!-- Execute -->
-			<exec-maven offline="true" initial-msg="${art-purge-msgi}" final-msg="${art-purge-msgf}" exec-command="art-purge">
+			<exec-maven exec-command="art-purge" offline="true" initial-msg="${art-purge-msgi}" final-msg="${art-purge-msgf}">
 				<arg-elements>
 					<arg line="dependency:purge-local-repository" />
 					<arg line="-DmanualInclude=@{include}" unless:blank="@{include}" />
@@ -133,7 +133,7 @@
 			<property name="art-unused-msgf" value="The ${pom.project.artifactId} was successfully checked" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${art-unused-msgi}" final-msg="${art-unused-msgf}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}" exec-command="art-unused">
+			<exec-maven exec-command="art-unused" initial-msg="${art-unused-msgi}" final-msg="${art-unused-msgf}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="dependency:analyze-only" />
 				</arg-elements>
