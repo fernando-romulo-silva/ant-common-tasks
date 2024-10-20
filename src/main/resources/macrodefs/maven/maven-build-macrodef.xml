@@ -180,7 +180,7 @@
 			<property name="build-package-msgf" value="The ${pom.project.artifactId} was successfully packaged" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${build-package-msgi}" final-msg="${build-package-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="build-compile" initial-msg="${build-package-msgi}" final-msg="${build-package-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="package" />
 				</arg-elements>
@@ -246,7 +246,7 @@
 			<property name="build-package-doc-msgf" value="The ${pom.project.artifactId} doc was successfully packaged" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${build-package-doc-msgi}" final-msg="${build-package-doc-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="build-package-doc" initial-msg="${build-package-doc-msgi}" final-msg="${build-package-doc-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-Dpmd.failOnViolation=false" />
 					<arg line="-Dcpd.failOnViolation=false" />
@@ -278,7 +278,7 @@
 			<property name="build-package-src-msgf" value="The ${pom.project.artifactId} sources was successfully packaged" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${build-package-src-msgi}" final-msg="${build-package-src-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="build-package-src" initial-msg="${build-package-src-msgi}" final-msg="${build-package-src-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-Dpmd.failOnViolation=false" />
 					<arg line="-Dcpd.failOnViolation=false" />
@@ -310,7 +310,7 @@
 			<property name="build-install-msgf" value="The ${pom.project.artifactId} was successfully installed" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${build-install-msgi}" final-msg="${build-install-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="build-install" initial-msg="${build-install-msgi}" final-msg="${build-install-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="install" />
 				</arg-elements>
@@ -334,7 +334,7 @@
 			<property name="build-install-simple-msgf" value="The ${pom.project.artifactId} was successfully installed" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${build-install-simple-msgi}" final-msg="${build-install-simple-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="build-install-simple" initial-msg="${build-install-simple-msgi}" final-msg="${build-install-simple-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-Dmaven.source.skip=true" />
 					<arg line="-Dmaven.javadoc.skip=true" />
@@ -369,7 +369,7 @@
 			<property name="build-install-doc-msgf" value="The ${pom.project.artifactId} doc was successfully packaged" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${build-install-doc-msgi}" final-msg="${build-install-doc-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="build-install-doc" initial-msg="${build-install-doc-msgi}" final-msg="${build-install-doc-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-Dpmd.failOnViolation=false" />
 					<arg line="-Dcpd.failOnViolation=false" />
@@ -400,7 +400,7 @@
 			<property name="build-install-src-msgf" value="The ${pom.project.artifactId} sources was successfully packaged" />
 
 			<!-- Execute -->
-			<exec-maven initial-msg="${build-install-src-msgi}" final-msg="${build-install-src-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
+			<exec-maven exec-command="build-install-src" initial-msg="${build-install-src-msgi}" final-msg="${build-install-src-msgf}" profile="@{profile}" modules-specified="@{modules-specified}" modules-dependencies="@{modules-dependencies}" modules-dependents="@{modules-dependents}">
 				<arg-elements>
 					<arg line="-Dpmd.failOnViolation=false" />
 					<arg line="-Dcpd.failOnViolation=false" />

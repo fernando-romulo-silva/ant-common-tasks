@@ -3,14 +3,14 @@
 	<import file="src/main/resources/macrodefs/maven/maven-art-macrodef.xml" />
 	<import file="src/main/resources/macrodefs/maven/maven-build-macrodef.xml" />
 	<import file="src/main/resources/targets/maven/maven-scm.xml" />
-	
+
 	<target name="install">
 		<description>
 install- Create a jar with all ants targest and macrodefs and put it on ANT_HOME/lib				
 		</description>
 
 		<build-clean />
-		
+
 		<build-package-simple />
 
 		<!-- Delete the older ANT_HOME/lib -->
